@@ -1,7 +1,12 @@
+import UserHome from "./pages/user/UserHome";
+import "./App.css";
+import PageRouters from "./routers/PageRouters";
 
 function App() {
   return (
-    <div>sanoop <h1>sanu</h1></div>
+    <>
+      <PageRouters />
+    </>
   );
 }
 
