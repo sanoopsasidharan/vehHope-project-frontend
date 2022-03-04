@@ -15,6 +15,7 @@ function AllShops() {
   return (
     <>
       <NavBar />
+      <div >
       <Grid className={classes.gridMain} spacing={1} container>
         <Grid className={classes.itemGrid} item xs={12} sm={4} lg={3}>
           <ShopPost />
@@ -29,6 +30,7 @@ function AllShops() {
           <ShopPost />
         </Grid>
       </Grid>
+      </div>
       <Footer />
     </>
   );
