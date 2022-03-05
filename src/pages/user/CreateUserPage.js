@@ -1,7 +1,12 @@
 import React from "react";
+import CreateForm from "../../component/createForm/CreateForm";
 
 function CreateUserPage() {
-  return <></>;
+  return (
+    <>
+      <CreateForm />
+    </>
+  );
 }
 
 export default CreateUserPage;
