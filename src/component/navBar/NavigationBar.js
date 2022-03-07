@@ -1,7 +1,10 @@
 import {
   AppBar,
   Button,
+  IconButton,
   makeStyles,
+  Menu,
+  MenuItem,
   Tab,
   Tabs,
   Toolbar,
@@ -9,6 +12,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
+import { AccountCircle } from "@material-ui/icons";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import DrawerCom from "./DrawerCom";
@@ -31,6 +35,17 @@ const useStyle = makeStyles((theme) => ({
 }));
 
 function NavigationBar() {
+  const [auth, setAuth] = useState(true);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const classes = useStyle();
   const [value, setValue] = useState();
   const theme = useTheme();
@@ -64,9 +79,43 @@ function NavigationBar() {
                 <Tab label="History" />
                 <Tab label="message" />
               </Tabs>
-              <Button className={classes.loginButton} variant="contained">
+              {/* <Button className={classes.loginButton} variant="contained">
                 account
-              </Button>
+              </Button> */}
+              <Toolbar className={classes.loginButton}>
+                {auth && (
+                  <div>
+                    <IconButton
+                      size="large"
+                      aria-label="account of current user"
+                      aria-controls="menu-appbar"
+                      aria-haspopup="true"
+                      onClick={handleMenu}
+                      color="inherit"
+                    >
+                      <AccountCircle />
+                    </IconButton>
+                    <Menu
+                      id="menu-appbar"
+                      anchorEl={anchorEl}
+                      anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                      }}
+                      keepMounted
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                      }}
+                      open={Boolean(anchorEl)}
+                      onClose={handleClose}
+                    >
+                      <MenuItem onClick={handleClose}>Profile</MenuItem>
+                      <MenuItem onClick={handleClose}>My account</MenuItem>
+                    </Menu>
+                  </div>
+                )}
+              </Toolbar>
             </>
           )}
         </Toolbar>

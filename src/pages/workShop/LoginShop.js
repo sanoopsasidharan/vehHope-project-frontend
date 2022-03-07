@@ -1,12 +1,12 @@
 import React from "react";
 import Signin from "../../component/signIn/Signin";
 
-function SignInPage() {
+function LoginShop() {
   return (
     <>
-      <Signin Head={"Sign UP"} />
+      <Signin Head={"Login Shop"} />
     </>
   );
 }
 
-export default SignInPage;
+export default LoginShop;

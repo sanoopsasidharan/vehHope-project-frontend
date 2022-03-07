@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Container,
   Modal,
   Paper,
   Table,
@@ -50,43 +51,48 @@ const bookingDetails = [
 
 function Tabale() {
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>shopName</TableCell>
-            <TableCell align="right">Date</TableCell>
-            <TableCell align="right">Status</TableCell>
-            <TableCell align="right">contact</TableCell>
-            <TableCell align="right">Details</TableCell>
-            {/* <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {bookingDetails.map((item) => (
-            <TableRow
-              key={item.shopName}
-              sx={{
-                "&:last-child td, &:last-child th": { border: 0, padding: 40 },
-              }}
-            >
-              <TableCell component="th" scope="row">
-                {item.shopName}
-              </TableCell>
-              <TableCell align="right">{item.date}</TableCell>
-              <TableCell align="right">{item.status}</TableCell>
-              <TableCell align="right">
-                <MdMessage />
-              </TableCell>
-
-              <TableCell align="right">
-                <HistoryModal />
-              </TableCell>
+    <Box padding={3}>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>shopName</TableCell>
+              <TableCell align="right">Date</TableCell>
+              <TableCell align="right">Status</TableCell>
+              <TableCell align="right">contact</TableCell>
+              <TableCell align="right">Details</TableCell>
+              {/* <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {bookingDetails.map((item) => (
+              <TableRow
+                key={item.shopName}
+                sx={{
+                  "&:last-child td, &:last-child th": {
+                    border: 0,
+                    padding: 40,
+                  },
+                }}
+              >
+                <TableCell component="th" scope="row">
+                  {item.shopName}
+                </TableCell>
+                <TableCell align="right">{item.date}</TableCell>
+                <TableCell align="right">{item.status}</TableCell>
+                <TableCell align="right">
+                  <MdMessage />
+                </TableCell>
+
+                <TableCell align="right">
+                  <HistoryModal />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
   );
 }
 

@@ -18,13 +18,21 @@ const useStyle = makeStyles((theme) => ({
   mainContainer: {
     borderRadius: "24px",
     backgroundColor: "#ffffff",
-    boxShadow: "21px 21px 42px #666666",
+    boxShadow: "5px 10px 50px #4a4a4a54",
     lineHeight: "3",
-    padding: "15px",
+    padding: "30px",
     marginTop: "4vh",
     [theme.breakpoints.up("sm")]: {
       marginTop: "10vh",
     },
+  },
+  headingDiv: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  mainHeding: {
+    fontWeight: 700,
+    fontSize: 30,
   },
 }));
 
@@ -61,21 +69,29 @@ function CreateForm() {
         <Box
           sx={{
             marginTop: 8,
+            padding: 12,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}></Avatar>
-          <Typography component="h1" variant="h5">
-            Create user
-          </Typography>
+          {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}></Avatar> */}
+
           <Box
             component="form"
             // onSubmit={handleSubmit}
             noValidate
             sx={{ mt: 1 }}
           >
+            <div className={classes.headingDiv}>
+              <Typography
+                className={classes.mainHeding}
+                component="h1"
+                variant="h5"
+              >
+                Sign IN
+              </Typography>
+            </div>
             <TextField
               margin="normal"
               required
@@ -132,24 +148,19 @@ function CreateForm() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             /> */}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={submitFrom}
-            >
-              Submit
-            </Button>
+
+            <Box marginTop={3}>
+              <button className="submitbutton" type="submit">
+                Submit
+              </button>
+            </Box>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
+                <Link href="#" variant="body2"></Link>
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {/* {"Don't have an account? Sign Up"} */}
                 </Link>
               </Grid>
             </Grid>

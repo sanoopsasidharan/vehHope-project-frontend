@@ -1,7 +1,7 @@
 import { Grid, makeStyles } from "@material-ui/core";
 import React from "react";
 import BookingForm from "../../component/bookingform/BookingForm";
-import NavBar from "../../component/navBar/NavBar";
+import NavigationBar from "../../component/navBar/NavigationBar";
 import ShopDetails from "../../component/shopDetails/ShopDetails";
 
 const useStyle = makeStyles((theme) => ({
@@ -14,14 +14,14 @@ function Booking() {
   const classes = useStyle();
   return (
     <>
+      <NavigationBar />
       <Grid container>
         <Grid className={classes.mainBody} item xs={12} container>
-          <NavBar />
           <Grid item xs={12} md={6}>
             <ShopDetails />
           </Grid>
           <Grid item xs={12} md={6}>
-           <BookingForm/>
+            <BookingForm />
           </Grid>
         </Grid>
       </Grid>
