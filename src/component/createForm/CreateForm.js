@@ -1,10 +1,6 @@
 import {
-  Avatar,
   Box,
-  Button,
-  Checkbox,
   Container,
-  FormControlLabel,
   Grid,
   Link,
   makeStyles,

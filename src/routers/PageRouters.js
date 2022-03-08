@@ -9,6 +9,8 @@ import UserHome from "../pages/user/UserHome";
 import UserProfile from "../pages/user/UserProfile";
 import CreateShopPage from "../pages/workShop/CreateShopPage";
 import LoginShop from "../pages/workShop/LoginShop";
+import ShopBKHistoryPage from "../pages/workShop/ShopBKHistoryPage";
+import ShopProfilePage from "../pages/workShop/ShopProfilePage";
 
 function PageRouters() {
   return (
@@ -16,15 +18,21 @@ function PageRouters() {
       <Routes>
         {/* user routes */}
         <Route exact path="/" element={<UserHome />} />
-        <Route exact path="/shops" element={<AllShops />} />
-        <Route exact path="/booking" element={<Booking />} />
-        <Route exact path="/bookingHistory" element={<BookingHistory />} />
-        <Route exact path="/login" element={<SignInPage />} />
-        <Route exact path="/create" element={<CreateUserPage />} />
-        <Route exact path="/userProfile" element={<UserProfile />} />
+        <Route path="/shops" element={<AllShops />} />
+        <Route path="/booking" element={<Booking />} />
+        <Route path="/bookingHistory" element={<BookingHistory />} />
+        <Route path="/login" element={<SignInPage />} />
+        <Route path="/create" element={<CreateUserPage />} />
+        <Route path="/userProfile" element={<UserProfile />} />
         {/* shop routes */}
         <Route path="/createShop" element={<CreateShopPage />} />
         <Route path="/loginShop" element={<LoginShop />} />
+        <Route
+          exact
+          path="/shopBookingHistory"
+          element={<ShopBKHistoryPage />}
+        />
+        <Route exact path="/shopProfile" element={<ShopProfilePage />} />
       </Routes>
     </BrowserRouter>
   );

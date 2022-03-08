@@ -1,0 +1,11 @@
+.mainContainer {
+  display: flex;
+}
+.rightDetails {
+  width: 50%;
+  align-items: center;
+}
+
+.rightDetails p {
+  align-items: "start";
+}

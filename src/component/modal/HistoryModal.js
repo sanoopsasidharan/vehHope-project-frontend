@@ -1,6 +1,7 @@
 import { Box, Button, Grid, makeStyles, Modal } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { ImCancelCircle } from "react-icons/im";
+import "./HistoryModal.css";
 
 const style = {
   position: "absolute",
@@ -91,8 +92,12 @@ function HistoryModal() {
 
   return (
     <div>
-      <Button variant="contained" onClick={handleOpen}>
-        view details
+      <Button
+        className="historyViweBtn"
+        variant="contained"
+        onClick={handleOpen}
+      >
+        view
       </Button>
       <Modal
         className={classes.mainModal}

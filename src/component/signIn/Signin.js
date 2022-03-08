@@ -1,7 +1,5 @@
 import {
-  Avatar,
   Box,
-  Button,
   Checkbox,
   Container,
   FormControlLabel,
@@ -11,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import "./Signin.css";
 
 const useStyle = makeStyles((theme) => ({
@@ -33,8 +31,8 @@ const useStyle = makeStyles((theme) => ({
 }));
 
 function Signin({ Head }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
 
   const classes = useStyle();
 

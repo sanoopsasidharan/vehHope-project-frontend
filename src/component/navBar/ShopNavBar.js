@@ -19,6 +19,7 @@ const useStyle = makeStyles((theme) => ({
   mainHead: {
     margin: "15px",
     fontSize: "30px",
+    fontWeight: 600,
   },
   appbar: {
     backgroundColor: "black",
@@ -33,7 +34,7 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function NavigationBar() {
+function ShopNavBar() {
   const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -56,7 +57,7 @@ function NavigationBar() {
     <div>
       <AppBar className={classes.appbar}>
         <Toolbar>
-          <Typography className={classes.mainHead}>sanoop</Typography>
+          <Typography className={classes.mainHead}>VehHopE</Typography>
           {isMatch ? (
             <>
               <DrawerCom />
@@ -79,8 +80,8 @@ function NavigationBar() {
                 <Tab label="message" />
               </Tabs>
               {/* <Button className={classes.loginButton} variant="contained">
-                account
-              </Button> */}
+                  account
+                </Button> */}
               <Toolbar className={classes.loginButton}>
                 {auth && (
                   <div>
@@ -123,4 +124,4 @@ function NavigationBar() {
   );
 }
 
-export default NavigationBar;
+export default ShopNavBar;
