@@ -1,13 +1,12 @@
-
-import React from 'react'
-import './Footer.css';
+import React from "react";
+import "./Footer.css";
 
 function Footer() {
   return (
-    <div className='main_div'>
-        <h2>&copy; copyright Reserved.</h2>
+    <div className="main_div">
+      <h2> vehHope &copy; {new Date().getFullYear()}</h2>
     </div>
   );
 }
 
-export default Footer
+export default Footer;

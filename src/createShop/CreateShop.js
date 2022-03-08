@@ -50,6 +50,9 @@ const useStyle = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "right",
   },
+  inputImage: {
+    textDecoration: "none",
+  },
 }));
 
 function CreateShop() {
@@ -127,20 +130,26 @@ function CreateShop() {
               </Grid>
               <Grid className={classes.itemGrid} item xs={6} md={4}>
                 <TextField
-                  className={classes.inputfield}
+                  className={classes.inputImage}
                   type="file"
                   label="image1"
+                  InputProps={{ disableUnderline: true }}
                 />
               </Grid>
               <Grid className={classes.itemGrid} item xs={6} md={4}>
                 <TextField
-                  className={classes.inputfield}
+                  className={classes.inputImage}
                   type="file"
                   label="image2"
+                  InputProps={{ disableUnderline: true }}
                 />
               </Grid>
               <Grid className={classes.itemGrid} item xs={6} md={4}>
-                <TextField className={classes.inputfield} type="file" />
+                <TextField
+                  className={classes.inputImage}
+                  InputProps={{ disableUnderline: true }}
+                  type="file"
+                />
               </Grid>
             </Grid>
           </Box>

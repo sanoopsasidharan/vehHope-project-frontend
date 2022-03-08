@@ -1,4 +1,4 @@
-.main_div{
+/* .main_div{
     background-color: rgba(0, 0, 0, 0.144);
     bottom: 0;
     position: fixed;
@@ -8,4 +8,20 @@
     font-family: "Segoe UI",Arial,sans-serif;
     display: flex;
    justify-content: center;
+} */
+.main_div {
+  width: 100%;
+  background-color: rgba(153, 153, 153, 0.842);
+  margin-top: 40px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main_div h2 {
+  color: whitesmoke;
+
+  margin: 0%;
+  padding: 0%;
+  text-align: center;
 }

@@ -5,7 +5,7 @@ import ShopProfile from "../../component/shopProfile/ShopProfile";
 
 const useStyle = makeStyles((theme) => ({
   Container: {
-    marginTop: 80,
+    marginTop: 90,
     padding: "15px",
     backgroundColor: "#F5F5F5",
     height: "100vh",

@@ -17,6 +17,7 @@ import React, { useState } from "react";
 import HistoryModal from "../modal/HistoryModal";
 import { MdMessage } from "react-icons/md";
 import SortingModal from "../modal/SortingModal";
+import ChangeingBKStatus from "../modal/ChangeingBKStatus";
 
 const useStyle = makeStyles((theme) => ({
   mainBox: {
@@ -173,7 +174,8 @@ function ShopBookingHistory() {
                 </TableCell>
 
                 <TableCell className={classes.tableCellHead} align="right">
-                  <HistoryModal />
+                  {/* <HistoryModal /> */}
+                  <ChangeingBKStatus />
                 </TableCell>
               </TableRow>
             ))}

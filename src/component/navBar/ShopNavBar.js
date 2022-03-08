@@ -20,11 +20,15 @@ const useStyle = makeStyles((theme) => ({
     margin: "15px",
     fontSize: "30px",
     fontWeight: 600,
+    fontFamily: "Lobster",
   },
   appbar: {
-    backgroundColor: "black",
+    backgroundColor: "#000000cf",
+    padding: 7,
   },
-  mainTabs: {},
+  mainTabs: {
+    marginLeft: "auto",
+  },
   loginButton: {
     marginLeft: "auto",
   },
@@ -71,13 +75,15 @@ function ShopNavBar() {
                 indicatorColor="secondary"
                 onChange={(e, value) => setValue(value)}
               >
-                <Tab label="Home" />
-
                 <Link className={classes.allLinks} to="/">
-                  <Tab label="Booking" />
+                  <Tab label="Home" />
                 </Link>
-                <Tab label="History" />
-                <Tab label="message" />
+                <Link className={classes.allLinks} to="/">
+                  <Tab label="message" />
+                </Link>
+                <Link className={classes.allLinks} to="/shopBookingHistory">
+                  <Tab label="History" />
+                </Link>
               </Tabs>
               {/* <Button className={classes.loginButton} variant="contained">
                   account

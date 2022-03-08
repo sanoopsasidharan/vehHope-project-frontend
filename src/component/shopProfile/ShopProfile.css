@@ -2,10 +2,35 @@
   display: flex;
 }
 .rightDetails {
-  width: 50%;
+  width: 80%;
   align-items: center;
 }
 
 .rightDetails p {
   align-items: "start";
+  font-family: "sans-serif";
+}
+.rightDetails h1 {
+  font-family: "sans-serif";
+  font-weight: bold;
+}
+
+.SubImagesImage {
+  background-color: green;
+  border-radius: 5px;
+  margin: 35px 10px 25px 10px;
+  width: 100px;
+}
+.shopProfileDiscription {
+  line-height: 1.9;
+}
+.navigationLink {
+  text-decoration: none;
+  color: black;
+}
+
+@media only screen and (max-width: 1400px) {
+  .SubImagesImage {
+    display: none;
+  }
 }

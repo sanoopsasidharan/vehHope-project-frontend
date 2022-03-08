@@ -19,11 +19,16 @@ const useStyle = makeStyles((theme) => ({
   mainHead: {
     margin: "15px",
     fontSize: "30px",
+    fontWeight: 600,
+    fontFamily: "Lobster",
   },
   appbar: {
-    backgroundColor: "black",
+    backgroundColor: "#000000cf",
+    padding: 7,
   },
-  mainTabs: {},
+  mainTabs: {
+    marginLeft: "auto",
+  },
   loginButton: {
     marginLeft: "auto",
   },
@@ -56,7 +61,7 @@ function NavigationBar() {
     <div>
       <AppBar className={classes.appbar}>
         <Toolbar>
-          <Typography className={classes.mainHead}>sanoop</Typography>
+          <Typography className={classes.mainHead}>vehHopE</Typography>
           {isMatch ? (
             <>
               <DrawerCom />

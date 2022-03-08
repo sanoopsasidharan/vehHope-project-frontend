@@ -1,8 +1,15 @@
-import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@material-ui/core'
-import React from 'react'
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Typography,
+} from "@material-ui/core";
+import React from "react";
+import "./ShopPost.css";
 
 function ShopPost() {
-    const show = ()=> alert("showing")
+  const show = () => alert("showing");
   return (
     <Card onClick={show} sx={{ maxWidth: 345 }}>
       <CardActionArea>
@@ -13,17 +20,14 @@ function ShopPost() {
           alt="green iguana"
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Lizard
-          </Typography>
-          <Typography variant="body2">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
-          </Typography>
+          <div className="shopPostDetails">
+            <h3>Carcare</h3>
+            <h3>kunnamkulam</h3>
+          </div>
         </CardContent>
       </CardActionArea>
     </Card>
-  )
+  );
 }
 
-export default ShopPost
+export default ShopPost;

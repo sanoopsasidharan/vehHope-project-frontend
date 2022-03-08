@@ -1,16 +1,18 @@
-import {
-  Drawer,
-  IconButton,
-  List,
-  ListItemIcon,
-  ListItemText,
-  makeStyles,
-} from "@material-ui/core";
-import ListItemButton from "@mui/material/ListItemButton";
+import { Box, Button, Drawer, IconButton, makeStyles } from "@material-ui/core";
 import React, { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 
-const useStyle = makeStyles((theme) => ({}));
+const useStyle = makeStyles((theme) => ({
+  sideBoard: {
+    display: "flex",
+    flexDirection: "column",
+    padding: "20px 20px 20px 20px",
+  },
+  sideBoardButton: {
+    marginTop: 10,
+  },
+  mainDrawer: {},
+}));
 
 function DrawerCom() {
   const classes = useStyle();
@@ -22,13 +24,11 @@ function DrawerCom() {
         open={openDrawer}
         onClose={() => setOpenDrawer(false)}
       >
-        <List>
-          <ListItemButton>
-            <ListItemIcon>
-              <ListItemText>login</ListItemText>
-            </ListItemIcon>
-          </ListItemButton>
-        </List>
+        <Box className={classes.sideBoard}>
+          <Button className={classes.sideBoardButton}>Home</Button>
+          <Button className={classes.sideBoardButton}>Message</Button>
+          <Button className={classes.sideBoardButton}>History</Button>
+        </Box>
       </Drawer>
       <IconButton
         style={{
