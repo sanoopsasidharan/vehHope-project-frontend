@@ -12,7 +12,8 @@ const useStyle = makeStyles((theme) => ({
     backgroundColor: "blue",
   },
   mainGrid: {
-    marginTop: "85px",
+    marginTop: "110px",
+    paddingLeft: "12px",
   },
 }));
 
@@ -21,14 +22,9 @@ function UserProfile() {
   return (
     <>
       <NavigationBar />
-      <Grid className={classes.mainGrid} container>
-        <Grid item sx={12} md={3}>
-          <UserDetailsList />
-        </Grid>
-        <Grid className={classes.subgrid} item sx={12} md={9}>
-          <UserDetails />
-        </Grid>
-      </Grid>
+      <div className={classes.mainGrid}>
+        <UserDetails />
+      </div>
     </>
   );
 }
