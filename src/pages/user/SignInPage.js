@@ -4,7 +4,7 @@ import Signin from "../../component/signIn/Signin";
 function SignInPage() {
   return (
     <>
-      <Signin Head={"Sign UP"} />
+      <Signin Head={"Sign IN"} />
     </>
   );
 }

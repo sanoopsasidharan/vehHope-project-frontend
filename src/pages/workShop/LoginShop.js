@@ -1,10 +1,12 @@
 import React from "react";
+import ShopLogin from "../../component/shopLogin/ShopLogin";
 import Signin from "../../component/signIn/Signin";
 
 function LoginShop() {
   return (
     <>
-      <Signin Head={"Login Shop"} />
+      <ShopLogin Head={"Login Shop"} />
+      {/* <Signin Head={"Login Shop"} /> */}
     </>
   );
 }

@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import React, { useState } from "react";
 import axios from "../../axios";
-import "./Signin.css";
+// import "./Signin.css";
 
 const useStyle = makeStyles((theme) => ({
   mainContainer: {
@@ -31,7 +31,7 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function Signin({ Head }) {
+function ShopLogin({ Head }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -40,7 +40,7 @@ function Signin({ Head }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("/login", { email, password }, { withCredentials: true })
+      .post("/shop/login", { email, password }, { withCredentials: true })
       .then((result) => {
         console.log(result);
       })
@@ -124,4 +124,4 @@ function Signin({ Head }) {
   );
 }
 
-export default Signin;
+export default ShopLogin;

@@ -1,15 +1,15 @@
 import {
   Box,
   Container,
-  Grid,
-  Link,
   makeStyles,
   TextField,
   Typography,
 } from "@material-ui/core";
+import axios from "../../axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// style
 const useStyle = makeStyles((theme) => ({
   mainContainer: {
     borderRadius: "24px",
@@ -32,12 +32,18 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
+// form
 function CreateForm() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [number, setNumber] = useState();
+  const [location, setLocation] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const classes = useStyle();
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -49,10 +55,35 @@ function CreateForm() {
     });
   };
 
-  const submitFrom = (e) => {
+  const submitForm = (e) => {
     e.preventDefault();
-    alert("sending data");
-    <Navigate to="/" />;
+    console.log(name, email, number, location, password);
+
+    try {
+      axios
+        .post("/user_register", { name, email, number, location, password })
+        .then((response) => {
+          console.log("then");
+          console.log(response.status);
+          if (response.status == 200) {
+            navigate("/login");
+          }
+        })
+        .catch((err) => {
+          if (!err?.response) {
+            setErrorMessage(" no server responts");
+          } else if (err.response?.status === 404) {
+            setErrorMessage(" email taken");
+          } else {
+            setErrorMessage("registration failed");
+          }
+          console.log("catch");
+          console.log(err);
+          console.log(err.response?.status);
+        });
+    } catch (error) {
+      // console.log(error.status);
+    }
   };
 
   return (
@@ -71,8 +102,6 @@ function CreateForm() {
             alignItems: "center",
           }}
         >
-          {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}></Avatar> */}
-
           <Box
             component="form"
             // onSubmit={handleSubmit}
@@ -85,7 +114,7 @@ function CreateForm() {
                 component="h1"
                 variant="h5"
               >
-                Sign IN
+                Sign UP
               </Typography>
             </div>
             <TextField
@@ -95,6 +124,7 @@ function CreateForm() {
               id="name"
               label="Name"
               name="name"
+              onChange={(e) => setName(e.target.value)}
               autoComplete="name"
               autoFocus
             />
@@ -105,6 +135,7 @@ function CreateForm() {
               id="email"
               label="Email Address"
               name="email"
+              onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
               autoFocus
             />
@@ -117,6 +148,7 @@ function CreateForm() {
               label="Number"
               type="number"
               id="number"
+              onChange={(e) => setNumber(e.target.value)}
               autoComplete="current-password"
             />
             <TextField
@@ -127,6 +159,7 @@ function CreateForm() {
               label="Location"
               type="name"
               id="location"
+              onChange={(e) => setLocation(e.target.value)}
               autoComplete="current-password"
             />
             <TextField
@@ -137,6 +170,7 @@ function CreateForm() {
               label="Password"
               type="password"
               id="password"
+              onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
             />
 
@@ -146,20 +180,15 @@ function CreateForm() {
             /> */}
 
             <Box marginTop={3}>
-              <button className="submitbutton" type="submit">
+              <button
+                className="submitbutton"
+                onClick={submitForm}
+                type="submit"
+              >
                 Submit
               </button>
             </Box>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2"></Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {/* {"Don't have an account? Sign Up"} */}
-                </Link>
-              </Grid>
-            </Grid>
+            <p>{errorMessage}</p>
           </Box>
         </Box>
       </Container>

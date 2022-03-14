@@ -7,7 +7,7 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import "./CreateShop.css";
 
 const useStyle = makeStyles((theme) => ({
@@ -53,22 +53,58 @@ const useStyle = makeStyles((theme) => ({
   inputImage: {
     textDecoration: "none",
   },
+  imageDiv: {
+    width: "30px",
+    height: "10px",
+  },
+  ShopImage: {
+    width: "140px",
+  },
 }));
 
 function CreateShop() {
   const classes = useStyle();
+  const [shopName, setShopName] = useState("");
+  const [shopType, setShopType] = useState("");
+  const [email, setEmail] = useState("");
+  const [number, setNumber] = useState("");
+  const [location, setLocation] = useState("");
+  const [state, setState] = useState("");
+  const [image, setImage] = useState("");
+  const [selectedImage, setSelectedImage] = useState("");
+  const [previewSource, setPreviewSource] = useState("");
+
+  const handileFileInput = (e) => {
+    const file = e.target.files[0];
+    previewFile(file);
+  };
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewSource(reader.result);
+    };
+  };
+  const handileSubmit = (e) => {
+    e.preventDefault();
+    console.log(previewSource);
+    console.log(shopName, shopType, email, number, location, state);
+  };
   return (
     <Container className={classes.container}>
-      <form>
+      <form onSubmit={handileSubmit}>
         <Box>
           <Typography className={classes.mainHead}>Create shop</Typography>
           <Box>
             <Grid className={classes.mainGrid} container spacing={3}>
               <Grid className={classes.itemGrid} item xs={6} md={4}>
+                {/* <input placeholder="sldfal;" /> */}
                 <TextField
                   className={classes.inputfield}
                   name=""
                   variant="outlined"
+                  value={shopName}
+                  onChange={(e) => setShopName(e.target.value)}
                   label="Shop name"
                 />
               </Grid>
@@ -76,6 +112,8 @@ function CreateShop() {
                 <TextField
                   className={classes.inputfield}
                   name=""
+                  value={shopType}
+                  onChange={(e) => setShopType(e.target.value)}
                   variant="outlined"
                   label="Shop type"
                 />
@@ -85,6 +123,8 @@ function CreateShop() {
                   className={classes.inputfield}
                   name=""
                   variant="outlined"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   label="Shop email"
                 />
               </Grid>
@@ -93,6 +133,8 @@ function CreateShop() {
                   className={classes.inputfield}
                   name=""
                   variant="outlined"
+                  value={number}
+                  onChange={(e) => setNumber(e.target.value)}
                   label="Shop number"
                 />
               </Grid>
@@ -101,105 +143,44 @@ function CreateShop() {
                   className={classes.inputfield}
                   name=""
                   variant="outlined"
-                  label="Other number"
-                />
-              </Grid>
-              <Grid className={classes.itemGrid} item xs={6} md={4}>
-                <TextField
-                  className={classes.inputfield}
-                  name=""
-                  variant="outlined"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
                   label="Shop location"
                 />
               </Grid>
+
               <Grid className={classes.itemGrid} item xs={6} md={4}>
                 <TextField
                   className={classes.inputfield}
                   name=""
                   variant="outlined"
-                  label="pic code"
-                />
-              </Grid>
-              <Grid className={classes.itemGrid} item xs={6} md={4}>
-                <TextField
-                  className={classes.inputfield}
-                  name=""
-                  variant="outlined"
+                  value={state}
+                  onChange={(e) => setState(e.target.value)}
                   label="state"
                 />
               </Grid>
+
               <Grid className={classes.itemGrid} item xs={6} md={4}>
-                <TextField
-                  className={classes.inputImage}
+                <input
                   type="file"
-                  label="image1"
-                  InputProps={{ disableUnderline: true }}
+                  onChange={handileFileInput}
+                  name="image"
+                  id=""
                 />
-              </Grid>
-              <Grid className={classes.itemGrid} item xs={6} md={4}>
-                <TextField
-                  className={classes.inputImage}
-                  type="file"
-                  label="image2"
-                  InputProps={{ disableUnderline: true }}
-                />
-              </Grid>
-              <Grid className={classes.itemGrid} item xs={6} md={4}>
-                <TextField
-                  className={classes.inputImage}
-                  InputProps={{ disableUnderline: true }}
-                  type="file"
-                />
-              </Grid>
-            </Grid>
-          </Box>
-          <Typography className={classes.subHead}>Owner detais</Typography>
-          <Box>
-            <Grid className={classes.mainGrid} container spacing={3}>
-              <Grid className={classes.itemGrid} item xs={6} md={4}>
-                <TextField
-                  className={classes.inputfield}
-                  name=""
-                  variant="outlined"
-                  label="Name"
-                />
-              </Grid>
-              <Grid className={classes.itemGrid} item xs={6} md={4}>
-                <TextField
-                  className={classes.inputfield}
-                  name=""
-                  variant="outlined"
-                  label="Address"
-                />
-              </Grid>
-              <Grid className={classes.itemGrid} item xs={6} md={4}>
-                <TextField
-                  className={classes.inputfield}
-                  name=""
-                  variant="outlined"
-                  label="Email"
-                />
-              </Grid>
-              <Grid className={classes.itemGrid} item xs={6} md={4}>
-                <TextField
-                  className={classes.inputfield}
-                  name=""
-                  variant="outlined"
-                  label="Number"
-                />
-              </Grid>
-              <Grid className={classes.itemGrid} item xs={6} md={4}>
-                <TextField
-                  className={classes.inputfield}
-                  name=""
-                  variant="outlined"
-                  label="Password"
-                />
+                <div className={classes.imageDiv}>
+                  {previewSource && (
+                    <img
+                      className={classes.ShopImage}
+                      src={previewSource}
+                      alt="..."
+                    />
+                  )}
+                </div>
               </Grid>
             </Grid>
           </Box>
           <Box className={classes.submitbox}>
-            <Button className="createUserBtn" variant="contained">
+            <Button type="submit" className="createUserBtn" variant="contained">
               submit
             </Button>
           </Box>
