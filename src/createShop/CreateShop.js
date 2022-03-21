@@ -72,6 +72,7 @@ function CreateShop() {
   const [location, setLocation] = useState("");
   const [state, setState] = useState("");
   const [image, setImage] = useState("");
+  const [description, setDescription] = useState("");
   const [password, setPassword] = useState("");
   const [previewSource, setPreviewSource] = useState("");
 
@@ -90,7 +91,7 @@ function CreateShop() {
     e.preventDefault();
     console.log(previewSource);
     console.log(shopName, shopType, email, number, location, state);
-    const result = await axios.post("/shop/createShop", {
+    const result = await axios.post("/create_shop", {
       shopName,
       shopType,
       email,
@@ -98,6 +99,7 @@ function CreateShop() {
       location,
       state,
       password,
+      description,
       image: previewSource,
     });
   };
@@ -175,10 +177,23 @@ function CreateShop() {
                 <TextField
                   className={classes.inputfield}
                   name=""
+                  type="password"
                   variant="outlined"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   label="password"
+                />
+              </Grid>
+
+              <Grid className={classes.itemGrid} item xs={6} md={4}>
+                <TextField
+                  className={classes.inputfield}
+                  name=""
+                  type="text"
+                  variant="outlined"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  label="description"
                 />
               </Grid>
 

@@ -1,5 +1,6 @@
 import { makeStyles } from "@material-ui/core";
-import React from "react";
+import axios from "../../axios";
+import React, { useEffect, useState } from "react";
 import ShopNavBar from "../../component/navBar/ShopNavBar";
 import NavBar from "../../component/ShopComponet/NavigationBar/NavBar";
 import ShopProfile from "../../component/shopProfile/ShopProfile";
@@ -14,11 +15,30 @@ const useStyle = makeStyles((theme) => ({
 }));
 function ShopProfilePage() {
   const classes = useStyle();
+  const [shopDetails, setShopDetails] = useState();
+
+  const gettingShopDetials = () => {
+    axios
+      .post("/shop/shop_profile")
+      .then((result) => {
+        console.log(result, "result");
+        if (!result.data) setShopDetails("");
+        setShopDetails(result.data);
+      })
+      .catch((err) => {
+        console.log("this is fucking catch method");
+        console.log(err);
+        setShopDetails("");
+      });
+  };
+  useEffect(() => {
+    gettingShopDetials();
+  }, []);
   return (
     <>
       <NavBar />
       <div className={classes.Container}>
-        <ShopProfile />
+        <ShopProfile shopDetails={shopDetails} />
       </div>
     </>
   );
