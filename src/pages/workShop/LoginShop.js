@@ -6,7 +6,6 @@ function LoginShop() {
   return (
     <>
       <ShopLogin Head={"Login Shop"} />
-      {/* <Signin Head={"Login Shop"} /> */}
     </>
   );
 }

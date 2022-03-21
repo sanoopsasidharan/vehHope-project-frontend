@@ -12,29 +12,34 @@ import LoginShop from "../pages/workShop/LoginShop";
 import ShopBKHistoryPage from "../pages/workShop/ShopBKHistoryPage";
 import ShopProfilePage from "../pages/workShop/ShopProfilePage";
 import AuthContext from "../store/AuthContextProvider";
+import ShopContext from "../store/ShopContextProvider";
 import axios from "../axios";
 import Sample from "../pages/user/Sample";
+import ShopHomePage from "../pages/workShop/ShopHomePage";
 axios.defaults.withCredentials = true;
 
 function PageRouters() {
   const { userlogged } = useContext(AuthContext);
+  const { shopLoggedIn } = useContext(ShopContext);
+  console.log(shopLoggedIn, "shopLoggedIn");
   console.log(userlogged, "userlogged in page");
   return (
     <BrowserRouter>
       <Routes>
+        <Route exact path="/" element={<UserHome />} />
         {/* user routes */}
-
+        {/* 
         <Route
           exact
           path="/"
           element={userlogged ? <UserHome /> : <Navigate to="/login" />}
-        />
+        /> */}
         {/* <Route path="/" element={<UserHome />} /> */}
         <Route path="/shops" element={<AllShops />} />
         <Route path="/booking" element={<Booking />} />
         <Route
           path="/bookingHistory"
-          element={userlogged ? <BookingHistory /> : <Navigate to="/" />}
+          element={userlogged ? <BookingHistory /> : <Navigate to="/login" />}
         />
         <Route
           path="/login"
@@ -51,8 +56,18 @@ function PageRouters() {
         />
 
         {/* shop routes */}
+
+        <Route
+          path="/shop"
+          element={
+            shopLoggedIn ? <ShopHomePage /> : <Navigate to="/loginShop" />
+          }
+        />
         <Route path="/createShop" element={<CreateShopPage />} />
-        <Route path="/loginShop" element={<LoginShop />} />
+        <Route
+          path="/loginShop"
+          element={shopLoggedIn ? <Navigate to="/shop" /> : <LoginShop />}
+        />
         <Route
           exact
           path="/shopBookingHistory"

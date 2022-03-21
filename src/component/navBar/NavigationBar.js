@@ -12,10 +12,12 @@ import {
   useTheme,
 } from "@material-ui/core";
 import { AccountCircle } from "@material-ui/icons";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import BookingModal from "./BookingModal";
 import DrawerCom from "./DrawerCom";
+import AuthContext from "../../store/AuthContextProvider";
+import Context from "@mui/base/TabsUnstyled/TabsContext";
 const useStyle = makeStyles((theme) => ({
   mainHead: {
     margin: "15px",
@@ -49,9 +51,14 @@ const useStyle = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
   },
+  sample: {
+    color: "red",
+  },
 }));
 
 function NavigationBar() {
+  const { userlogged, setuserDetails, getUserLogged, userDetails } =
+    useContext(AuthContext);
   const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -106,7 +113,8 @@ function NavigationBar() {
                 account
               </Button> */}
               <Toolbar className={classes.loginButton}>
-                {auth && (
+                <p className={classes.sample}>{auth}</p>
+                {userlogged ? (
                   <div>
                     <IconButton
                       size="large"
@@ -138,7 +146,62 @@ function NavigationBar() {
                           <p className={classes.leftPtag}>Profile</p>
                         </Link>
                       </MenuItem>
+                      <MenuItem onClick={handleClose}>
+                        <Link className={classes.allLinks} to="/loginShop">
+                          <p className={classes.leftPtag}>Login shop</p>
+                        </Link>
+                      </MenuItem>
+                      <MenuItem onClick={handleClose}>
+                        <Link className={classes.allLinks} to="/createShop">
+                          <p className={classes.leftPtag}>Create Shop</p>
+                        </Link>
+                      </MenuItem>
                       <MenuItem onClick={handleClose}>Log Out</MenuItem>
+                    </Menu>
+                  </div>
+                ) : (
+                  <div>
+                    <IconButton
+                      size="large"
+                      aria-label="account of current user"
+                      aria-controls="menu-appbar"
+                      aria-haspopup="true"
+                      onClick={handleMenu}
+                      color="inherit"
+                    >
+                      <AccountCircle />
+                    </IconButton>
+                    <Menu
+                      id="menu-appbar"
+                      anchorEl={anchorEl}
+                      anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                      }}
+                      keepMounted
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                      }}
+                      open={Boolean(anchorEl)}
+                      onClose={handleClose}
+                    >
+                      <MenuItem onClick={handleClose}>
+                        <Link className={classes.allLinks} to="/login">
+                          <p className={classes.leftPtag}>Login</p>
+                        </Link>
+                      </MenuItem>
+
+                      <MenuItem onClick={handleClose}>
+                        <Link className={classes.allLinks} to="/create">
+                          <p className={classes.leftPtag}>Create account</p>
+                        </Link>
+                      </MenuItem>
+                      <MenuItem onClick={handleClose}>
+                        <Link className={classes.allLinks} to="/loginShop">
+                          <p className={classes.leftPtag}>Login shop</p>
+                        </Link>
+                      </MenuItem>
                     </Menu>
                   </div>
                 )}

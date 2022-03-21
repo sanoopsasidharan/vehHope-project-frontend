@@ -1,6 +1,8 @@
 import "./App.css";
 import PageRouters from "./routers/PageRouters";
 import { AuthContextProvider } from "./store/AuthContextProvider";
+import { ShopContextProvider } from "./store/ShopContextProvider";
+
 import UserContextProvider from "./store/UserContextProvider";
 
 function App() {
@@ -8,7 +10,9 @@ function App() {
     <>
       <UserContextProvider>
         <AuthContextProvider>
-          <PageRouters />
+          <ShopContextProvider>
+            <PageRouters />
+          </ShopContextProvider>
         </AuthContextProvider>
       </UserContextProvider>
     </>

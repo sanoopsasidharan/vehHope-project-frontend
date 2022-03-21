@@ -9,8 +9,10 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "../../axios";
+import ShopContext from "../../store/ShopContextProvider";
 // import "./Signin.css";
 
 const useStyle = makeStyles((theme) => ({
@@ -32,19 +34,32 @@ const useStyle = makeStyles((theme) => ({
 }));
 
 function ShopLogin({ Head }) {
+  const { setShopData, getShopLogged } = useContext(ShopContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const navigate = useNavigate();
 
   const classes = useStyle();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("/shop/login", { email, password }, { withCredentials: true })
-      .then((result) => {
+      .post("/shop/login", { email, password })
+      .then(async (result) => {
         console.log(result);
+        if (result.data.shop) {
+          setErrorMessage("");
+          setShopData(result.data.shop);
+          await getShopLogged();
+          navigate("/shop");
+        } else {
+          setErrorMessage("email and password is not match");
+        }
       })
       .catch((err) => {
+        setErrorMessage("email and password is not match");
         console.log(err.message);
       });
   };
@@ -117,6 +132,7 @@ function ShopLogin({ Head }) {
                 </Link>
               </Grid>
             </Grid>
+            {errorMessage}
           </Box>
         </Box>
       </Container>
