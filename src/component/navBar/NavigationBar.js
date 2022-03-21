@@ -13,7 +13,8 @@ import {
 } from "@material-ui/core";
 import { AccountCircle } from "@material-ui/icons";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import BookingModal from "./BookingModal";
 import DrawerCom from "./DrawerCom";
 const useStyle = makeStyles((theme) => ({
   mainHead: {
@@ -36,6 +37,18 @@ const useStyle = makeStyles((theme) => ({
     color: "white",
     textDecoration: "none",
   },
+  bookingModalLikn: {
+    display: "flex",
+    alignItems: "center",
+    textDecoration: "none",
+  },
+  leftPtag: {
+    color: "black",
+  },
+  nav_booking_modal_button: {
+    display: "flex",
+    alignItems: "center",
+  },
 }));
 
 function NavigationBar() {
@@ -53,6 +66,7 @@ function NavigationBar() {
   const classes = useStyle();
   const [value, setValue] = useState();
   const theme = useTheme();
+  const navigate = useNavigate();
   console.log(theme);
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
   console.log(isMatch);
@@ -75,13 +89,18 @@ function NavigationBar() {
                 indicatorColor="secondary"
                 onChange={(e, value) => setValue(value)}
               >
-                <Tab label="Home" />
-
                 <Link className={classes.allLinks} to="/">
-                  <Tab label="Booking" />
+                  <Tab label="Home" />
                 </Link>
-                <Tab label="History" />
-                <Tab label="message" />
+                <div className={classes.nav_booking_modal_button}>
+                  <BookingModal />
+                </div>
+                <Link className={classes.allLinks} to="/bookingHistory">
+                  <Tab label="History" />
+                </Link>
+                <Link className={classes.allLinks} to="/">
+                  <Tab label="message" />
+                </Link>
               </Tabs>
               {/* <Button className={classes.loginButton} variant="contained">
                 account
@@ -114,8 +133,12 @@ function NavigationBar() {
                       open={Boolean(anchorEl)}
                       onClose={handleClose}
                     >
-                      <MenuItem onClick={handleClose}>Profile</MenuItem>
-                      <MenuItem onClick={handleClose}>My account</MenuItem>
+                      <MenuItem onClick={handleClose}>
+                        <Link className={classes.allLinks} to="/userProfile">
+                          <p className={classes.leftPtag}>Profile</p>
+                        </Link>
+                      </MenuItem>
+                      <MenuItem onClick={handleClose}>Log Out</MenuItem>
                     </Menu>
                   </div>
                 )}

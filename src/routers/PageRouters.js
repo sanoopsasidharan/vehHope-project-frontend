@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AllShops from "../pages/user/AllShops";
 import Booking from "../pages/user/Booking";
@@ -13,17 +13,17 @@ import ShopBKHistoryPage from "../pages/workShop/ShopBKHistoryPage";
 import ShopProfilePage from "../pages/workShop/ShopProfilePage";
 import AuthContext from "../store/AuthContextProvider";
 import axios from "../axios";
+import Sample from "../pages/user/Sample";
 axios.defaults.withCredentials = true;
 
 function PageRouters() {
   const { userlogged } = useContext(AuthContext);
-  const a = userlogged;
-  // console.log(userlogged === true);
-  console.log("userlogged");
+  console.log(userlogged, "userlogged in page");
   return (
     <BrowserRouter>
       <Routes>
         {/* user routes */}
+
         <Route
           exact
           path="/"
@@ -32,7 +32,10 @@ function PageRouters() {
         {/* <Route path="/" element={<UserHome />} /> */}
         <Route path="/shops" element={<AllShops />} />
         <Route path="/booking" element={<Booking />} />
-        <Route path="/bookingHistory" element={<BookingHistory />} />
+        <Route
+          path="/bookingHistory"
+          element={userlogged ? <BookingHistory /> : <Navigate to="/" />}
+        />
         <Route
           path="/login"
           element={userlogged ? <Navigate to="/" /> : <SignInPage />}
@@ -40,8 +43,13 @@ function PageRouters() {
         <Route path="/create" element={<CreateUserPage />} />
         <Route
           path="/userProfile"
-          element={userlogged ? <UserProfile /> : <Navigate to="/" />}
+          element={userlogged ? <UserProfile /> : <Navigate to="/login" />}
         />
+        <Route
+          path="/sample"
+          element={userlogged ? <Sample /> : <Navigate to="/login" />}
+        />
+
         {/* shop routes */}
         <Route path="/createShop" element={<CreateShopPage />} />
         <Route path="/loginShop" element={<LoginShop />} />

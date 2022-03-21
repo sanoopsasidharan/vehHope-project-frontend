@@ -1,4 +1,5 @@
 import { Box, Button, Grid, makeStyles, Modal } from "@material-ui/core";
+import axios from "../../axios";
 import React, { useEffect, useState } from "react";
 import { ImCancelCircle } from "react-icons/im";
 import "./HistoryModal.css";
@@ -11,16 +12,16 @@ const style = {
   bgcolor: "background.paper",
   borderRadius: "5px",
   boxShadow: 24,
-  pt: 2,
-  px: 4,
-  pb: 3,
+  pt: 1,
+  px: 1,
+  pb: 1,
 };
 
 const useStyle = makeStyles((theme) => ({
   mainBox: {
     width: "50%",
     [theme.breakpoints.down("md")]: {
-      width: "75%",
+      width: "90%",
     },
   },
   cancelButton: {
@@ -34,8 +35,12 @@ const useStyle = makeStyles((theme) => ({
     marginLeft: "auto",
   },
   gridTagsAline: {
-    display: "flex",
-    justifyContent: "center",
+    // lineHeight: "2.em",
+    // display: "flex",
+    // justifyContent: "center",
+    width: "70%",
+
+    padding: "0px 0px 0px 0px",
   },
   mainHeading: {
     display: "flex",
@@ -48,46 +53,44 @@ const useStyle = makeStyles((theme) => ({
     position: "absolute",
     right: "2%",
   },
+  headTag: {
+    color: "#000000bf",
+  },
+  leftSideDiv: {
+    display: "flex",
+    marginTop: "20px",
+  },
+  mainDivHeading: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  mainContentDiv: {
+    display: "flex",
+    justifyContent: "center",
+  },
 }));
 
-function ChangeingBKStatus() {
+function ChangeingBKStatus({ item, setChangeingState }) {
   const [open, setOpen] = React.useState(false);
+  const [booingData, setBooingData] = useState();
+  const classes = useStyle();
+
   const handleOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
-  const alertShow = () => {
-    alert("booking cancel");
-  };
-  const classes = useStyle();
-  const [bookingDetails, setBookingDetails] = useState({});
-
-  const details = {
-    name: "sanoop",
-    email: "sanoop@gmail.com",
-    number: "1111111111",
-    date: "12 / 3 / 2000",
-    address: "adattu H marathamcode po",
-    company: "yamaha",
-    model: "fz",
-    compaint: "no running condition",
-    status: "pending",
-    state: "kerala",
-    location: "kunnamkulam",
-    landmark: "marathamcode school",
-    workshop: "name",
-    shoplocation: "pannithadam",
-    shopNumber: "983773772372",
-    ownerName: "kannan",
-  };
-  useEffect(() => {
-    gettingData();
-  }, []);
-
-  const gettingData = () => {
-    setBookingDetails(details);
+  const BookingCancel = () => {
+    axios
+      .post("/CancelBooking", { bookingId: item._id })
+      .then((res) => {
+        setChangeingState(true);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -111,41 +114,81 @@ function ChangeingBKStatus() {
             className={classes.closingButton}
             onClick={handleClose}
           />
-          <h2 className={classes.mainHeading} id="parent-modal-title">
+          {/* <h2 className={classes.mainHeading} id="parent-modal-title">
             Booking details
-          </h2>
+          </h2> */}
           <Grid container>
-            <Grid className={classes.gridTagsAline} item xs={12} md={6}>
-              <p>{bookingDetails.name}</p>
+            <Grid item xs={12} md={6}>
+              <div className={classes.mainDivHeading}>
+                <h4>details</h4>
+              </div>
+              <div className={classes.mainContentDiv}>
+                <div className={classes.gridTagsAline}>
+                  <div className={classes.leftSideDiv}>
+                    <p className={classes.headTag}>name :</p>
+                    <p>&ensp;{item.name}</p>
+                  </div>
+                  <div className={classes.leftSideDiv}>
+                    <p className={classes.headTag}>number :</p>
+                    <p>&ensp;{item.number}</p>
+                  </div>
+                  <div className={classes.leftSideDiv}>
+                    <p className={classes.headTag}>location :</p>
+                    <p>&ensp;{item.location}</p>
+                  </div>
+                  <div className={classes.leftSideDiv}>
+                    <p className={classes.headTag}>complaint :</p>
+                    <p>&ensp;{item.complaint}</p>
+                  </div>
+                  <div className={classes.leftSideDiv}>
+                    <p className={classes.headTag}>date :</p>
+                    <p>&ensp;{item.createTime}</p>
+                  </div>
+                  <div className={classes.leftSideDiv}>
+                    <p className={classes.headTag}>model :</p>
+                    <p>&ensp;{item.model}</p>
+                  </div>
+                </div>
+              </div>
             </Grid>
             <Grid className={classes.gridTagsAline} item xs={12} md={6}>
-              <p>{bookingDetails.email}</p>
-            </Grid>
-            <Grid className={classes.gridTagsAline} item xs={12} md={6}>
-              <p>{bookingDetails.number}</p>
-            </Grid>
-            <Grid className={classes.gridTagsAline} item xs={12} md={6}>
-              <p>{bookingDetails.location}</p>
-            </Grid>
-            <Grid className={classes.gridTagsAline} item xs={12} md={6}>
-              <p>{bookingDetails.date}</p>
-            </Grid>
-            <Grid className={classes.gridTagsAline} item xs={12} md={6}>
-              <p>{bookingDetails.workshop}</p>
-            </Grid>
-            <Grid className={classes.gridTagsAline} item xs={12} md={6}>
-              <p>{bookingDetails.shoplocation}</p>
-            </Grid>
-            <Grid className={classes.gridTagsAline} item xs={12} md={6}>
-              <p>{bookingDetails.status}</p>
+              <div className={classes.mainDivHeading}>
+                <h4>shop details</h4>
+              </div>
+
+              <div className={classes.mainContentDiv}>
+                <div className={classes.gridTagsAline}>
+                  <div className={classes.leftSideDiv}>
+                    <p className={classes.headTag}>Name :</p>
+                    <p>&ensp;{item.shop.shopName}</p>
+                  </div>
+                  <div className={classes.leftSideDiv}>
+                    <p className={classes.headTag}>email :</p>
+                    <p>&ensp;{item.shop.email}</p>
+                  </div>
+                  <div className={classes.leftSideDiv}>
+                    <p className={classes.headTag}>Number :</p>
+                    <p>&ensp;{item.shop.number}</p>
+                  </div>
+
+                  <div className={classes.leftSideDiv}>
+                    <p className={classes.headTag}>Location :</p>
+                    <p>&ensp;{item.shop.location}</p>
+                  </div>
+                  <div className={classes.leftSideDiv}>
+                    <p className={classes.headTag}>status :</p>
+                    <p>&ensp;{item.status}</p>
+                  </div>
+                </div>
+              </div>
             </Grid>
           </Grid>
           <Button
             className={classes.cancelButton}
             variant="contained"
-            onClick={alertShow}
+            onClick={BookingCancel}
           >
-            pending
+            cancel
           </Button>
         </Box>
       </Modal>

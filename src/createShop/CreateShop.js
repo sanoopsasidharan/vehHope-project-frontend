@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import React, { useState } from "react";
 import "./CreateShop.css";
+import axios from "../axios";
 
 const useStyle = makeStyles((theme) => ({
   itemGrid: {
@@ -71,7 +72,7 @@ function CreateShop() {
   const [location, setLocation] = useState("");
   const [state, setState] = useState("");
   const [image, setImage] = useState("");
-  const [selectedImage, setSelectedImage] = useState("");
+  const [password, setPassword] = useState("");
   const [previewSource, setPreviewSource] = useState("");
 
   const handileFileInput = (e) => {
@@ -85,10 +86,20 @@ function CreateShop() {
       setPreviewSource(reader.result);
     };
   };
-  const handileSubmit = (e) => {
+  const handileSubmit = async (e) => {
     e.preventDefault();
     console.log(previewSource);
     console.log(shopName, shopType, email, number, location, state);
+    const result = await axios.post("/shop/createShop", {
+      shopName,
+      shopType,
+      email,
+      number,
+      location,
+      state,
+      password,
+      image: previewSource,
+    });
   };
   return (
     <Container className={classes.container}>
@@ -161,6 +172,17 @@ function CreateShop() {
               </Grid>
 
               <Grid className={classes.itemGrid} item xs={6} md={4}>
+                <TextField
+                  className={classes.inputfield}
+                  name=""
+                  variant="outlined"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  label="password"
+                />
+              </Grid>
+
+              <Grid className={classes.itemGrid} item xs={6} md={4}>
                 <input
                   type="file"
                   onChange={handileFileInput}
@@ -183,6 +205,7 @@ function CreateShop() {
             <Button type="submit" className="createUserBtn" variant="contained">
               submit
             </Button>
+            {/* <img src="https://res.cloudinary.com/dvz2vfssk/image/upload/v1647318501/vehHope/enykzwnbgaov3ujhfez6.png" /> */}
           </Box>
         </Box>
       </form>

@@ -1,29 +1,40 @@
 import React, { createContext, useEffect, useState } from "react";
 import axios from "../axios";
-const AuthContext = createContext();
+const AuthContext = createContext(null);
 
 function AuthContextProvider(props) {
-  const [userlogged, setUserlogged] = useState(true);
-  const [shopLogged, setShopLogged] = useState(true);
-
-  const getShopLoggedIn = async () => {
-    const trueShop = await axios.post("/shop/IsloggedIn");
-    // console.log(trueShop);
-    setShopLogged(true);
-  };
-
-  const getUserLogged = async () => {
-    const trueUser = await axios.post("/isLoggedin");
-    // console.log(trueUser.data.user);
-    setUserlogged(trueUser.data.user);
-  };
+  const [userlogged, setUserlogged] = useState("");
+  const [userDetails, setuserDetails] = useState("");
+  const [userData, setuserData] = useState(undefined);
   useEffect(() => {
     getUserLogged();
-    getShopLoggedIn();
-  }, []);
+    // getShopLoggedIn();
+  }, [userData, userlogged]);
+
+  const getUserLogged = async () => {
+    await axios
+      .post("/isLoggedin")
+      .then((resutl) => {
+        if (resutl.data.user == false) setUserlogged(false);
+        else setUserlogged(true);
+        const userObj = resutl.data.payload;
+        if (userObj) {
+          setuserData(userObj);
+        }
+      })
+      .catch((err) => {
+        setUserlogged(true);
+      });
+  };
+
   return (
     <AuthContext.Provider
-      value={{ userlogged, getUserLogged, shopLogged, getShopLoggedIn }}
+      value={{
+        userlogged,
+        setuserDetails,
+        userDetails,
+        getUserLogged,
+      }}
     >
       {props.children}
     </AuthContext.Provider>

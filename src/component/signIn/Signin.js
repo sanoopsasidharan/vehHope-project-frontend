@@ -9,8 +9,10 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router";
 import axios from "../../axios";
+import AuthContext from "../../store/AuthContextProvider";
 import "./Signin.css";
 
 const useStyle = makeStyles((theme) => ({
@@ -34,17 +36,32 @@ const useStyle = makeStyles((theme) => ({
 function Signin({ Head }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errmessage, setErrmessage] = useState("");
+  const { userlogged, setuserDetails, getUserLogged, userDetails } =
+    useContext(AuthContext);
 
   const classes = useStyle();
 
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     axios
-      .post("/login", { email, password }, { withCredentials: true })
-      .then((result) => {
+      .post("/login", { email, password })
+      .then(async (result) => {
         console.log(result);
+        console.log(result.data.user);
+        const userObj = result.data.user;
+
+        if (!result.data.user) setErrmessage("somthing error");
+
+        setErrmessage("");
+        setuserDetails(userObj);
+        await getUserLogged();
+        navigate("/");
       })
       .catch((err) => {
+        setErrmessage("email and password not match");
         console.log(err.message);
       });
   };
@@ -105,6 +122,7 @@ function Signin({ Head }) {
               {" "}
               Submit
             </button>
+
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
@@ -117,6 +135,9 @@ function Signin({ Head }) {
                 </Link>
               </Grid>
             </Grid>
+            <div className="signIn_ErrMesg">
+              <p>{errmessage}</p>
+            </div>
           </Box>
         </Box>
       </Container>
