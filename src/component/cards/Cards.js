@@ -7,18 +7,29 @@ import {
   Grid,
 } from "@material-ui/core";
 import axios from "../../axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ShopPost from "../shops/ShopPost";
 import "./Cards.css";
+import { useNavigate } from "react-router-dom";
+import GlobalContext from "../../store/GlobalContextProvider";
 
-function Cards({ mostTopShops }) {
+function Cards({ navigateTo, mostTopShops }) {
+  const { shopId, settingShopId } = useContext(GlobalContext);
+  const navigate = useNavigate();
+  const handleNavigate = async (Id) => {
+    await settingShopId(Id);
+    navigate(navigateTo);
+  };
   return (
     <div>
       <Container>
         <Grid container spacing={4}>
           {mostTopShops?.map((item, index) => (
-            <Grid item xs={12} md={6}>
-              <Card sx={{ maxWidth: 345 }}>
+            <Grid item xs={12} md={4}>
+              <Card
+                onClick={() => handleNavigate(item._id)}
+                sx={{ maxWidth: 345 }}
+              >
                 <CardActionArea>
                   <CardMedia
                     component="img"

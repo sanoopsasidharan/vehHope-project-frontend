@@ -16,6 +16,7 @@ import ShopContext from "../store/ShopContextProvider";
 import axios from "../axios";
 import Sample from "../pages/user/Sample";
 import ShopHomePage from "../pages/workShop/ShopHomePage";
+import ShopDetailsPage from "../pages/user/ShopDetailsPage";
 axios.defaults.withCredentials = true;
 
 function PageRouters() {
@@ -36,7 +37,16 @@ function PageRouters() {
         /> */}
         {/* <Route path="/" element={<UserHome />} /> */}
         <Route path="/shops" element={<AllShops />} />
-        <Route path="/booking" element={<Booking />} />
+        <Route
+          path="/shopDetails"
+          element={userlogged ? <ShopDetailsPage /> : <Navigate to="/login" />}
+        />
+
+        <Route
+          path="/booking"
+          element={userlogged ? <Booking /> : <Navigate to="/login" />}
+        />
+
         <Route
           path="/bookingHistory"
           element={userlogged ? <BookingHistory /> : <Navigate to="/login" />}

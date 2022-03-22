@@ -21,6 +21,7 @@ function HomePage() {
   useEffect(() => {
     TopShops();
   }, []);
+  const navigateTo = "/shopProfile";
   return (
     <div>
       <Grid>
@@ -32,7 +33,7 @@ function HomePage() {
           />
         </Grid>
       </Grid>
-      <Cards mostTopShops={mostTopShops} />
+      <Cards navigateTo={navigateTo} mostTopShops={mostTopShops} />
     </div>
   );
 }

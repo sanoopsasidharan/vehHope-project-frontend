@@ -1,15 +1,14 @@
-import { Container, Grid, makeStyles } from "@material-ui/core";
+import { Button, Grid, makeStyles } from "@material-ui/core";
 import axios from "../../axios";
 import React, { useContext, useEffect, useState } from "react";
-import BookingForm from "../../component/bookingform/BookingForm";
 import NavigationBar from "../../component/navBar/NavigationBar";
-import ShopDetails from "../../component/shopDetails/ShopDetails";
+import ShopImage from "../../component/shopDetails/ShopImage";
+import ShopMainDetails from "../../component/shopDetails/ShopMainDetails";
 import GlobalContext from "../../store/GlobalContextProvider";
 import { useNavigate } from "react-router-dom";
-
 const useStyle = makeStyles((theme) => ({
   mainContinarDiv: {
-    padding: "110Px 10px 50px 50px",
+    padding: "110Px 10px 0px 50px",
     [theme.breakpoints.down("sm")]: {
       padding: "110Px 10px 10px 10px",
     },
@@ -23,14 +22,13 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function Booking() {
+function ShopDetailsPage() {
   const { shopId } = useContext(GlobalContext);
+  const [shopData, setShopData] = useState();
   const classes = useStyle();
-  const [ShopData, setShopData] = useState("");
-
   const navigate = useNavigate();
-
   const gettingData = async () => {
+    alert(shopId);
     if (shopId === undefined) navigate("/");
     await axios
       .post("/view_Shop", { shopId })
@@ -46,6 +44,7 @@ function Booking() {
   useEffect(() => {
     gettingData();
   }, []);
+
   return (
     <>
       <NavigationBar />
@@ -53,16 +52,19 @@ function Booking() {
         <Grid container>
           <Grid className={classes.mainBody} item xs={12} container>
             <Grid className={classes.SubContainerDiv} item xs={12} md={6}>
-              <ShopDetails ShopData={ShopData} />
+              <ShopImage shopData={shopData} />
             </Grid>
             <Grid className={classes.SubContainerDiv} item xs={12} md={6}>
-              <BookingForm />
+              <ShopMainDetails shopData={shopData} />
             </Grid>
           </Grid>
         </Grid>
       </div>
     </>
+    // <>
+    //   <UserShopProfil />
+    // </>
   );
 }
 
-export default Booking;
+export default ShopDetailsPage;

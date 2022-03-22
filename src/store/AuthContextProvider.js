@@ -3,7 +3,7 @@ import axios from "../axios";
 const AuthContext = createContext(null);
 
 function AuthContextProvider(props) {
-  const [userlogged, setUserlogged] = useState();
+  const [userlogged, setUserlogged] = useState(true);
   const [userDetails, setuserDetails] = useState("");
   const [userData, setuserData] = useState(undefined);
   useEffect(() => {
