@@ -3,6 +3,7 @@ import axios from "../../axios";
 import React, { useEffect, useState } from "react";
 import { ImCancelCircle } from "react-icons/im";
 import "./HistoryModal.css";
+import Moment from "moment";
 
 const style = {
   position: "absolute",
@@ -14,7 +15,7 @@ const style = {
   boxShadow: 24,
   pt: 1,
   px: 1,
-  pb: 1,
+  pb: 2,
 };
 
 const useStyle = makeStyles((theme) => ({
@@ -35,9 +36,6 @@ const useStyle = makeStyles((theme) => ({
     marginLeft: "auto",
   },
   gridTagsAline: {
-    // lineHeight: "2.em",
-    // display: "flex",
-    // justifyContent: "center",
     width: "70%",
 
     padding: "0px 0px 0px 0px",
@@ -70,7 +68,7 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function ChangeingBKStatus({ item, setChangeingState }) {
+function ChangeingBKStatus({ item, setChangeingState, handleHistory }) {
   const [open, setOpen] = React.useState(false);
   const [booingData, setBooingData] = useState();
   const classes = useStyle();
@@ -87,6 +85,10 @@ function ChangeingBKStatus({ item, setChangeingState }) {
       .then((res) => {
         setChangeingState(true);
         console.log(res);
+        if (res.data) {
+          handleHistory();
+          setOpen(false);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -141,9 +143,14 @@ function ChangeingBKStatus({ item, setChangeingState }) {
                     <p>&ensp;{item.complaint}</p>
                   </div>
                   <div className={classes.leftSideDiv}>
-                    <p className={classes.headTag}>date :</p>
-                    <p>&ensp;{item.createTime}</p>
+                    <p className={classes.headTag}>booking Date :</p>
+                    <p>&ensp;{Moment(item.createTime).format("DD/MM/YYYY")}</p>
                   </div>
+                  <div className={classes.leftSideDiv}>
+                    <p className={classes.headTag}>Service Date :</p>
+                    <p>&ensp;{Moment(item.date).format("DD/MM/YYYY")}</p>
+                  </div>
+
                   <div className={classes.leftSideDiv}>
                     <p className={classes.headTag}>model :</p>
                     <p>&ensp;{item.model}</p>
@@ -183,13 +190,18 @@ function ChangeingBKStatus({ item, setChangeingState }) {
               </div>
             </Grid>
           </Grid>
-          <Button
-            className={classes.cancelButton}
-            variant="contained"
-            onClick={BookingCancel}
-          >
-            cancel
-          </Button>
+
+          {item.status === "cancel" ? (
+            <p></p>
+          ) : (
+            <Button
+              className={classes.cancelButton}
+              variant="contained"
+              onClick={BookingCancel}
+            >
+              cancel
+            </Button>
+          )}
         </Box>
       </Modal>
     </div>

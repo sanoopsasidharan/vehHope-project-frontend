@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  IconButton,
   makeStyles,
   Menu,
   MenuItem,
@@ -14,7 +13,6 @@ import {
   TableRow,
 } from "@material-ui/core";
 import React, { useState } from "react";
-import HistoryModal from "../modal/HistoryModal";
 import { MdMessage } from "react-icons/md";
 import SortingModal from "../modal/SortingModal";
 import ChangeingBKStatus from "../modal/ChangeingBKStatus";
@@ -175,7 +173,7 @@ function ShopBookingHistory() {
 
                 <TableCell className={classes.tableCellHead} align="right">
                   {/* <HistoryModal /> */}
-                  <ChangeingBKStatus />
+                  {/* <ChangeingBKStatus /> */}
                 </TableCell>
               </TableRow>
             ))}

@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  IconButton,
   makeStyles,
   Menu,
   MenuItem,
@@ -14,11 +13,11 @@ import {
   TableRow,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import HistoryModal from "../modal/HistoryModal";
 import { MdMessage } from "react-icons/md";
 import SortingModal from "../modal/SortingModal";
 import ChangeingBKStatus from "../modal/ChangeingBKStatus";
 import axios from "../../axios";
+import Moment from "moment";
 
 const useStyle = makeStyles((theme) => ({
   mainBox: {
@@ -45,6 +44,12 @@ const useStyle = makeStyles((theme) => ({
   whiteButton: {
     color: "white",
   },
+  errorMessageClass: {
+    height: "40vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 }));
 
 function createData(name, calories, fat, carbs, protein) {
@@ -58,38 +63,32 @@ const rows = [
   createData("Cupcake", 305, 3.7, 67, 4.3),
   createData("Gingerbread", 356, 16.0, 49, 3.9),
 ];
-const bookingDetails = [
-  {
-    shopName: "kannan",
-    date: "2/4/20",
-    status: "canceled",
-  },
-  {
-    shopName: "ammu",
-    date: "10/4/20",
-    status: "rejected",
-  },
-  {
-    shopName: "achu",
-    date: "1/4/20",
-    status: "pending",
-  },
-  {
-    shopName: "praveen",
-    date: "12/4/20",
-    status: "complete",
-  },
-];
 
 function Tabale() {
   const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const [bookingHistory, setBookingHistory] = useState([]);
   const [changeingState, setChangeingState] = useState(false);
+  const [IfNoHistory, setIfNoHistory] = useState();
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
     // alert(anchorEl);
+  };
+  const findingDate = (value) => {
+    setAnchorEl(null);
+    axios
+      .post("/user_history_InStatus", { status: value })
+      .then((result) => {
+        if (!result.data) alert("somthing error");
+        if (result.data) setBookingHistory(result.data);
+        if (result.data.length < 1)
+          setIfNoHistory("No    " + value + "   items");
+        else setIfNoHistory();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleClose = () => {
@@ -136,13 +135,21 @@ function Tabale() {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>complete</MenuItem>
-            <MenuItem onClick={handleClose}>rejected</MenuItem>
-            <MenuItem onClick={handleClose}>approved</MenuItem>
-            <MenuItem onClick={handleClose}>pending</MenuItem>
+            <MenuItem onClick={() => findingDate("complete")}>
+              complete
+            </MenuItem>
+            <MenuItem onClick={() => findingDate("rejected")}>
+              rejected
+            </MenuItem>
+            <MenuItem onClick={() => findingDate("approved")}>
+              approved
+            </MenuItem>
+            <MenuItem onClick={() => findingDate("cancel")}>cancel</MenuItem>
+            <MenuItem onClick={() => findingDate("pending")}>pending</MenuItem>
           </Menu>
         </div>
       </Box>
+
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -166,6 +173,7 @@ function Tabale() {
               {/* <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
             </TableRow>
           </TableHead>
+
           <TableBody>
             {bookingHistory &&
               bookingHistory.map((item, index) => (
@@ -186,7 +194,7 @@ function Tabale() {
                     {item.shop.shopName}
                   </TableCell>
                   <TableCell className={classes.tableCellHead} align="right">
-                    {}
+                    {Moment(item.date).format("DD:MM:YYYY")}
                   </TableCell>
                   <TableCell className={classes.tableCellHead} align="right">
                     {item.status}
@@ -203,12 +211,20 @@ function Tabale() {
                     <ChangeingBKStatus
                       item={item}
                       setChangeingState={setChangeingState}
+                      handleHistory={handleHistory}
                     />
                   </TableCell>
                 </TableRow>
               ))}
           </TableBody>
         </Table>
+        {IfNoHistory && (
+          <div className={classes.errorMessageClass}>
+            <div className={classes.errorMessageSubDiv}>
+              <h2>{IfNoHistory}</h2>
+            </div>
+          </div>
+        )}
       </TableContainer>
     </Box>
   );

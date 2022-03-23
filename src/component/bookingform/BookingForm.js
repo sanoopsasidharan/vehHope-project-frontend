@@ -6,6 +6,7 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
+import axios from "../../axios";
 
 import React, { useState } from "react";
 
@@ -19,14 +20,14 @@ const useStyle = makeStyles((theme) => ({
   bookingHead: {
     display: "flex",
     justifyContent: "center",
-    marginBottom:10
+    marginBottom: 10,
   },
   bookingHeaderLetter: {
     fontWeight: 500,
   },
 }));
 
-function BookingForm() {
+function BookingForm({ ShopData }) {
   const [name, setName] = useState("");
   const [email, setEMail] = useState("");
   const [number, setNumber] = useState("");
@@ -41,17 +42,27 @@ function BookingForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(name);
-    console.log(email);
-    console.log(number);
-    console.log(address);
-    console.log(date);
-    console.log(company);
-    console.log(model);
-    console.log(complaint);
-    console.log(state);
-    console.log(location);
-    console.log(landmark);
+    axios
+      .post("/service_Booking", {
+        name,
+        email,
+        number,
+        address,
+        date,
+        company,
+        model,
+        complaint,
+        state,
+        location,
+        landmark,
+        shopId: ShopData._id,
+      })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   const classes = useStyle();
   return (

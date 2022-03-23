@@ -56,7 +56,7 @@ function Booking() {
               <ShopDetails ShopData={ShopData} />
             </Grid>
             <Grid className={classes.SubContainerDiv} item xs={12} md={6}>
-              <BookingForm />
+              <BookingForm ShopData={ShopData} />
             </Grid>
           </Grid>
         </Grid>

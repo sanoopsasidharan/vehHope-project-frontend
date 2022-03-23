@@ -111,7 +111,6 @@ function CreateShop() {
           <Box>
             <Grid className={classes.mainGrid} container spacing={3}>
               <Grid className={classes.itemGrid} item xs={6} md={4}>
-                {/* <input placeholder="sldfal;" /> */}
                 <TextField
                   className={classes.inputfield}
                   name=""
