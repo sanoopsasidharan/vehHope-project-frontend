@@ -22,11 +22,29 @@ function Cards({ navigateTo, mostTopShops }) {
   };
   return (
     <div>
-      <Container>
+      <Container className="CardComponentContainer">
         <Grid container spacing={4}>
           {mostTopShops?.map((item, index) => (
             <Grid item xs={12} md={4}>
-              <Card
+              <div
+                onClick={() => handleNavigate(item._id)}
+                className="cardComponentDiv"
+              >
+                <div className="cardComponentMainDiv">
+                  <img className="cardComponentImage" src={`${item.image}`} />
+                </div>
+                <div className="cardComponentsubtextDiv">
+                  <h3>
+                    <span>Shop:&nbsp;</span>
+                    {item.shopName}
+                  </h3>
+                  <h3>
+                    <span>Place:&nbsp;</span>
+                    {item.location}
+                  </h3>
+                </div>
+              </div>
+              {/* <Card
                 onClick={() => handleNavigate(item._id)}
                 sx={{ maxWidth: 345 }}
               >
@@ -44,7 +62,7 @@ function Cards({ navigateTo, mostTopShops }) {
                     </div>
                   </CardContent>
                 </CardActionArea>
-              </Card>
+              </Card> */}
             </Grid>
           ))}
         </Grid>

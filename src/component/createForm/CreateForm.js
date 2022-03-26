@@ -8,6 +8,10 @@ import {
 import axios from "../../axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import MapModal from "../modal/MapModal";
+import ReactMapGl, { Marker } from "react-map-gl";
+import { Button } from "@mui/material";
+import { Room } from "@material-ui/icons";
 
 // style
 const useStyle = makeStyles((theme) => ({
@@ -34,6 +38,15 @@ const useStyle = makeStyles((theme) => ({
 
 // form
 function CreateForm() {
+  const [lantitudeState, setLantitudeState] = useState("");
+  const [longitudeState, setLongitudeState] = useState("");
+  const [openMap, setOpenMap] = useState(false);
+
+  const handleLandLongSetting = (land, long) => {
+    setLantitudeState(land);
+    setLongitudeState(long);
+  };
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [number, setNumber] = useState();
@@ -45,23 +58,22 @@ function CreateForm() {
   const classes = useStyle();
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
-
   const submitForm = (e) => {
+    const lantitude = lantitudeState.toString();
+    const longitude = longitudeState.toString();
     e.preventDefault();
-    console.log(name, email, number, location, password);
-
+    console.log(name, email, number, location, password, lantitude, longitude);
     try {
       axios
-        .post("/user_register", { name, email, number, location, password })
+        .post("/user_register", {
+          name,
+          email,
+          number,
+          location,
+          password,
+          lantitude,
+          longitude,
+        })
         .then((response) => {
           console.log("then");
           console.log(response.status);
@@ -81,9 +93,7 @@ function CreateForm() {
           console.log(err);
           console.log(err.response?.status);
         });
-    } catch (error) {
-      // console.log(error.status);
-    }
+    } catch (error) {}
   };
 
   return (
@@ -102,12 +112,7 @@ function CreateForm() {
             alignItems: "center",
           }}
         >
-          <Box
-            component="form"
-            // onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
+          <Box component="form" noValidate sx={{ mt: 1 }}>
             <div className={classes.headingDiv}>
               <Typography
                 className={classes.mainHeding}
@@ -173,12 +178,11 @@ function CreateForm() {
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
             />
-
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
-
+            <MapModal
+              handleLandLongSetting={handleLandLongSetting}
+              lantitudeState={lantitudeState}
+              longitudeState={longitudeState}
+            />
             <Box marginTop={3}>
               <button
                 className="submitbutton"

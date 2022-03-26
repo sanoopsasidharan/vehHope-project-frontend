@@ -2,6 +2,8 @@ import { Container, Grid } from "@material-ui/core";
 import axios from "../../axios";
 import React, { useEffect, useState } from "react";
 import Cards from "../cards/Cards";
+import "./HomeContants.css";
+import ServiceCard from "../serviceCards/ServiceCard";
 
 function HomeContants() {
   const [mostTopShops, setMostTopShops] = useState();
@@ -24,7 +26,7 @@ function HomeContants() {
   const navigateTo = "/shopDetails";
   return (
     <div>
-      <Grid>
+      {/* <Grid>
         <Grid item sm={12}>
           <img
             style={{ width: "100%" }}
@@ -32,8 +34,54 @@ function HomeContants() {
             alt=""
           />
         </Grid>
-      </Grid>
-      <Cards navigateTo={navigateTo} mostTopShops={mostTopShops} />
+      </Grid> */}
+      <div className="homePage_Banner_div">
+        <img
+          className="homePage_Banner_Image"
+          src="https://res.cloudinary.com/dvz2vfssk/image/upload/v1648096459/banner/k42mcPb-yamaha-r1-wallpapers_1_2_x8j68r.jpg"
+          alt=""
+        />
+        <div className="homePage_Banner_Image_HeadTag">
+          <h1>Find your best choice</h1>
+          <a href="#mostratingCards">
+            <button className="homePage_Banner_Image_HeadTagButton">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span> Show more
+            </button>
+          </a>
+        </div>
+      </div>
+      <div className="serviceCardsSession">
+        <div className="serviceCardsDiv">
+          <ServiceCard />
+        </div>
+      </div>
+      <div id="mostratingCards">
+        <div className="mostratingCardsHeadDiv">
+          <h1>most rating shops</h1>
+        </div>
+        <Cards navigateTo={navigateTo} mostTopShops={mostTopShops} />
+      </div>
+      <div className="homePage_Banner_div">
+        <img
+          className="homePage_Banner_Image"
+          src="https://res.cloudinary.com/dvz2vfssk/image/upload/v1648096459/banner/k42mcPb-yamaha-r1-wallpapers_1_2_x8j68r.jpg"
+          alt=""
+        />
+        <div className="homePage_Banner_Image_HeadTag">
+          <h1>Find your best choice</h1>
+          <a href="#mostratingCards">
+            <button className="homePage_Banner_Image_HeadTagButton">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span> Show more
+            </button>
+          </a>
+        </div>
+      </div>
     </div>
   );
 }

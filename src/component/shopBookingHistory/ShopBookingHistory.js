@@ -12,10 +12,12 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdMessage } from "react-icons/md";
 import SortingModal from "../modal/SortingModal";
-import ChangeingBKStatus from "../modal/ChangeingBKStatus";
+import axios from "../../axios";
+import ViewBookingHistory from "../modal/ViewBookingHistory";
+import Moment from "moment";
 
 const useStyle = makeStyles((theme) => ({
   mainBox: {
@@ -35,8 +37,6 @@ const useStyle = makeStyles((theme) => ({
     alignItems: "center",
     backgroundColor: "#68747A",
     padding: "10px 30px 10px 30px",
-    // position: "sticky",
-    // width: "100%",
   },
   sortingModal: {},
   whiteButton: {
@@ -44,52 +44,35 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", "12/4/20", 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-const bookingDetails = [
-  {
-    shopName: "kannan",
-    date: "2/4/20",
-    status: "canceled",
-  },
-  {
-    shopName: "ammu",
-    date: "10/4/20",
-    status: "rejected",
-  },
-  {
-    shopName: "achu",
-    date: "1/4/20",
-    status: "pending",
-  },
-  {
-    shopName: "praveen",
-    date: "12/4/20",
-    status: "complete",
-  },
-];
-
 function ShopBookingHistory() {
   const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [shopHistory, setShopHistory] = useState([]);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
-    // alert(anchorEl);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const gettingBookings = () => {
+    axios
+      .post("/shop/bookingHistory")
+      .then((result) => {
+        console.log(result);
+        if (result.data) setShopHistory(result.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("just refresh your tab");
+      });
+  };
+
+  useEffect(() => {
+    gettingBookings();
+  }, []);
   const classes = useStyle();
   return (
     <Box className={classes.mainBox} padding={3}>
@@ -144,39 +127,41 @@ function ShopBookingHistory() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {bookingDetails.map((item) => (
-              <TableRow
-                key={item.shopName}
-                sx={{
-                  "&:last-child td, &:last-child th": {
-                    border: 0,
-                    padding: 40,
-                  },
-                }}
-              >
-                <TableCell
-                  className={classes.tableCellHead}
-                  component="th"
-                  scope="row"
+            {shopHistory &&
+              shopHistory.map((item, index) => (
+                <TableRow
+                  key={index}
+                  sx={{
+                    "&:last-child td, &:last-child th": {
+                      border: 0,
+                      padding: 40,
+                    },
+                  }}
                 >
-                  {item.shopName}
-                </TableCell>
-                <TableCell className={classes.tableCellHead} align="right">
-                  {item.date}
-                </TableCell>
-                <TableCell className={classes.tableCellHead} align="right">
-                  {item.status}
-                </TableCell>
-                <TableCell className={classes.tableCellHead} align="right">
-                  <MdMessage />
-                </TableCell>
+                  <TableCell
+                    className={classes.tableCellHead}
+                    component="th"
+                    scope="row"
+                  >
+                    {item.name}
+                  </TableCell>
+                  <TableCell className={classes.tableCellHead} align="right">
+                    {Moment(item.date).format("DD:MM:YYYY")}
+                  </TableCell>
+                  <TableCell className={classes.tableCellHead} align="right">
+                    {item.status}
+                  </TableCell>
+                  <TableCell className={classes.tableCellHead} align="right">
+                    <MdMessage />
+                  </TableCell>
 
-                <TableCell className={classes.tableCellHead} align="right">
-                  {/* <HistoryModal /> */}
-                  {/* <ChangeingBKStatus /> */}
-                </TableCell>
-              </TableRow>
-            ))}
+                  <TableCell className={classes.tableCellHead} align="right">
+                    {/* <HistoryModal /> */}
+                    {/* <ChangeingBKStatus /> */}
+                    <ViewBookingHistory item={item} />
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

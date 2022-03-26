@@ -10,6 +10,7 @@ import {
 import React, { useState } from "react";
 import "./CreateShop.css";
 import axios from "../axios";
+import ServiceModal from "../component/modal/ServiceModal";
 
 const useStyle = makeStyles((theme) => ({
   itemGrid: {
@@ -75,6 +76,11 @@ function CreateShop() {
   const [description, setDescription] = useState("");
   const [password, setPassword] = useState("");
   const [previewSource, setPreviewSource] = useState("");
+  const [ShopService, setShopService] = useState();
+
+  const addservice = (service) => {
+    setShopService();
+  };
 
   const handileFileInput = (e) => {
     const file = e.target.files[0];
@@ -86,6 +92,10 @@ function CreateShop() {
     reader.onloadend = () => {
       setPreviewSource(reader.result);
     };
+  };
+
+  const addService = (event) => {
+    event.preventDefault();
   };
   const handileSubmit = async (e) => {
     e.preventDefault();
@@ -223,6 +233,9 @@ function CreateShop() {
           </Box>
         </Box>
       </form>
+      <div>
+        <ServiceModal addservice={addservice} />
+      </div>
     </Container>
   );
 }

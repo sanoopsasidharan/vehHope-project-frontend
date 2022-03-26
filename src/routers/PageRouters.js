@@ -60,10 +60,7 @@ function PageRouters() {
           path="/userProfile"
           element={userlogged ? <UserProfile /> : <Navigate to="/login" />}
         />
-        <Route
-          path="/sample"
-          element={userlogged ? <Sample /> : <Navigate to="/login" />}
-        />
+        <Route path="/sample" element={<Sample />} />
 
         {/* shop routes */}
 

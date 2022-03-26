@@ -75,7 +75,7 @@ function ShopNavBar() {
                 indicatorColor="secondary"
                 onChange={(e, value) => setValue(value)}
               >
-                <Link className={classes.allLinks} to="/">
+                <Link className={classes.allLinks} to="/shop">
                   <Tab label="Home" />
                 </Link>
                 <Link className={classes.allLinks} to="/">
