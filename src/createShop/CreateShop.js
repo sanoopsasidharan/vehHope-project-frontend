@@ -11,6 +11,7 @@ import React, { useState } from "react";
 import "./CreateShop.css";
 import axios from "../axios";
 import ServiceModal from "../component/modal/ServiceModal";
+import MapModal from "../component/modal/MapModal";
 
 const useStyle = makeStyles((theme) => ({
   itemGrid: {
@@ -78,8 +79,16 @@ function CreateShop() {
   const [previewSource, setPreviewSource] = useState("");
   const [ShopService, setShopService] = useState();
 
+  const [lantitudeState, setLantitudeState] = useState("");
+  const [longitudeState, setLongitudeState] = useState("");
+
+  const handleLandLongSetting = (land, long) => {
+    setLantitudeState(land);
+    setLongitudeState(long);
+  };
+
   const addservice = (service) => {
-    setShopService();
+    setShopService(service);
   };
 
   const handileFileInput = (e) => {
@@ -99,6 +108,8 @@ function CreateShop() {
   };
   const handileSubmit = async (e) => {
     e.preventDefault();
+    const lantitude = lantitudeState.toString();
+    const longitude = longitudeState.toString();
     console.log(previewSource);
     console.log(shopName, shopType, email, number, location, state);
     const result = await axios.post("/create_shop", {
@@ -111,6 +122,9 @@ function CreateShop() {
       password,
       description,
       image: previewSource,
+      lantitude,
+      longitude,
+      ShopService,
     });
   };
   return (
@@ -235,6 +249,13 @@ function CreateShop() {
       </form>
       <div>
         <ServiceModal addservice={addservice} />
+      </div>
+      <div>
+        <MapModal
+          handleLandLongSetting={handleLandLongSetting}
+          lantitudeState={lantitudeState}
+          longitudeState={longitudeState}
+        />
       </div>
     </Container>
   );

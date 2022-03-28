@@ -20,13 +20,15 @@ function UserProfile() {
   const classes = useStyle();
 
   const [user, setUser] = useState();
+  const [isImage, setisImage] = useState(false);
 
   const gettingUserData = () => {
     axios
       .post("/userProfile")
-      .then((result) => {
+      .then(async (result) => {
         console.log(result);
-        setUser((user) => result);
+        await setUser((user) => result.data);
+        if (!result.data.image === "fales") await setisImage((isImage) => true);
       })
       .catch((error) => {
         console.log(error);
@@ -43,7 +45,11 @@ function UserProfile() {
     <>
       <NavigationBar />
       <div className={classes.mainGrid}>
-        <UserDetails user={user} />
+        <UserDetails
+          user={user}
+          isImage={isImage}
+          gettingUserData={gettingUserData}
+        />
       </div>
     </>
   );

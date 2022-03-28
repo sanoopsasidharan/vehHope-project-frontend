@@ -44,7 +44,10 @@ function MapModal({ handleLandLongSetting, lantitudeState, longitudeState }) {
   }
 
   const handleGettingPossition = (e) => {
-    console.log(e);
+    console.log(e.lngLat.lat);
+    console.log(e.lngLat.lng);
+    handleLandLongSetting(e.lngLat.lat, e.lngLat.lng);
+    alert("set new location");
   };
 
   function successLocation(position) {
@@ -80,7 +83,8 @@ function MapModal({ handleLandLongSetting, lantitudeState, longitudeState }) {
                 <ReactMapGl
                   mapboxAccessToken="pk.eyJ1Ijoic2Fub29wc2FzaWRoYXJhbiIsImEiOiJjbDE0d2x4a24wZXBqM2VrYW84Z3p4dWN6In0.lhN0s-umAY4Q2kfSU-wRGA"
                   {...viewPort}
-                  onViewportChange={(newView) => setViewPort(newView)}
+                  // onViewportChange={(newView) => setViewPort(newView)}
+                  onClick={handleGettingPossition}
                   style={{ width: 600, height: 400 }}
                   onMove={(evt) => setViewPort(evt.viewPort)}
                   mapStyle="mapbox://styles/mapbox/streets-v9"

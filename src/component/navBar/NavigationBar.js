@@ -17,7 +17,7 @@ import { Link, useNavigate } from "react-router-dom";
 import BookingModal from "./BookingModal";
 import DrawerCom from "./DrawerCom";
 import AuthContext from "../../store/AuthContextProvider";
-import Context from "@mui/base/TabsUnstyled/TabsContext";
+import { useCookies } from "react-cookie";
 const useStyle = makeStyles((theme) => ({
   mainHead: {
     margin: "15px",
@@ -61,6 +61,7 @@ function NavigationBar() {
     useContext(AuthContext);
   const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [cookies, setCookie, removeCookie] = useCookies(["userTocken"]);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -77,6 +78,11 @@ function NavigationBar() {
   console.log(theme);
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
   console.log(isMatch);
+  const handleLogOut = async () => {
+    await removeCookie("userTocken");
+    getUserLogged();
+    navigate("/");
+  };
 
   return (
     <div>
@@ -156,7 +162,7 @@ function NavigationBar() {
                           <p className={classes.leftPtag}>Create Shop</p>
                         </Link>
                       </MenuItem>
-                      <MenuItem onClick={handleClose}>Log Out</MenuItem>
+                      <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
                     </Menu>
                   </div>
                 ) : (
