@@ -48,6 +48,7 @@ function MapModal({ handleLandLongSetting, lantitudeState, longitudeState }) {
     console.log(e.lngLat.lng);
     handleLandLongSetting(e.lngLat.lat, e.lngLat.lng);
     alert("set new location");
+    setOpenMap(false);
   };
 
   function successLocation(position) {

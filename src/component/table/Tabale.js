@@ -135,17 +135,17 @@ function Tabale() {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={() => findingDate("complete")}>
-              complete
+            <MenuItem onClick={() => findingDate("compelet")}>
+              Compelet
             </MenuItem>
             <MenuItem onClick={() => findingDate("rejected")}>
-              rejected
+              Rejected
             </MenuItem>
             <MenuItem onClick={() => findingDate("approved")}>
-              approved
+              Approved
             </MenuItem>
-            <MenuItem onClick={() => findingDate("cancel")}>cancel</MenuItem>
-            <MenuItem onClick={() => findingDate("pending")}>pending</MenuItem>
+            <MenuItem onClick={() => findingDate("cancel")}>Cancel</MenuItem>
+            <MenuItem onClick={() => findingDate("pending")}>Pending</MenuItem>
           </Menu>
         </div>
       </Box>

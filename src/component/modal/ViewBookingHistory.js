@@ -5,6 +5,7 @@ import { ImCancelCircle } from "react-icons/im";
 import "./HistoryModal.css";
 import Moment from "moment";
 import StatusModal from "./StatusModal";
+import AfterServiceAddDetails from "./AfterServiceAddDetails";
 
 const style = {
   position: "absolute",
@@ -46,6 +47,7 @@ const useStyle = makeStyles((theme) => ({
   closingButton: {
     position: "absolute",
     right: "2%",
+    top: "3.5%",
   },
   headTag: {
     color: "#000000bf",
@@ -62,6 +64,13 @@ const useStyle = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
   },
+  hrTag: {
+    border: ".5px solid #0003",
+    width: "70%",
+  },
+  mainDivHeadingTag: {
+    margin: "22px 0px 8px 0px",
+  },
 }));
 
 function ViewBookingHistory({ item, gettingBookings }) {
@@ -72,16 +81,16 @@ function ViewBookingHistory({ item, gettingBookings }) {
   const handleOpen = () => {
     setOpen(true);
   };
-  const handleClose = () => {
+  const handleClose1 = () => {
     setOpen(false);
   };
   const BookingCancel = () => {
     axios
       .post("/CancelBooking", { bookingId: item._id })
-      .then((res) => {
+      .then(async (res) => {
         console.log(res);
         if (res.data) {
-          gettingBookings();
+          await gettingBookings();
           setOpen(false);
         }
       })
@@ -102,22 +111,22 @@ function ViewBookingHistory({ item, gettingBookings }) {
       <Modal
         className={classes.mainModal}
         open={open}
-        onClose={handleClose}
+        onClose={handleClose1}
         aria-labelledby="parent-modal-title"
         aria-describedby="parent-modal-description"
       >
         <Box className={classes.mainBox} sx={{ ...style }}>
           <ImCancelCircle
             className={classes.closingButton}
-            onClick={handleClose}
+            onClick={handleClose1}
           />
-          {/* <h2 className={classes.mainHeading} id="parent-modal-title">
-            Booking details
-          </h2> */}
           <Grid container>
             <Grid item xs={12} md={6}>
               <div className={classes.mainDivHeading}>
-                <h4>details</h4>
+                <h4 className={classes.mainDivHeadingTag}>Details</h4>
+              </div>
+              <div>
+                <hr className={classes.hrTag} />
               </div>
               <div className={classes.mainContentDiv}>
                 <div className={classes.gridTagsAline}>
@@ -131,7 +140,7 @@ function ViewBookingHistory({ item, gettingBookings }) {
                   </div>
                   <div className={classes.leftSideDiv}>
                     <p className={classes.headTag}>location :</p>
-                    <p>&ensp;{item.location}</p>
+                    {/* <p>&ensp;{item.location}</p> */}
                   </div>
                   <div className={classes.leftSideDiv}>
                     <p className={classes.headTag}>complaint :</p>
@@ -155,7 +164,10 @@ function ViewBookingHistory({ item, gettingBookings }) {
             </Grid>
             <Grid className={classes.gridTagsAline} item xs={12} md={6}>
               <div className={classes.mainDivHeading}>
-                <h4>shop details</h4>
+                <h4 className={classes.mainDivHeadingTag}>Shop Details</h4>
+              </div>
+              <div>
+                <hr className={classes.hrTag} />
               </div>
 
               <div className={classes.mainContentDiv}>
@@ -175,7 +187,7 @@ function ViewBookingHistory({ item, gettingBookings }) {
 
                   <div className={classes.leftSideDiv}>
                     <p className={classes.headTag}>Location :</p>
-                    <p>&ensp;{item.shop.location}</p>
+                    {/* <p>&ensp;{item.shop.location}</p> */}
                   </div>
                   <div className={classes.leftSideDiv}>
                     <p className={classes.headTag}>status :</p>
@@ -186,7 +198,26 @@ function ViewBookingHistory({ item, gettingBookings }) {
             </Grid>
           </Grid>
           <div className={classes.StatusModalComponent}>
-            <StatusModal sx={{ backgroundColor: "green" }} item={item} />
+            {item.status === "compelet" ? (
+              <AfterServiceAddDetails
+                handleClose1={handleClose1}
+                id={item._id}
+              />
+            ) : (
+              <StatusModal
+                sx={{ backgroundColor: "green" }}
+                handleClose1={handleClose1}
+                gettingBookings={gettingBookings}
+                item={item}
+              />
+            )}
+            {/* {item.status === "cancel" ? <p></p> : <Button>cancel</Button>} */}
+            {/* <StatusModal
+              sx={{ backgroundColor: "green" }}
+              handleClose1={handleClose1}
+              gettingBookings={gettingBookings}
+              item={item}
+            /> */}
           </div>
         </Box>
       </Modal>

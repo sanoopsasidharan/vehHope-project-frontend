@@ -18,7 +18,7 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function ShopImage({ shopData }) {
+function ShopImage({ shopData, shop }) {
   const { settingShopId } = useContext(GlobalContext);
   const classes = useStyle();
   const navigate = useNavigate();
@@ -34,12 +34,16 @@ function ShopImage({ shopData }) {
       <div className={classes.divs}>
         <img className={classes.shopImage} src={`${shopData?.image}`} />
       </div>
-      <div className="shopDetailsButtons">
-        <button className="UserBookingBTN"> Contact</button>
-        <button onClick={navigatingBooking} className="UserBookingBTN">
-          Booking
-        </button>
-      </div>
+      {shop ? (
+        <div className="shopDetailsButtons">
+          <button className="UserBookingBTN"> Contact</button>
+          <button onClick={navigatingBooking} className="UserBookingBTN">
+            Booking
+          </button>
+        </div>
+      ) : (
+        <div></div>
+      )}
     </>
   );
 }

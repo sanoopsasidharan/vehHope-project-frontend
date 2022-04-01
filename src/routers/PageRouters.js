@@ -17,6 +17,7 @@ import axios from "../axios";
 import Sample from "../pages/user/Sample";
 import ShopHomePage from "../pages/workShop/ShopHomePage";
 import ShopDetailsPage from "../pages/user/ShopDetailsPage";
+import AdminHome from "../pages/admin/AdminHome";
 axios.defaults.withCredentials = true;
 
 function PageRouters() {
@@ -39,7 +40,23 @@ function PageRouters() {
         <Route path="/shops" element={<AllShops />} />
         <Route
           path="/shopDetails"
-          element={userlogged ? <ShopDetailsPage /> : <Navigate to="/login" />}
+          element={
+            userlogged ? (
+              <ShopDetailsPage shop={true} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
+          path="/shopDetailsShop"
+          element={
+            userlogged ? (
+              <ShopDetailsPage shop={false} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
         />
 
         <Route
@@ -81,6 +98,9 @@ function PageRouters() {
           element={<ShopBKHistoryPage />}
         />
         <Route exact path="/shopProfile" element={<ShopProfilePage />} />
+
+        {/* admin */}
+        <Route exact path="/admin/home" element={<AdminHome />} />
       </Routes>
     </BrowserRouter>
   );

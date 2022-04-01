@@ -12,7 +12,7 @@ function ShopPost({ mostTopShops }) {
   return (
     <div>
       {mostTopShops?.map((item, index) => (
-        <Card onClick={show} sx={{ maxWidth: 345 }}>
+        <Card key={index} onClick={show} sx={{ maxWidth: 345 }}>
           <CardActionArea>
             <CardMedia
               component="img"

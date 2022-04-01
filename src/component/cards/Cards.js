@@ -16,6 +16,7 @@ import GlobalContext from "../../store/GlobalContextProvider";
 function Cards({ navigateTo, mostTopShops }) {
   const { shopId, settingShopId } = useContext(GlobalContext);
   const navigate = useNavigate();
+  console.log(mostTopShops);
   const handleNavigate = async (Id) => {
     await settingShopId(Id);
     navigate(navigateTo);
@@ -25,7 +26,7 @@ function Cards({ navigateTo, mostTopShops }) {
       <Container className="CardComponentContainer">
         <Grid container spacing={4}>
           {mostTopShops?.map((item, index) => (
-            <Grid item xs={12} md={4}>
+            <Grid key={index} item xs={12} md={4}>
               <div
                 onClick={() => handleNavigate(item._id)}
                 className="cardComponentDiv"
@@ -36,33 +37,14 @@ function Cards({ navigateTo, mostTopShops }) {
                 <div className="cardComponentsubtextDiv">
                   <h3>
                     <span>Shop:&nbsp;</span>
-                    {item.shopName}
+                    {item?.shopName}
                   </h3>
                   <h3>
                     <span>Place:&nbsp;</span>
-                    {item.location}
+                    {/* {item?.location} */}
                   </h3>
                 </div>
               </div>
-              {/* <Card
-                onClick={() => handleNavigate(item._id)}
-                sx={{ maxWidth: 345 }}
-              >
-                <CardActionArea>
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={`${item.image}`}
-                    alt="green iguana"
-                  />
-                  <CardContent>
-                    <div className="shopPostDetails">
-                      <h3>{item.shopName}</h3>
-                      <h3>{item.location}</h3>
-                    </div>
-                  </CardContent>
-                </CardActionArea>
-              </Card> */}
             </Grid>
           ))}
         </Grid>

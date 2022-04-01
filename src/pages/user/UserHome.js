@@ -5,12 +5,13 @@ import AuthContext from "../../store/AuthContextProvider";
 import axios from "../../axios";
 function UserHome() {
   const { userDetails } = useContext(AuthContext);
+  const navigateTo = "/shopDetails";
 
   return (
     <>
       {/* <NavBar/> */}
       <NavigationBar />
-      <HomeContants />
+      <HomeContants navigateTo={navigateTo} />
     </>
   );
 }

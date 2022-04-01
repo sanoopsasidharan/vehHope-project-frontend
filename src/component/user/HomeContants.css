@@ -137,3 +137,8 @@
 .mostratingCardsHeadDiv h1 {
   color: rgba(0, 0, 0, 0.719);
 }
+.homePage_Banner_second_Image {
+  width: 100%;
+  height: 600px;
+  object-fit: cover;
+}

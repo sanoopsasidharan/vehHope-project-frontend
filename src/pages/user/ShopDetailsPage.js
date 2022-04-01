@@ -6,6 +6,7 @@ import ShopImage from "../../component/shopDetails/ShopImage";
 import ShopMainDetails from "../../component/shopDetails/ShopMainDetails";
 import GlobalContext from "../../store/GlobalContextProvider";
 import { useNavigate } from "react-router-dom";
+import NavBar from "../../component/ShopComponet/NavigationBar/NavBar";
 const useStyle = makeStyles((theme) => ({
   mainContinarDiv: {
     padding: "110Px 10px 0px 50px",
@@ -22,7 +23,7 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function ShopDetailsPage() {
+function ShopDetailsPage({ shop }) {
   const { shopId } = useContext(GlobalContext);
   const [shopData, setShopData] = useState();
   const classes = useStyle();
@@ -47,12 +48,14 @@ function ShopDetailsPage() {
 
   return (
     <>
-      <NavigationBar />
+      {/* <NavigationBar /> */}
+      {shop ? <NavigationBar /> : <NavBar />}
+
       <div className={classes.mainContinarDiv}>
         <Grid container>
           <Grid className={classes.mainBody} item xs={12} container>
             <Grid className={classes.SubContainerDiv} item xs={12} md={6}>
-              <ShopImage shopData={shopData} />
+              <ShopImage shop={shop} shopData={shopData} />
             </Grid>
             <Grid className={classes.SubContainerDiv} item xs={12} md={6}>
               <ShopMainDetails shopData={shopData} />

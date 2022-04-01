@@ -156,9 +156,10 @@ function ShopBookingHistory() {
                   </TableCell>
 
                   <TableCell className={classes.tableCellHead} align="right">
-                    {/* <HistoryModal /> */}
-                    {/* <ChangeingBKStatus /> */}
-                    <ViewBookingHistory item={item} />
+                    <ViewBookingHistory
+                      gettingBookings={gettingBookings}
+                      item={item}
+                    />
                   </TableCell>
                 </TableRow>
               ))}

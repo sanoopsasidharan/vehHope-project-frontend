@@ -50,6 +50,8 @@ const useStyle = makeStyles((theme) => ({
   nav_booking_modal_button: {
     display: "flex",
     alignItems: "center",
+    padding: "0px 15px 2px 15px",
+    cursor: "pointer",
   },
   sample: {
     color: "red",

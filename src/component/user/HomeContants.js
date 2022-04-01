@@ -5,12 +5,12 @@ import Cards from "../cards/Cards";
 import "./HomeContants.css";
 import ServiceCard from "../serviceCards/ServiceCard";
 
-function HomeContants() {
+function HomeContants({ navigateTo }) {
   const [mostTopShops, setMostTopShops] = useState();
 
   const TopShops = () => {
     axios
-      .post("/shop/topShops")
+      .post("/find_allShops")
       .then((res) => {
         console.log(res);
         if (res.data) setMostTopShops(res.data);
@@ -23,7 +23,7 @@ function HomeContants() {
   useEffect(() => {
     TopShops();
   }, []);
-  const navigateTo = "/shopDetails";
+
   return (
     <div>
       {/* <Grid>
@@ -53,21 +53,21 @@ function HomeContants() {
           </a>
         </div>
       </div>
-      <div className="serviceCardsSession">
+      {/* <div className="serviceCardsSession">
         <div className="serviceCardsDiv">
           <ServiceCard />
         </div>
-      </div>
+      </div> */}
       <div id="mostratingCards">
         <div className="mostratingCardsHeadDiv">
-          <h1>most rating shops</h1>
+          <h1> SHOPS</h1>
         </div>
         <Cards navigateTo={navigateTo} mostTopShops={mostTopShops} />
       </div>
       <div className="homePage_Banner_div">
         <img
-          className="homePage_Banner_Image"
-          src="https://res.cloudinary.com/dvz2vfssk/image/upload/v1648096459/banner/k42mcPb-yamaha-r1-wallpapers_1_2_x8j68r.jpg"
+          className="homePage_Banner_second_Image"
+          src="https://res.cloudinary.com/dvz2vfssk/image/upload/v1648524192/banner/stock-vector-auto-repair-shop-vector-illustration-558236899_1_1_a46kpa.jpg"
           alt=""
         />
         <div className="homePage_Banner_Image_HeadTag">

@@ -38,7 +38,10 @@ function ShopProfilePage() {
     <>
       <NavBar />
       <div className={classes.Container}>
-        <ShopProfile shopDetails={shopDetails} />
+        <ShopProfile
+          shopDetails={shopDetails}
+          gettingShopDetials={gettingShopDetials}
+        />
       </div>
     </>
   );

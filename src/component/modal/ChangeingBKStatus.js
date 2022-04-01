@@ -4,6 +4,11 @@ import React, { useEffect, useState } from "react";
 import { ImCancelCircle } from "react-icons/im";
 import "./HistoryModal.css";
 import Moment from "moment";
+import Message from "./Message";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import AfterServiceDetailsModal from "./AfterServiceDetailsModal";
+import RateingModal from "./RateingModal";
 
 const style = {
   position: "absolute",
@@ -16,6 +21,7 @@ const style = {
   pt: 1,
   px: 1,
   pb: 2,
+  // overflow: "scroll",
 };
 
 const useStyle = makeStyles((theme) => ({
@@ -34,6 +40,7 @@ const useStyle = makeStyles((theme) => ({
       backgroundColor: "black",
     },
     marginLeft: "auto",
+    marginRight: "7px",
   },
   gridTagsAline: {
     width: "70%",
@@ -50,6 +57,7 @@ const useStyle = makeStyles((theme) => ({
   closingButton: {
     position: "absolute",
     right: "2%",
+    top: "3.5%",
   },
   headTag: {
     color: "#000000bf",
@@ -66,35 +74,76 @@ const useStyle = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
   },
+  mainDivHeadingTag: {
+    margin: "22px 0px 8px 0px",
+  },
+  hrTag: {
+    border: ".5px solid #0003",
+    width: "70%",
+  },
+  RateingModalButton: {
+    // display: "flex",
+  },
 }));
 
 function ChangeingBKStatus({ item, setChangeingState, handleHistory }) {
   const [open, setOpen] = React.useState(false);
   const [booingData, setBooingData] = useState();
   const classes = useStyle();
-
   const handleOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
+  const successMessage = () => {
+    toast.success("order cancelled", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
   const BookingCancel = () => {
     axios
       .post("/CancelBooking", { bookingId: item._id })
-      .then((res) => {
+      .then(async (res) => {
+        await successMessage();
         setChangeingState(true);
         console.log(res);
         if (res.data) {
           handleHistory();
-          setOpen(false);
+          setTimeout(handleClose, 3500);
         }
       })
       .catch((err) => {
         console.log(err);
+        toast.error("order cancelled", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       });
   };
 
+  const sample = () => {
+    toast.success("order cancelled", {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
   return (
     <div>
       <Button
@@ -116,13 +165,13 @@ function ChangeingBKStatus({ item, setChangeingState, handleHistory }) {
             className={classes.closingButton}
             onClick={handleClose}
           />
-          {/* <h2 className={classes.mainHeading} id="parent-modal-title">
-            Booking details
-          </h2> */}
           <Grid container>
             <Grid item xs={12} md={6}>
               <div className={classes.mainDivHeading}>
-                <h4>details</h4>
+                <h4 className={classes.mainDivHeadingTag}>Details</h4>
+              </div>
+              <div>
+                <hr className={classes.hrTag} />
               </div>
               <div className={classes.mainContentDiv}>
                 <div className={classes.gridTagsAline}>
@@ -160,7 +209,10 @@ function ChangeingBKStatus({ item, setChangeingState, handleHistory }) {
             </Grid>
             <Grid className={classes.gridTagsAline} item xs={12} md={6}>
               <div className={classes.mainDivHeading}>
-                <h4>shop details</h4>
+                <h4 className={classes.mainDivHeadingTag}>Shop Details</h4>
+              </div>
+              <div>
+                <hr className={classes.hrTag} />
               </div>
 
               <div className={classes.mainContentDiv}>
@@ -180,7 +232,7 @@ function ChangeingBKStatus({ item, setChangeingState, handleHistory }) {
 
                   <div className={classes.leftSideDiv}>
                     <p className={classes.headTag}>Location :</p>
-                    <p>&ensp;{item.shop.location}</p>
+                    {/* <p>&ensp;{item.shop.location}</p> */}
                   </div>
                   <div className={classes.leftSideDiv}>
                     <p className={classes.headTag}>status :</p>
@@ -190,9 +242,22 @@ function ChangeingBKStatus({ item, setChangeingState, handleHistory }) {
               </div>
             </Grid>
           </Grid>
+          {item.servieNote.nextServiceKm && (
+            <div className={classes.AfterServiceDetailsModalButton}>
+              <AfterServiceDetailsModal item={item} />
+            </div>
+          )}
 
-          {item.status === "cancel" ? (
-            <p></p>
+          {item.status === "compelet" ? (
+            <div className={classes.RateingModalButton}>
+              <RateingModal />
+            </div>
+          ) : (
+            <></>
+          )}
+
+          {item.status === "cancel" || item.status === "compelet" ? (
+            <></>
           ) : (
             <Button
               className={classes.cancelButton}
@@ -202,6 +267,17 @@ function ChangeingBKStatus({ item, setChangeingState, handleHistory }) {
               cancel
             </Button>
           )}
+          <ToastContainer
+            position="top-center"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
         </Box>
       </Modal>
     </div>

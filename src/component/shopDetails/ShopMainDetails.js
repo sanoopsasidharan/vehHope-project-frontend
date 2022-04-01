@@ -58,9 +58,9 @@ function ShopMainDetails({ shopData }) {
                     number :&ensp; <span>{shopData?.number}</span>
                   </h3>
 
-                  <h3>
+                  {/* <h3>
                     location :&ensp; <span>{shopData?.location}</span>
-                  </h3>
+                  </h3> */}
 
                   <h3>
                     state :&ensp; <span>{shopData?.state}</span>

@@ -43,20 +43,21 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function StatusModal({ item }) {
+function StatusModal({ item, gettingBookings, handleClose1 }) {
   const classes = useStyle();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const findingDate = (value) => {
-    alert(value);
+    // alert(value);
     axios
       .post("/shop/ChangeBookingStatus", { status: value, bookingId: item._id })
-      .then((result) => {
+      .then(async (result) => {
         console.log(result.data.acknowledged);
-        if(result.data.acknowledged){
-            
+        if (result.data.acknowledged) {
+          await gettingBookings();
+          handleClose1();
         }
       })
       .catch((err) => {
@@ -103,9 +104,9 @@ function StatusModal({ item }) {
               <Button
                 className={classes.buttonCompelete}
                 variant="contained"
-                onClick={() => findingDate("compelete")}
+                onClick={() => findingDate("compelet")}
               >
-                compelete
+                compelet
               </Button>
             </div>
             <div className={classes.buttonDiv}>
