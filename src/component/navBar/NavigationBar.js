@@ -64,6 +64,7 @@ function NavigationBar() {
   const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const [cookies, setCookie, removeCookie] = useCookies(["userTocken"]);
+  // const [cookies, setCookie] = useCookies();
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -81,9 +82,14 @@ function NavigationBar() {
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
   console.log(isMatch);
   const handleLogOut = async () => {
-    await removeCookie("userTocken");
-    getUserLogged();
-    navigate("/");
+    // localStorage.removeItem("shopTocken");
+    const cooke = await cookies.userTocken;
+    console.log(cooke);
+
+    removeCookie(`shopTocken`);
+    // cookies.remove("userTocken", { path: "/" });
+    // getUserLogged();
+    // navigate("/");
   };
 
   return (
@@ -165,6 +171,7 @@ function NavigationBar() {
                         </Link>
                       </MenuItem>
                       <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
+                      {cookies.shopTocken && <p>{cookies.shopTocken}</p>}
                     </Menu>
                   </div>
                 ) : (

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import "mapbox-gl/dist/mapbox-gl.css";
 import ReactMapGl, {
   FullscreenControl,
   GeolocateControl,
   Marker,
+  NavigationControl,
 } from "react-map-gl";
 import "./MapModal.css";
 
@@ -32,7 +33,7 @@ function MapModal({ handleLandLongSetting, lantitudeState, longitudeState }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     gettingLocation();
-    alert("getting user data");
+    // alert("getting user data");
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
@@ -90,7 +91,11 @@ function MapModal({ handleLandLongSetting, lantitudeState, longitudeState }) {
                   onMove={(evt) => setViewPort(evt.viewPort)}
                   mapStyle="mapbox://styles/mapbox/streets-v9"
                 >
-                  <GeolocateControl />
+                  <GeolocateControl trackUserLocation></GeolocateControl>
+                  <NavigationControl />
+                  {/* <Marker longitude={longitudeState} latitude={lantitudeState}>
+                    <p>location</p>
+                  </Marker> */}
                 </ReactMapGl>
               </div>
             </div>

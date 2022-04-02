@@ -9,6 +9,7 @@ import {
 import axios from "../../axios";
 
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const useStyle = makeStyles((theme) => ({
   mainBox: {
@@ -40,6 +41,8 @@ function BookingForm({ ShopData }) {
   const [location, setLocation] = useState("");
   const [landmark, setLandmark] = useState("");
 
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
@@ -58,9 +61,14 @@ function BookingForm({ ShopData }) {
         shopId: ShopData._id,
       })
       .then((result) => {
+        if (result.data) {
+          alert("service booked");
+          navigate("/");
+        }
         console.log(result);
       })
       .catch((err) => {
+        alert("somthing error");
         console.log(err);
       });
   };

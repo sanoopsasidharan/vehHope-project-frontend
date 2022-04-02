@@ -65,6 +65,22 @@ const useStyle = makeStyles((theme) => ({
     backgroundColor: "#00c300",
     color: "white",
   },
+  findShopBtn: {
+    fontSize: "15px",
+    width: "100%",
+    padding: "8px",
+    border: "0",
+    color: "white",
+    backgroundColor: "black",
+    borderRadius: "9px",
+    margin: "10px 0px 9px 0px",
+  },
+  modalMainDiv: {
+    display: "flex",
+    justifyContent: "center",
+    margin: "10px 0px 10px 0px",
+  },
+  findShopBtnDiv: {},
 }));
 function BookingModal() {
   const { findShop, settingFindShopData } = useContext(GlobalContext);
@@ -116,12 +132,21 @@ function BookingModal() {
           </div>
           <div>
             <SliderButton handleGetValue={handleGetValue} />
-            <MapModal
-              handleLandLongSetting={handleLandLongSetting}
-              lantitudeState={lantitudeState}
-              longitudeState={longitudeState}
-            />
-            <button onClick={handleFindingShop}>find shop</button>
+            <div className={classes.modalMainDiv}>
+              <MapModal
+                handleLandLongSetting={handleLandLongSetting}
+                lantitudeState={lantitudeState}
+                longitudeState={longitudeState}
+              />
+            </div>
+            <div className={classes.findShopBtnDiv}>
+              <button
+                className={classes.findShopBtn}
+                onClick={handleFindingShop}
+              >
+                Find Shop
+              </button>
+            </div>
           </div>
         </Box>
       </Modal>

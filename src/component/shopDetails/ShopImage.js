@@ -25,7 +25,6 @@ function ShopImage({ shopData, shop }) {
 
   const navigatingBooking = async () => {
     await settingShopId(shopData._id);
-    alert(shopData._id);
     navigate("/booking");
   };
 

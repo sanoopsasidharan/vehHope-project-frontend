@@ -29,7 +29,6 @@ function ShopDetailsPage({ shop }) {
   const classes = useStyle();
   const navigate = useNavigate();
   const gettingData = async () => {
-    alert(shopId);
     if (shopId === undefined) navigate("/");
     await axios
       .post("/view_Shop", { shopId })

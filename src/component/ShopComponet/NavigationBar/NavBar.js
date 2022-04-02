@@ -80,7 +80,7 @@ function NavBar() {
     <div>
       <AppBar className={classes.appbar}>
         <Toolbar>
-          <Typography className={classes.mainHead}>VEHHOPE</Typography>
+          <Typography className={classes.mainHead}>vehHope</Typography>
           {isMatch ? (
             <>
               <DrawerCom />
