@@ -58,6 +58,7 @@ function HomeContants({ navigateTo }) {
           <ServiceCard />
         </div>
       </div> */}
+      <div className="gradiyent">hi</div>
       <div id="mostratingCards">
         <div className="mostratingCardsHeadDiv">
           <h1> SHOPS</h1>

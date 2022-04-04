@@ -16,9 +16,9 @@ function AuthContextProvider(props) {
       .then((resutl) => {
         if (resutl.data.user === false) setUserlogged(false);
         else setUserlogged(true);
-        const userObj = resutl.data.payload;
-        if (userObj) {
-          setuserData(userObj);
+        if (resutl.data.payload) {
+          const { payload } = resutl.data;
+          setuserDetails(payload);
         }
       })
       .catch((err) => {

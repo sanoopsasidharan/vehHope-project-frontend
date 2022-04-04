@@ -18,6 +18,7 @@ import Sample from "../pages/user/Sample";
 import ShopHomePage from "../pages/workShop/ShopHomePage";
 import ShopDetailsPage from "../pages/user/ShopDetailsPage";
 import AdminHome from "../pages/admin/AdminHome";
+import UserMessagerPage from "../pages/user/UserMessagerPage";
 axios.defaults.withCredentials = true;
 
 function PageRouters() {
@@ -57,11 +58,17 @@ function PageRouters() {
               <Navigate to="/login" />
             )
           }
+          df
         />
 
         <Route
           path="/booking"
           element={userlogged ? <Booking /> : <Navigate to="/login" />}
+        />
+
+        <Route
+          path="/message"
+          element={userlogged ? <UserMessagerPage /> : <Navigate to="/login" />}
         />
 
         <Route
