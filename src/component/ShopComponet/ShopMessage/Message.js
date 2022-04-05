@@ -1,11 +1,15 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import Chat from "../chatComponent/Chat";
-import ChatOnline from "../ChatOnline/ChatOnline";
-import Conversations from "../conversations/Conversations";
-import "./Message.css";
-import AuthContext from "../../store/AuthContextProvider";
-import axios from "../../axios";
+import Chat from "../../chatComponent/Chat";
+import ChatOnline from "../../ChatOnline/ChatOnline";
+import Conversations from "../../conversations/Conversations";
+
+import AuthContext from "../../../store/AuthContextProvider";
+import axios from "../../../axios";
+
 import { io } from "socket.io-client";
+import ShopContext from "../../../store/ShopContextProvider";
+import ChatUserProfile from "../chatUserProfile/ChatUserProfile";
+import ConverSationList from "../shopConverSationList/ConverSationList";
 
 function Message() {
   const [conversations, setconversations] = useState([]);
@@ -15,8 +19,9 @@ function Message() {
   const [arraivalMessage, setarraivalMessage] = useState(null);
   const [currentFrd, setCurrentFrd] = useState(null);
   const socket = useRef();
-  const { userDetails } = useContext(AuthContext);
-  console.log(userDetails, "this is user logingign");
+  //   const { shopData } = useContext(AuthContext);
+  const { shopData } = useContext(ShopContext);
+  console.log(shopData, "this is user logingign");
   const scrollRef = useRef();
 
   useEffect(() => {
@@ -37,15 +42,15 @@ function Message() {
   }, [arraivalMessage, currentChat]);
 
   useEffect(() => {
-    socket.current.emit("addUser", userDetails?.aud);
+    socket.current.emit("addUser", shopData?.aud);
     socket.current.on("getUsers", (users) => {
       console.log(users);
     });
-  }, [userDetails]);
+  }, [shopData]);
 
   const getConversation = async () => {
     try {
-      const result = await axios.get("/conversation/" + userDetails?.aud);
+      const result = await axios.get("/conversation/" + shopData?.aud);
       console.log(result, "result");
       if (!result.data) alert("No conver sations");
       setconversations(result.data);
@@ -55,12 +60,13 @@ function Message() {
   };
 
   // getting current frd
-  const getCurrentFrd = async (shopId) => {
-    setCurrentFrd(shopId);
+  const getCurrentFrd = async (frdId) => {
+    setCurrentFrd(frdId);
+    alert(frdId);
     try {
-      const shopResult = await axios.get("/getCurrentshop?shopId=" + shopId);
-      console.log(shopResult.data, "shopResutl");
-      setCurrentFrd(shopResult.data);
+      const frdResult = await axios.get("/shop/getCurrentFrd?frdId=" + frdId);
+      console.log(frdResult.data, "findFrd");
+      setCurrentFrd(frdResult.data);
     } catch (error) {
       console.log(error);
     }
@@ -78,15 +84,15 @@ function Message() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const message = {
-      sender: userDetails.aud,
+      sender: shopData?.aud,
       text: newMessage,
       conversationId: currentChat._id,
     };
     const receiverId = currentChat.members.find(
-      (member) => member !== userDetails.aud
+      (member) => member !== shopData?.aud
     );
     socket.current.emit("sendMessage", {
-      senderId: userDetails.aud,
+      senderId: shopData?.aud,
       receiverId,
       text: newMessage,
     });
@@ -101,7 +107,7 @@ function Message() {
 
   useEffect(() => {
     getConversation();
-  }, [userDetails.aud]);
+  }, [shopData?.aud]);
 
   useEffect(() => {
     getMessage();
@@ -125,23 +131,17 @@ function Message() {
               className="chatMenuInput"
               id=""
             />
-            <div className="conversationlist">
-              {conversations?.map((con) => (
-                <div
-                  onClick={() => {
-                    getCurrentFrd(
-                      con.members.find((id) => id !== userDetails?.aud)
-                    );
-                    setCurrentChat(con);
-                  }}
-                >
-                  <Conversations
-                    conversations={con}
-                    currentUser={userDetails}
-                  />
-                </div>
-              ))}
-            </div>
+            {conversations?.map((con) => (
+              <div
+                onClick={() => {
+                  getCurrentFrd(con.members.find((id) => id !== shopData?.aud));
+                  setCurrentChat(con);
+                }}
+              >
+                <ConverSationList conversations={con} currentUser={shopData} />
+                {/* <Conversations conversations={con} currentUser={shopData} /> */}
+              </div>
+            ))}
           </div>
         </div>
         <div className="userChatBox">
@@ -154,7 +154,7 @@ function Message() {
                       <Chat
                         currentFrd={currentFrd}
                         message={chat}
-                        own={chat.sender === userDetails.aud}
+                        own={chat.sender === shopData?.aud}
                       />
                     </div>
                   ))}
@@ -178,11 +178,15 @@ function Message() {
             )}
           </div>
         </div>
-        <div className="userChatOnline">
-          <div className="chatOnlineWrapper">
-            {currentFrd ? <ChatOnline currentFrd={currentFrd} /> : <p></p>}
+        {currentFrd ? (
+          <div className="userChatOnline">
+            <div className="chatOnlineWrapper">
+              <ChatUserProfile currentFrd={currentFrd} />
+            </div>
           </div>
-        </div>
+        ) : (
+          <p>open with a what</p>
+        )}
       </div>
     </>
   );

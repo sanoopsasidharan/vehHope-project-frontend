@@ -161,7 +161,7 @@ function UserDetails({ user, gettingUserData, isImage }) {
                       className={classes.mainImage}
                       src={
                         user?.image ||
-                        "https://res.cloudinary.com/dvz2vfssk/image/upload/v1648492162/vehHope/y8btpykclmmd9xrobwa6.png"
+                        "https://res.cloudinary.com/dvz2vfssk/image/upload/v1649187732/vehHope/6481225432795d8cdf48f0f85800cf66_shpyu3.jpg"
                       }
                     />
                     <div className={classes.propicDiv}>

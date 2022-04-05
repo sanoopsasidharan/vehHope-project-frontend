@@ -41,7 +41,7 @@ function Cards({ navigateTo, mostTopShops }) {
                   </h3>
                   <h3>
                     <span>Place:&nbsp;</span>
-                    {/* {item?.location} */}
+                    {item?.place}
                   </h3>
                 </div>
               </div>

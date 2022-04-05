@@ -50,7 +50,7 @@ const useStyle = makeStyles((theme) => ({
   nav_booking_modal_button: {
     display: "flex",
     alignItems: "center",
-    padding: "0px 15px 2px 15px",
+    padding: "0px 50px 2px 15px",
     cursor: "pointer",
   },
   sample: {
@@ -96,7 +96,9 @@ function NavigationBar() {
     <div>
       <AppBar className={classes.appbar}>
         <Toolbar>
-          <Typography className={classes.mainHead}>vehHopE</Typography>
+          <Link className={classes.allLinks} to="/">
+            <Typography className={classes.mainHead}>vehHopE</Typography>
+          </Link>
           {isMatch ? (
             <>
               <DrawerCom />
@@ -110,16 +112,16 @@ function NavigationBar() {
                 indicatorColor="secondary"
                 onChange={(e, value) => setValue(value)}
               >
-                <Link className={classes.allLinks} to="/">
+                {/* <Link className={classes.allLinks} to="/">
                   <Tab label="Home" />
-                </Link>
+                </Link> */}
                 <div className={classes.nav_booking_modal_button}>
                   <BookingModal />
                 </div>
                 <Link className={classes.allLinks} to="/bookingHistory">
                   <Tab label="History" />
                 </Link>
-                <Link className={classes.allLinks} to="/">
+                <Link className={classes.allLinks} to="/message">
                   <Tab label="message" />
                 </Link>
               </Tabs>

@@ -3,6 +3,7 @@
   align-items: center;
   padding: 10px;
   margin-top: 20px;
+  cursor: default;
 }
 .conversations:hover {
   background-color: rgb(235, 232, 232);

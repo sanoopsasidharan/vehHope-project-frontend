@@ -19,6 +19,7 @@ import ShopHomePage from "../pages/workShop/ShopHomePage";
 import ShopDetailsPage from "../pages/user/ShopDetailsPage";
 import AdminHome from "../pages/admin/AdminHome";
 import UserMessagerPage from "../pages/user/UserMessagerPage";
+import ShopMessagePage from "../pages/workShop/ShopMessagePage";
 axios.defaults.withCredentials = true;
 
 function PageRouters() {
@@ -92,6 +93,12 @@ function PageRouters() {
           path="/shop"
           element={
             shopLoggedIn ? <ShopHomePage /> : <Navigate to="/loginShop" />
+          }
+        />
+        <Route
+          path="/shopMessage"
+          element={
+            shopLoggedIn ? <ShopMessagePage /> : <Navigate to="/loginShop" />
           }
         />
         <Route path="/createShop" element={<CreateShopPage />} />

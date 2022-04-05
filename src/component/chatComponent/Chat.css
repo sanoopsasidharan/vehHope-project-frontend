@@ -21,8 +21,10 @@
   max-width: 300px;
 }
 .messageBottom {
-  font-style: 12px;
   margin-top: 10px;
+}
+.messageBottom span {
+  font-size: 12.5px;
 }
 .messages.own {
   align-items: flex-end;

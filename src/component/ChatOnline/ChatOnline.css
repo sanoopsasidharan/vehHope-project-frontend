@@ -1,4 +1,4 @@
-.chatOnlineFriend {
+/* .chatOnlineFriend {
   display: flex;
   align-items: center;
   font-weight: 500;
@@ -7,12 +7,11 @@
 }
 .chatOnlineImgContainer {
   position: relative;
-
   margin-top: 10px;
 }
 .chatOnlineImg {
-  width: 32px;
-  height: 32px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid white;
@@ -25,4 +24,23 @@
   background-color: limegreen;
   top: 2px;
   right: 2px;
+} */
+
+.chatOnline {
+  display: flex;
+  justify-content: center;
+  height: 70vh;
+  align-items: center;
+}
+.chatOnlineImg {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid rgb(48, 48, 48);
+}
+
+.chatOnlineName {
+  display: flex;
+  justify-content: center;
 }

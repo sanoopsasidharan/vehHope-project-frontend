@@ -80,7 +80,9 @@ function NavBar() {
     <div>
       <AppBar className={classes.appbar}>
         <Toolbar>
-          <Typography className={classes.mainHead}>vehHope</Typography>
+          <Link className={classes.allLinks} to="/shop">
+            <Typography className={classes.mainHead}>vehHope</Typography>
+          </Link>
           {isMatch ? (
             <>
               <DrawerCom />
@@ -94,14 +96,11 @@ function NavBar() {
                 indicatorColor="secondary"
                 onChange={(e, value) => setValue(value)}
               >
-                <Link className={classes.allLinks} to="/shop">
-                  <Tab label="Home" />
-                </Link>
                 <div className={classes.nav_booking_modal_button}></div>
                 <Link className={classes.allLinks} to="/shopBookingHistory">
                   <Tab label="History" />
                 </Link>
-                <Link className={classes.allLinks} to="/">
+                <Link className={classes.allLinks} to="/shopMessage">
                   <Tab label="message" />
                 </Link>
               </Tabs>
