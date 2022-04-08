@@ -69,7 +69,7 @@ function CreateForm() {
           name,
           email,
           number,
-          location,
+          place: location,
           password,
           lantitude,
           longitude,
@@ -119,7 +119,7 @@ function CreateForm() {
                 component="h1"
                 variant="h5"
               >
-                Sign UP
+                Sign Up
               </Typography>
             </div>
             <TextField

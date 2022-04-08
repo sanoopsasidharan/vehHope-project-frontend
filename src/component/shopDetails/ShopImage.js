@@ -34,6 +34,7 @@ function ShopImage({ shopData, shop }) {
       const getdata = await axios.post("/conversation", {
         receiverId: shopData._id,
       });
+      console.log(getdata, "getdata");
       navigate("/message");
     } catch (error) {
       console.log(error);

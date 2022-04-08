@@ -92,7 +92,7 @@ function EditPasswordModal() {
   return (
     <div>
       <p className={classes.openModalPtag} onClick={handleOpen}>
-        Edit password
+        Edit Password
       </p>
       <Modal
         className={classes.mainModal}

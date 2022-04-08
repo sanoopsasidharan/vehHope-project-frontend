@@ -264,7 +264,7 @@ function ChangeingBKStatus({ item, setChangeingState, handleHistory }) {
               variant="contained"
               onClick={BookingCancel}
             >
-              cancel
+              Cancel Booking
             </Button>
           )}
           <ToastContainer

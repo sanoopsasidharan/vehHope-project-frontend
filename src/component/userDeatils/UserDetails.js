@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import EditPasswordModal from "../modal/EditPasswordModal";
 import EditUserDetails from "../modal/EditUserDetails";
+import { CircularProgress } from "@material-ui/core";
 const useStyle = makeStyles((theme) => ({
   mainContainer: {
     display: "flex",
@@ -81,9 +82,11 @@ const useStyle = makeStyles((theme) => ({
 function UserDetails({ user, gettingUserData, isImage }) {
   const classes = useStyle();
   const [previewSource, setPreviewSource] = useState("");
+  const [loader, setLoader] = useState(false);
 
   const handleSubmitProPic = (e) => {
     e.preventDefault();
+    setLoader(true);
     axios
       .post("update_userProPic", { image: previewSource })
       .then((result) => {
@@ -91,10 +94,12 @@ function UserDetails({ user, gettingUserData, isImage }) {
         alert("update user pro pic");
         gettingUserData();
         setPreviewSource("");
+        setLoader(false);
       })
       .catch((err) => {
         console.log(err);
         alert("somthing error");
+        setLoader(false);
       });
   };
 
@@ -124,7 +129,7 @@ function UserDetails({ user, gettingUserData, isImage }) {
                 <TableRow>
                   <TableCell className={classes.tableItems}>
                     <NavLink className="navigationLink" to="/bookingHistory">
-                      booking History
+                      Booking History
                     </NavLink>
                   </TableCell>
                 </TableRow>
@@ -144,7 +149,7 @@ function UserDetails({ user, gettingUserData, isImage }) {
 
                 <TableRow>
                   <TableCell className={classes.tableItems}>
-                    User feedBack
+                    User FeedBack
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -166,12 +171,16 @@ function UserDetails({ user, gettingUserData, isImage }) {
                     />
                     <div className={classes.propicDiv}>
                       <input onChange={handileFileInput} type="file" />
-                      <button
-                        className={classes.propicUploadBTN}
-                        onClick={handleSubmitProPic}
-                      >
-                        upload
-                      </button>
+                      {loader ? (
+                        <CircularProgress />
+                      ) : (
+                        <button
+                          className={classes.propicUploadBTN}
+                          onClick={handleSubmitProPic}
+                        >
+                          upload
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>

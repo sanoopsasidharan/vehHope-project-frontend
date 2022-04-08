@@ -38,11 +38,11 @@ function AllShops() {
       <NavigationBar />
       <Container>
         <Grid container className={classes.gridMain} spacing={4}>
-          <Grid className={classes.itemGrid} item xs={12} md={3}>
-            {mostTopShops?.map((item, index) => (
+          {mostTopShops?.map((item, index) => (
+            <Grid className={classes.itemGrid} item xs={12} md={3}>
               <AllShopPost item={item} index={index} />
-            ))}
-          </Grid>
+            </Grid>
+          ))}
         </Grid>
       </Container>
 

@@ -62,7 +62,6 @@ function Message() {
   // getting current frd
   const getCurrentFrd = async (frdId) => {
     setCurrentFrd(frdId);
-    alert(frdId);
     try {
       const frdResult = await axios.get("/shop/getCurrentFrd?frdId=" + frdId);
       console.log(frdResult.data, "findFrd");
@@ -139,7 +138,6 @@ function Message() {
                 }}
               >
                 <ConverSationList conversations={con} currentUser={shopData} />
-                {/* <Conversations conversations={con} currentUser={shopData} /> */}
               </div>
             ))}
           </div>

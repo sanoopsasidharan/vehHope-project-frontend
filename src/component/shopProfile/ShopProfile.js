@@ -8,9 +8,11 @@ import TableRow from "@material-ui/core/TableRow";
 import { makeStyles } from "@material-ui/styles";
 import { Box, Grid } from "@mui/material";
 import "./ShopProfile.css";
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import ShopEditDetails from "../modal/ShopEditDetails";
+import { CircularProgress } from "@material-ui/core";
+import axios from "../../axios";
 const useStyle = makeStyles((theme) => ({
   mainContainer: {
     display: "flex",
@@ -49,6 +51,8 @@ const useStyle = makeStyles((theme) => ({
     width: "90%",
     borderRadius: 5,
     marginTop: 30,
+    height: "400px",
+    objectFit: "cover",
   },
   rightBox: {
     backgroundColor: "white",
@@ -62,10 +66,55 @@ const useStyle = makeStyles((theme) => ({
     width: "50%",
     alignItems: "center",
   },
+  uploadMainDiv: {
+    marginTop: "20px",
+  },
+  propicUploadBTN: {
+    backgroundColor: "#014c06",
+    color: "white",
+    border: "0",
+    fontSize: "13px",
+    borderRadius: "4px",
+    padding: "8px",
+  },
 }));
 
 function ShopProfile({ shopDetails, gettingShopDetials }) {
   const classes = useStyle();
+  const [loader, setLoader] = useState(false);
+  const [previewSource, setPreviewSource] = useState("");
+
+  const handleSubmitProPic = (e) => {
+    e.preventDefault();
+    setLoader(true);
+    axios
+      .post("/shop/updateShop_pic", { image: previewSource })
+      .then((result) => {
+        console.log(result);
+        alert("update user pro pic");
+        setPreviewSource("");
+        gettingShopDetials();
+        setLoader(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("somthing error");
+        setLoader(false);
+      });
+  };
+
+  const handileFileInput = (e) => {
+    const file = e.target.files[0];
+    previewFile(file);
+  };
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewSource(reader.result);
+    };
+  };
+
   return (
     <>
       <Grid className="mainContainer" spacing={4} container>
@@ -83,7 +132,7 @@ function ShopProfile({ shopDetails, gettingShopDetials }) {
                       className="navigationLink"
                       to="/shopBookingHistory"
                     >
-                      booking History
+                      Booking History
                     </NavLink>
                   </TableCell>
                 </TableRow>
@@ -97,7 +146,7 @@ function ShopProfile({ shopDetails, gettingShopDetials }) {
                 </TableRow>
                 <TableRow>
                   <TableCell className={classes.tableItems}>
-                    User feedBack
+                    User FeedBack
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -114,6 +163,19 @@ function ShopProfile({ shopDetails, gettingShopDetials }) {
                       className={classes.mainImage}
                       src={`${shopDetails?.image}`}
                     />
+                  </div>
+                  <div className={classes.uploadMainDiv}>
+                    <input onChange={handileFileInput} type="file" />
+                    {loader ? (
+                      <CircularProgress />
+                    ) : (
+                      <button
+                        className={classes.propicUploadBTN}
+                        onClick={handleSubmitProPic}
+                      >
+                        upload
+                      </button>
+                    )}
                   </div>
                 </div>
               </Grid>

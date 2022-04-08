@@ -29,10 +29,12 @@ function AllShopPost({ item, index }) {
           />
           <CardContent>
             <div className="shopPostDetails">
-              {/* <h3>{item.shopName}</h3>
-                    <h3>{item.location}</h3> */}
-
-              <h1>{item.shopName}</h1>
+              <div>
+                <h3>{item?.shopName}</h3>
+              </div>
+              <div>
+                <h3>{item?.place}</h3>
+              </div>
             </div>
           </CardContent>
         </CardActionArea>

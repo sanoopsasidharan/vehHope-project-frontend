@@ -130,8 +130,8 @@ function Signin({ Head }) {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/" variant="body2">
-                  {"You have an account?"}
+                <Link href="/create" variant="body2">
+                  {"Create a account?"}
                 </Link>
               </Grid>
             </Grid>

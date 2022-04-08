@@ -20,6 +20,7 @@ import ShopDetailsPage from "../pages/user/ShopDetailsPage";
 import AdminHome from "../pages/admin/AdminHome";
 import UserMessagerPage from "../pages/user/UserMessagerPage";
 import ShopMessagePage from "../pages/workShop/ShopMessagePage";
+import VideoCallPage from "../pages/user/VideoCallPage";
 axios.defaults.withCredentials = true;
 
 function PageRouters() {
@@ -86,6 +87,7 @@ function PageRouters() {
           element={userlogged ? <UserProfile /> : <Navigate to="/login" />}
         />
         <Route path="/sample" element={<Sample />} />
+        <Route path="/UserVideoCall" element={<VideoCallPage />} />
 
         {/* shop routes */}
 
