@@ -16,6 +16,7 @@ const useStyle = makeStyles((theme) => ({
 function ShopProfilePage() {
   const classes = useStyle();
   const [shopDetails, setShopDetails] = useState();
+  const [reting, setreting] = useState(0);
 
   const gettingShopDetials = () => {
     axios
@@ -31,8 +32,18 @@ function ShopProfilePage() {
         setShopDetails("");
       });
   };
+  const getRating = async () => {
+    try {
+      const result = await axios.get("/shop/getShop_Rating");
+      setreting(result.data.avarge);
+    } catch (error) {
+      alert(error);
+      console.log(error);
+    }
+  };
   useEffect(() => {
     gettingShopDetials();
+    getRating();
   }, []);
   return (
     <>
@@ -40,6 +51,7 @@ function ShopProfilePage() {
       <div className={classes.Container}>
         <ShopProfile
           shopDetails={shopDetails}
+          reting={reting}
           gettingShopDetials={gettingShopDetials}
         />
       </div>

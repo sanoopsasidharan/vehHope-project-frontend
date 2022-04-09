@@ -37,8 +37,6 @@ const useStyle = makeStyles((theme) => ({
     alignItems: "center",
     backgroundColor: "#68747A",
     padding: "10px 30px 10px 30px",
-    // position: "sticky",
-    // width: "100%",
   },
   sortingModal: {},
   whiteButton: {
@@ -52,18 +50,6 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", "12/4/20", 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-
 function Tabale() {
   const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -73,7 +59,6 @@ function Tabale() {
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
-    // alert(anchorEl);
   };
   const findingDate = (value) => {
     setAnchorEl(null);
@@ -170,7 +155,6 @@ function Tabale() {
               <TableCell className={classes.tableCellHead} align="right">
                 Details
               </TableCell>
-              {/* <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
             </TableRow>
           </TableHead>
 

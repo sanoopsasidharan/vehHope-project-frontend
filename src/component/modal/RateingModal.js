@@ -1,6 +1,8 @@
 import { Box, Button, makeStyles, Modal } from "@material-ui/core";
 import axios from "../../axios";
 import React, { useState } from "react";
+import RateingSliderBTN from "../sliderButton/RateingSliderBTN";
+import { toast, ToastContainer } from "react-toastify";
 
 const style = {
   position: "absolute",
@@ -22,7 +24,7 @@ const useStyle = makeStyles((theme) => ({
     [theme.breakpoints.down("md")]: {
       th: "90%",
     },
-    backgroundColor: "#bbbbbb",
+    backgroundColor: "white",
     border: "0%",
     borderRadius: "13px",
   },
@@ -48,8 +50,9 @@ const useStyle = makeStyles((theme) => ({
   frominput: {
     fontSize: "15px",
     border: "0",
-    padding: "15px",
+    padding: "12px",
     borderRadius: "15px",
+    backgroundColor: "#ededed",
     margin: "10px 0px 10px 0px",
   },
   mainHeadingDiv: {
@@ -60,8 +63,8 @@ const useStyle = makeStyles((theme) => ({
   },
   submitButton: {
     marginTop: "11px",
-    padding: "8px",
-    fontSize: "22px",
+    padding: "7px",
+    fontSize: "20px",
     borderRadius: "10px",
     border: "0",
     backgroundColor: "#00c300",
@@ -71,20 +74,54 @@ const useStyle = makeStyles((theme) => ({
     display: "flex",
     marginRight: "10px",
   },
+  RateingNumberDiv: {
+    backgroundColor: "#f1f1f1",
+    border: "0",
+    margin: "10px 0px 10px 0px",
+    padding: "12px",
+    fontSize: "15px",
+    borderRadius: "15px",
+    display: "flex",
+    justifyContent: "space-evenly",
+  },
+  h3Tag: {
+    color: "#484848",
+  },
 }));
-function RateingModal() {
-  const [open, setOpen] = React.useState(false);
+function RateingModal({ item }) {
+  const [open, setOpen] = useState(false);
   const classes = useStyle();
-  const [nextServiceKm, setNextServiceKm] = useState();
-  const [workerName, setWorkerName] = useState();
-  const [serviceDiscription, setServiceDiscription] = useState();
-  const [price, setPrice] = useState();
+  const [rateing, setRateing] = useState(0);
+  const [feedBack, setFeedBack] = useState();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(item.shop._id, "item");
+    try {
+      const result = await axios.post("/add_feedback", {
+        rateing,
+        feedBack,
+        shopId: item.shop?._id,
+      });
+      console.log(result);
+      setOpen(false);
+      toast.success("Add rating");
+      setRateing(0);
+      setFeedBack("");
+    } catch (error) {
+      console.log(error);
+      toast.error("Somthing Error");
+    }
+  };
 
   const handleOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleGetValue = (value) => {
+    setRateing(value);
   };
 
   return (
@@ -98,6 +135,7 @@ function RateingModal() {
           + Rateing
         </Button>
       </div>
+
       <Modal
         className={classes.mainModal}
         open={open}
@@ -107,38 +145,22 @@ function RateingModal() {
       >
         <Box className={classes.mainBox} sx={{ ...style }}>
           <div className={classes.mainHeadingDiv}>
-            <h2>service note</h2>
+            <h2>Add Feedback</h2>
           </div>
           <div>
-            <form className={classes.formDiv}>
+            <ToastContainer />
+            <form onSubmit={handleSubmit} className={classes.formDiv}>
+              <div className={classes.RateingNumberDiv}>
+                <h3 className={classes.h3Tag}>Give Your Rateing :</h3>
+                <h3 className={classes.h3Tag}>{rateing && rateing}</h3>
+              </div>
+              <RateingSliderBTN handleGetValue={handleGetValue} />
               <input
                 className={classes.frominput}
-                value={nextServiceKm}
-                type={"number"}
-                onChange={(e) => setNextServiceKm(e.target.value)}
-                placeholder="Next Service Km"
-              />
-              <input
-                className={classes.frominput}
-                value={workerName}
+                value={feedBack}
                 type={"text"}
-                onChange={(e) => setWorkerName(e.target.value)}
-                placeholder="Worker Name"
-              />
-              <input
-                className={classes.frominput}
-                value={price}
-                type={"text"}
-                placeholder="Service Discription"
-                onChange={(e) => setPrice(e.target.value)}
-              />
-
-              <input
-                className={classes.frominput}
-                value={serviceDiscription}
-                type={"text"}
-                placeholder="Service Discription"
-                onChange={(e) => setServiceDiscription(e.target.value)}
+                onChange={(e) => setFeedBack(e.target.value)}
+                placeholder="Feedback"
               />
               <button className={classes.submitButton} type="submit">
                 submit

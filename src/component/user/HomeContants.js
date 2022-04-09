@@ -26,15 +26,6 @@ function HomeContants({ navigateTo }) {
 
   return (
     <div>
-      {/* <Grid>
-        <Grid item sm={12}>
-          <img
-            style={{ width: "100%" }}
-            src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-            alt=""
-          />
-        </Grid>
-      </Grid> */}
       <div className="homePage_Banner_div">
         <img
           className="homePage_Banner_Image"
@@ -53,11 +44,6 @@ function HomeContants({ navigateTo }) {
           </a>
         </div>
       </div>
-      {/* <div className="serviceCardsSession">
-        <div className="serviceCardsDiv">
-          <ServiceCard />
-        </div>
-      </div> */}
       <div className="gradiyent">hi</div>
       <div id="mostratingCards">
         <div className="mostratingCardsHeadDiv">
@@ -68,19 +54,14 @@ function HomeContants({ navigateTo }) {
       <div className="homePage_Banner_div">
         <img
           className="homePage_Banner_second_Image"
-          src="https://res.cloudinary.com/dvz2vfssk/image/upload/v1648524192/banner/stock-vector-auto-repair-shop-vector-illustration-558236899_1_1_a46kpa.jpg"
+          src="https://res.cloudinary.com/dvz2vfssk/image/upload/v1649481295/vehHope/pexels-cottonbro-4488641_1_fq0b5z.jpg"
           alt=""
         />
         <div className="homePage_Banner_Image_HeadTag">
-          <h1>Find your best choice</h1>
-          <a href="#mostratingCards">
-            <button className="homePage_Banner_Image_HeadTagButton">
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span> Show more
-            </button>
-          </a>
+          <h1 className="second_banner_heading">
+            Take your perfect decision,
+            <br /> Get back your time
+          </h1>
         </div>
       </div>
     </div>

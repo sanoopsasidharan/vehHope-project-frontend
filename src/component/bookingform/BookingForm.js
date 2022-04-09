@@ -7,9 +7,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import axios from "../../axios";
+import { toast, ToastContainer } from "react-toastify";
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BookingSuccessModal from "../modal/BookingSuccessModal";
 
 const useStyle = makeStyles((theme) => ({
   mainBox: {
@@ -40,6 +42,7 @@ function BookingForm({ ShopData }) {
   const [state, setState] = useState("");
   const [location, setLocation] = useState("");
   const [landmark, setLandmark] = useState("");
+  const [bookingSuccess, setBookingSuccess] = useState(false);
 
   const navigate = useNavigate();
 
@@ -61,20 +64,36 @@ function BookingForm({ ShopData }) {
         shopId: ShopData._id,
       })
       .then((result) => {
-        if (result.data) {
-          alert("service booked");
-          navigate("/");
-        }
+        setName("");
+        setEMail("");
+        setName("");
+        setAddress("");
+        setDate("");
+        setCompany("");
+        setModel("");
+        setComplaint("");
+        setState("");
+        setLocation("");
+        setLandmark("");
+        setBookingSuccess(true);
+        // toast.success("service booked");
+        setBookingSuccess(true);
+        // setTimeout(() => {
+        //   navigate("/");
+        // }, 2000);
+
         console.log(result);
       })
       .catch((err) => {
-        alert("somthing error");
+        toast.error("somthing error");
         console.log(err);
       });
   };
+
   const classes = useStyle();
   return (
     <>
+      <ToastContainer />
       <Box
         className={classes.mainBox}
         // margin={10}
@@ -85,6 +104,7 @@ function BookingForm({ ShopData }) {
       >
         <Box className={classes.bookingHead}>
           <Typography className={classes.bookingHeaderLetter} variant="h5">
+            {bookingSuccess ? <BookingSuccessModal /> : null}
             Booking form
           </Typography>
         </Box>

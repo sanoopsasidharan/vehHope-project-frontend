@@ -250,7 +250,7 @@ function ChangeingBKStatus({ item, setChangeingState, handleHistory }) {
 
           {item.status === "compelet" ? (
             <div className={classes.RateingModalButton}>
-              <RateingModal />
+              <RateingModal item={item} />
             </div>
           ) : (
             <></>

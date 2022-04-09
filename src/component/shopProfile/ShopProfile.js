@@ -13,6 +13,8 @@ import { NavLink } from "react-router-dom";
 import ShopEditDetails from "../modal/ShopEditDetails";
 import { CircularProgress } from "@material-ui/core";
 import axios from "../../axios";
+import ShopPasswordChange from "../modal/ShopPasswordChange";
+import { AiFillStar } from "react-icons/ai";
 const useStyle = makeStyles((theme) => ({
   mainContainer: {
     display: "flex",
@@ -77,9 +79,12 @@ const useStyle = makeStyles((theme) => ({
     borderRadius: "4px",
     padding: "8px",
   },
+  shopRating: {
+    marginTop: "15px",
+  },
 }));
 
-function ShopProfile({ shopDetails, gettingShopDetials }) {
+function ShopProfile({ shopDetails, reting, gettingShopDetials }) {
   const classes = useStyle();
   const [loader, setLoader] = useState(false);
   const [previewSource, setPreviewSource] = useState("");
@@ -146,6 +151,11 @@ function ShopProfile({ shopDetails, gettingShopDetials }) {
                 </TableRow>
                 <TableRow>
                   <TableCell className={classes.tableItems}>
+                    <ShopPasswordChange />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className={classes.tableItems}>
                     User FeedBack
                   </TableCell>
                 </TableRow>
@@ -163,6 +173,16 @@ function ShopProfile({ shopDetails, gettingShopDetials }) {
                       className={classes.mainImage}
                       src={`${shopDetails?.image}`}
                     />
+                  </div>
+                  <div className={classes.shopRating}>
+                    {reting &&
+                      [...new Array(5)].map((j, i) =>
+                        i < reting ? (
+                          <AiFillStar style={{ color: "yellow" }} />
+                        ) : (
+                          <AiFillStar style={{ color: "grey" }} />
+                        )
+                      )}
                   </div>
                   <div className={classes.uploadMainDiv}>
                     <input onChange={handileFileInput} type="file" />

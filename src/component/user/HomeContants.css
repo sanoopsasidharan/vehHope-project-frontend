@@ -146,3 +146,7 @@
   height: 100px;
   background-image: linear-gradient(rgb(0, 0, 0) 10%, rgb(255, 255, 255) 100%);
 }
+.second_banner_heading {
+  font-size: 50px;
+  color: #ffffffdb !important;
+}

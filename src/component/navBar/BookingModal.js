@@ -80,7 +80,15 @@ const useStyle = makeStyles((theme) => ({
     justifyContent: "center",
     margin: "10px 0px 10px 0px",
   },
-  findShopBtnDiv: {},
+  sliderHeading: {
+    display: "flex",
+    justifyContent: "center",
+    margin: "6px",
+  },
+  sliderHeadingTag: {
+    margin: "0px",
+    color: "#323030",
+  },
 }));
 function BookingModal() {
   const { findShop, settingFindShopData } = useContext(GlobalContext);
@@ -131,6 +139,9 @@ function BookingModal() {
             <h2>FIND NEAREST SHOPS</h2>
           </div>
           <div>
+            <div className={classes.sliderHeading}>
+              <h4 className={classes.sliderHeadingTag}>Set your distance</h4>
+            </div>
             <SliderButton handleGetValue={handleGetValue} />
             <div className={classes.modalMainDiv}>
               <MapModal

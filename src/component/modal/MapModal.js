@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { ToastContainer, toast } from "react-toastify";
 import ReactMapGl, {
   FullscreenControl,
   GeolocateControl,
@@ -48,7 +49,7 @@ function MapModal({ handleLandLongSetting, lantitudeState, longitudeState }) {
     console.log(e.lngLat.lat);
     console.log(e.lngLat.lng);
     handleLandLongSetting(e.lngLat.lat, e.lngLat.lng);
-    alert("set new location");
+    toast.success("set new location");
     setOpenMap(false);
   };
 
@@ -68,6 +69,7 @@ function MapModal({ handleLandLongSetting, lantitudeState, longitudeState }) {
 
   return (
     <div>
+      <ToastContainer />
       <Button onClick={handleOpen}>set your location</Button>
       {openMap && (
         <Box>
@@ -82,6 +84,7 @@ function MapModal({ handleLandLongSetting, lantitudeState, longitudeState }) {
                 <div className="mapModalshowModalcloseButton">
                   <h2 onClick={handleClose}>x</h2>
                 </div>
+
                 <ReactMapGl
                   mapboxAccessToken="pk.eyJ1Ijoic2Fub29wc2FzaWRoYXJhbiIsImEiOiJjbDE0d2x4a24wZXBqM2VrYW84Z3p4dWN6In0.lhN0s-umAY4Q2kfSU-wRGA"
                   {...viewPort}
