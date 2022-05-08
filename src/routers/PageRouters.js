@@ -21,6 +21,7 @@ import AdminHome from "../pages/admin/AdminHome";
 import UserMessagerPage from "../pages/user/UserMessagerPage";
 import ShopMessagePage from "../pages/workShop/ShopMessagePage";
 import VideoCallPage from "../pages/user/VideoCallPage";
+import ShopVideoCall from "../pages/workShop/ShopVideoCall";
 axios.defaults.withCredentials = true;
 
 function PageRouters() {
@@ -114,6 +115,7 @@ function PageRouters() {
           element={<ShopBKHistoryPage />}
         />
         <Route exact path="/shopProfile" element={<ShopProfilePage />} />
+        <Route exact path="/shopVideoCall" element={<ShopVideoCall />} />
 
         {/* admin */}
         <Route exact path="/admin/home" element={<AdminHome />} />

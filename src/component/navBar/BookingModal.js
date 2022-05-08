@@ -35,6 +35,7 @@ const useStyle = makeStyles((theme) => ({
     position: "relative",
   },
   openModalPtag: {
+    margin: 0,
     fontSize: "16px",
   },
   formDiv: {
@@ -125,7 +126,7 @@ function BookingModal() {
   return (
     <div>
       <p className={classes.openModalPtag} onClick={handleOpen}>
-        <span className="bookingModal_btnspan"> Booking</span>
+        <span className="bookingModal_btnspan"> Finding Workshop</span>
       </p>
       <Modal
         className={classes.mainModal}

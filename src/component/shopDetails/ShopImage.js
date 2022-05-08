@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import GlobalContext from "../../store/GlobalContextProvider";
 import axios from "../../axios";
 import "./ShopMainDetails.css";
+import { AiFillStar } from "react-icons/ai";
 const useStyle = makeStyles((theme) => ({
   divs: {
     display: "flex",
@@ -17,9 +18,15 @@ const useStyle = makeStyles((theme) => ({
     marginBottom: "20px",
     objectFit: "cover",
   },
+  shopRating: {},
+  mainRateingDiv: {
+    display: "flex",
+    justifyContent: "center",
+    padding: "10px 10px 0px 10px",
+  },
 }));
 
-function ShopImage({ shopData, shop }) {
+function ShopImage({ shopData, shop, reting }) {
   const { settingShopId } = useContext(GlobalContext);
   const classes = useStyle();
   const navigate = useNavigate();
@@ -45,6 +52,34 @@ function ShopImage({ shopData, shop }) {
       <div className={classes.divs}>
         <img className={classes.shopImage} src={`${shopData?.image}`} />
       </div>
+      {/* <div className={classes.mainRateingDiv}>
+        <div className={classes.shopRating}>
+          {reting &&
+            [...new Array(5)].map((j, i) =>
+              i < reting ? (
+                <AiFillStar style={{ color: "yellow" }} />
+              ) : (
+                <AiFillStar style={{ color: "grey" }} />
+              )
+            )}
+        </div>
+      </div> */}
+      <div className={classes.mainRateingDiv}>
+        <div className={classes.shopRating}>
+          {reting
+            ? [...new Array(5)].map((j, i) =>
+                i < reting ? (
+                  <AiFillStar style={{ color: "yellow" }} />
+                ) : (
+                  <AiFillStar style={{ color: "grey" }} />
+                )
+              )
+            : [...new Array(5)].map((j, i) => (
+                <AiFillStar style={{ color: "grey" }} />
+              ))}
+        </div>
+      </div>
+
       {shop ? (
         <div className="shopDetailsButtons">
           <button onClick={handleSetMessage} className="UserBookingBTN">

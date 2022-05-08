@@ -82,6 +82,15 @@ const useStyle = makeStyles((theme) => ({
   shopRating: {
     marginTop: "15px",
   },
+  feedBacks: {
+    backgroundColor: "red",
+    height: "150px",
+    width: "100%",
+    overflowX: "scroll",
+    color: "white",
+    borderRadius: "15px",
+  },
+  feedBacksmainDiv: {},
 }));
 
 function ShopProfile({ shopDetails, reting, gettingShopDetials }) {
@@ -154,11 +163,11 @@ function ShopProfile({ shopDetails, reting, gettingShopDetials }) {
                     <ShopPasswordChange />
                   </TableCell>
                 </TableRow>
-                <TableRow>
+                {/* <TableRow>
                   <TableCell className={classes.tableItems}>
                     User FeedBack
                   </TableCell>
-                </TableRow>
+                </TableRow> */}
               </TableBody>
             </Table>
           </TableContainer>
@@ -247,6 +256,20 @@ function ShopProfile({ shopDetails, reting, gettingShopDetials }) {
                     Shop Description: &nbsp;
                     <span> {shopDetails?.description}</span>
                   </h5>
+                  {/* <div className={classes.feedBacksmainDiv}>
+                    <h2>Feedbacks</h2>
+                    <div className={classes.feedBacks}>
+                      <p>sanoop</p>
+                      <p>sanoop</p>
+                      <p>sanoop</p>
+                      <p>sanoop</p>
+                      <p>sanoop</p>
+                      <p>sanoop</p>
+                      <p>sanoop</p>
+                      <p>sanoop</p>
+                      <p>sanoop</p>
+                    </div>
+                  </div> */}
                 </div>
               </Grid>
             </Grid>

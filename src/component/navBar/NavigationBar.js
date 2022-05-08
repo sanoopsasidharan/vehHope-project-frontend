@@ -18,6 +18,8 @@ import BookingModal from "./BookingModal";
 import DrawerCom from "./DrawerCom";
 import AuthContext from "../../store/AuthContextProvider";
 import { useCookies } from "react-cookie";
+import axios from "../../axios";
+import ShopVideoCall from "../../pages/workShop/ShopVideoCall";
 const useStyle = makeStyles((theme) => ({
   mainHead: {
     margin: "15px",
@@ -82,14 +84,14 @@ function NavigationBar() {
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
   console.log(isMatch);
   const handleLogOut = async () => {
-    // localStorage.removeItem("shopTocken");
-    const cooke = await cookies.userTocken;
-    console.log(cooke);
-
-    removeCookie(`shopTocken`);
-    // cookies.remove("userTocken", { path: "/" });
-    // getUserLogged();
-    // navigate("/");
+    try {
+      const loggedOut = await axios.post("/userLogout");
+      console.log(loggedOut);
+      getUserLogged();
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -118,11 +120,15 @@ function NavigationBar() {
                 <div className={classes.nav_booking_modal_button}>
                   <BookingModal />
                 </div>
+
+                <Link className={classes.allLinks} to="/UserVideoCall">
+                  <Tab label="Video Call" />
+                </Link>
                 <Link className={classes.allLinks} to="/bookingHistory">
                   <Tab label="History" />
                 </Link>
                 <Link className={classes.allLinks} to="/message">
-                  <Tab label="message" />
+                  <Tab label="Message" />
                 </Link>
               </Tabs>
               {/* <Button className={classes.loginButton} variant="contained">
@@ -211,7 +217,7 @@ function NavigationBar() {
 
                       <MenuItem onClick={handleClose}>
                         <Link className={classes.allLinks} to="/create">
-                          <p className={classes.leftPtag}>Create account</p>
+                          <p className={classes.leftPtag}>Register</p>
                         </Link>
                       </MenuItem>
                       <MenuItem onClick={handleClose}>

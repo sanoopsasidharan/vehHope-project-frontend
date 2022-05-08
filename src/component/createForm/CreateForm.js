@@ -1,17 +1,13 @@
-import {
-  Box,
-  Container,
-  makeStyles,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { Box, Container, makeStyles } from "@material-ui/core";
 import axios from "../../axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MapModal from "../modal/MapModal";
-import ReactMapGl, { Marker } from "react-map-gl";
-import { Button } from "@mui/material";
-import { Room } from "@material-ui/icons";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import Textfield from "../../component/InputComponent/Textfield";
+import { toast } from "react-toastify";
 
 // style
 const useStyle = makeStyles((theme) => ({
@@ -20,7 +16,7 @@ const useStyle = makeStyles((theme) => ({
     backgroundColor: "#ffffff",
     boxShadow: "5px 10px 50px #4a4a4a54",
     lineHeight: "3",
-    padding: "30px",
+    padding: "15px 30px 30px 30px",
     marginTop: "4vh",
     [theme.breakpoints.up("sm")]: {
       marginTop: "10vh",
@@ -33,6 +29,7 @@ const useStyle = makeStyles((theme) => ({
   mainHeding: {
     fontWeight: 700,
     fontSize: 30,
+    marginBottom: 20,
   },
 }));
 
@@ -58,10 +55,10 @@ function CreateForm() {
   const classes = useStyle();
   const navigate = useNavigate();
 
-  const submitForm = (e) => {
+  const submitForm = () => {
     const lantitude = lantitudeState.toString();
     const longitude = longitudeState.toString();
-    e.preventDefault();
+    // e.preventDefault();
     console.log(name, email, number, location, password, lantitude, longitude);
     try {
       axios
@@ -96,6 +93,29 @@ function CreateForm() {
     } catch (error) {}
   };
 
+  const Validate = Yup.object({
+    name: Yup.string()
+      .min(4, "Must be 4 characters or more ")
+      .max(15, "Must be 15 characters or less ")
+      .required("Name is required"),
+    email: Yup.string().email("Email is invalid").required("Email is required"),
+    number: Yup.number().required("Number is required"),
+    password: Yup.string()
+      .min(4, "password must be at least 4 characters ")
+      .required("Password is required"),
+    conFirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Password is must match ")
+      .required("ConFirmpassword required"),
+    location: Yup.string()
+      .min(2, "Must be 2 characters or more ")
+      .max(15, "Must be 15 characters or less ")
+      .required("Location is required"),
+  });
+
+  const handleNavigate = () => {
+    navigate("/login");
+  };
+
   return (
     <>
       <Container
@@ -112,88 +132,154 @@ function CreateForm() {
             alignItems: "center",
           }}
         >
-          <Box component="form" noValidate sx={{ mt: 1 }}>
-            <div className={classes.headingDiv}>
-              <Typography
-                className={classes.mainHeding}
-                component="h1"
-                variant="h5"
-              >
-                Sign Up
-              </Typography>
-            </div>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="name"
-              label="Name"
-              name="name"
-              onChange={(e) => setName(e.target.value)}
-              autoComplete="name"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              onChange={(e) => setEmail(e.target.value)}
-              autoComplete="email"
-              autoFocus
-            />
+          <Formik
+            initialValues={{
+              name: "",
+              email: "",
+              number: "",
+              location: "",
+              password: "",
+              conFirmPassword: "",
+            }}
+            validationSchema={Validate}
+            onSubmit={(values) => {
+              values.lantitude = lantitudeState.toString();
+              values.longitude = longitudeState.toString();
+              values.number = values.number.toString();
+              if (values.longitude === "")
+                toast.warning("please select your location");
+              console.log(values);
+              const {
+                name,
+                email,
+                number,
+                location,
+                password,
+                lantitude,
+                longitude,
+              } = values;
+              console.log(
+                name,
+                email,
+                number,
+                location,
+                password,
+                lantitude,
+                longitude
+              );
+              try {
+                axios
+                  .post("/user_register", {
+                    name,
+                    email,
+                    number,
+                    place: location,
+                    password,
+                    lantitude,
+                    longitude,
+                  })
+                  .then((response) => {
+                    console.log("then");
+                    console.log(response.status);
+                    if (response.status == 200) {
+                      navigate("/login");
+                    }
+                  })
+                  .catch((err) => {
+                    if (!err?.response) {
+                      setErrorMessage(" no server responts");
+                    } else if (err.response?.status === 404) {
+                      setErrorMessage(" email taken");
+                    } else {
+                      setErrorMessage("registration failed");
+                    }
+                    console.log("catch");
+                    console.log(err);
+                    console.log(err.response?.status);
+                    setErrorMessage(" no server responts");
+                  });
+              } catch (error) {
+                setErrorMessage(" somthing error");
+              }
+            }}
+          >
+            {(fromik) => (
+              <div>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <h1 className=" font-weight-bold .display-4">Register</h1>
+                </div>
+                <Form>
+                  <Textfield label="Name" name="name" type="text" />
+                  <Textfield label="Email" name="email" type="email" />
+                  <Textfield label="number" name="number" type="number" />
+                  <Textfield label="location" name="location" type="text" />
+                  <Textfield label="Password" name="password" type="password" />
+                  <Textfield
+                    label="ConFirm password"
+                    name="conFirmPassword"
+                    type="password"
+                  />
+                  <div
+                    style={{
+                      color: "red",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <div style={{ marginTop: "10px" }}>
+                      <MapModal
+                        handleLandLongSetting={handleLandLongSetting}
+                        lantitudeState={lantitudeState}
+                        longitudeState={longitudeState}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    onClick={handleNavigate}
+                    style={{
+                      color: "black",
+                      display: "flex",
+                      justifyContent: "end",
+                      cursor: "pointer",
+                      marginRight: "10px",
+                    }}
+                  >
+                    <p
+                      style={{
+                        marginBottom: "0",
+                      }}
+                    >
+                      I have already account
+                    </p>
+                  </div>
 
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="number"
-              label="Number"
-              type="number"
-              id="number"
-              onChange={(e) => setNumber(e.target.value)}
-              autoComplete="current-password"
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="location"
-              label="Location"
-              type="name"
-              id="location"
-              onChange={(e) => setLocation(e.target.value)}
-              autoComplete="current-password"
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="current-password"
-            />
-            <MapModal
-              handleLandLongSetting={handleLandLongSetting}
-              lantitudeState={lantitudeState}
-              longitudeState={longitudeState}
-            />
-            <Box marginTop={3}>
-              <button
-                className="submitbutton"
-                onClick={submitForm}
-                type="submit"
-              >
-                Submit
-              </button>
-            </Box>
-            <p>{errorMessage}</p>
-          </Box>
+                  <button
+                    style={{ width: "100%" }}
+                    className="btn btn-dark"
+                    type="submit"
+                  >
+                    Submit
+                  </button>
+                  <div
+                    style={{
+                      color: "red",
+                      display: "flex",
+                      justifyContent: "center",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <p
+                      style={{
+                        marginBottom: "0",
+                      }}
+                    >
+                      {errorMessage}
+                    </p>
+                  </div>
+                </Form>
+              </div>
+            )}
+          </Formik>
         </Box>
       </Container>
     </>

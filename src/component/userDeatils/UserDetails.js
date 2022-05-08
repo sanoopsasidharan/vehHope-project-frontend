@@ -147,11 +147,11 @@ function UserDetails({ user, gettingUserData, isImage }) {
                   </TableCell>
                 </TableRow>
 
-                <TableRow>
+                {/* <TableRow>
                   <TableCell className={classes.tableItems}>
                     User FeedBack
                   </TableCell>
-                </TableRow>
+                </TableRow> */}
               </TableBody>
             </Table>
           </TableContainer>

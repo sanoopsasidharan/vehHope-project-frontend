@@ -12,6 +12,10 @@ import "./CreateShop.css";
 import axios from "../axios";
 import ServiceModal from "../component/modal/ServiceModal";
 import MapModal from "../component/modal/MapModal";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import Textfield from "../component/InputComponent/Textfield";
+import { useNavigate } from "react-router-dom";
 
 const useStyle = makeStyles((theme) => ({
   itemGrid: {
@@ -67,6 +71,8 @@ const useStyle = makeStyles((theme) => ({
 
 function CreateShop() {
   const classes = useStyle();
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState();
   const [shopName, setShopName] = useState("");
   const [shopType, setShopType] = useState("");
   const [email, setEmail] = useState("");
@@ -127,137 +133,320 @@ function CreateShop() {
       ShopService,
     });
   };
+
+  const Validate = Yup.object({
+    email: Yup.string().email("Email is invalid").required("Email is required"),
+    password: Yup.string()
+      .min(4, "password must be at least 4 characters ")
+      .required("Password is required"),
+  });
+  const handleNavigate = () => {
+    navigate("/register");
+  };
   return (
-    <Container className={classes.container}>
-      <form onSubmit={handileSubmit}>
-        <Box>
-          <Typography className={classes.mainHead}>Create shop</Typography>
-          <Box>
-            <Grid className={classes.mainGrid} container spacing={3}>
-              <Grid className={classes.itemGrid} item xs={6} md={4}>
-                <TextField
-                  className={classes.inputfield}
-                  name=""
-                  variant="outlined"
-                  value={shopName}
-                  onChange={(e) => setShopName(e.target.value)}
-                  label="Shop name"
-                />
-              </Grid>
-              <Grid className={classes.itemGrid} item xs={6} md={4}>
-                <TextField
-                  className={classes.inputfield}
-                  name=""
-                  value={shopType}
-                  onChange={(e) => setShopType(e.target.value)}
-                  variant="outlined"
-                  label="Shop type"
-                />
-              </Grid>
-              <Grid className={classes.itemGrid} item xs={6} md={4}>
-                <TextField
-                  className={classes.inputfield}
-                  name=""
-                  variant="outlined"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  label="Shop email"
-                />
-              </Grid>
-              <Grid className={classes.itemGrid} item xs={6} md={4}>
-                <TextField
-                  className={classes.inputfield}
-                  name=""
-                  variant="outlined"
-                  value={number}
-                  onChange={(e) => setNumber(e.target.value)}
-                  label="Shop number"
-                />
-              </Grid>
-              <Grid className={classes.itemGrid} item xs={6} md={4}>
-                <TextField
-                  className={classes.inputfield}
-                  name=""
-                  variant="outlined"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  label="Shop location"
-                />
-              </Grid>
-
-              <Grid className={classes.itemGrid} item xs={6} md={4}>
-                <TextField
-                  className={classes.inputfield}
-                  name=""
-                  variant="outlined"
-                  value={state}
-                  onChange={(e) => setState(e.target.value)}
-                  label="state"
-                />
-              </Grid>
-
-              <Grid className={classes.itemGrid} item xs={6} md={4}>
-                <TextField
-                  className={classes.inputfield}
-                  name=""
-                  type="password"
-                  variant="outlined"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  label="password"
-                />
-              </Grid>
-
-              <Grid className={classes.itemGrid} item xs={6} md={4}>
-                <TextField
-                  className={classes.inputfield}
-                  name=""
-                  type="text"
-                  variant="outlined"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  label="description"
-                />
-              </Grid>
-
-              <Grid className={classes.itemGrid} item xs={6} md={4}>
-                <input
-                  type="file"
-                  onChange={handileFileInput}
-                  name="image"
-                  id=""
-                />
-                <div className={classes.imageDiv}>
-                  {previewSource && (
-                    <img
-                      className={classes.ShopImage}
-                      src={previewSource}
-                      alt="..."
+    <>
+      <Container className={classes.container}>
+        <Formik
+          initialValues={{
+            email: "",
+            password: "",
+          }}
+          validationSchema={Validate}
+          onSubmit={(values) => {
+            try {
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+        >
+          {(formik) => (
+            <div>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Typography className={classes.mainHead}>
+                  Create shop
+                </Typography>
+              </div>
+              <Form>
+                <Grid className={classes.mainGrid} container spacing={3}>
+                  <Grid className={classes.itemGrid} item xs={6} md={4}>
+                    <Textfield label="Shop name" name="shopName" type="text" />
+                  </Grid>
+                  <Grid className={classes.itemGrid} item xs={6} md={4}>
+                    <Textfield label="Shop type" name="shopType" type="text" />
+                  </Grid>
+                  <Grid className={classes.itemGrid} item xs={6} md={4}>
+                    <Textfield label="Shop email" name="email" type="email" />
+                  </Grid>
+                  <Grid className={classes.itemGrid} item xs={6} md={4}>
+                    <Textfield
+                      label="Shop number"
+                      name="number"
+                      type="number"
                     />
-                  )}
+                  </Grid>
+                  <Grid className={classes.itemGrid} item xs={6} md={4}>
+                    <Textfield
+                      label="Shop location"
+                      name="location"
+                      type="text"
+                    />
+                  </Grid>
+                  <Grid className={classes.itemGrid} item xs={6} md={4}>
+                    <Textfield label="state" name="state" type="text" />
+                  </Grid>
+                  <Grid className={classes.itemGrid} item xs={6} md={4}>
+                    <Textfield
+                      label="password"
+                      name="password"
+                      type="password"
+                    />
+                  </Grid>
+                  <Grid className={classes.itemGrid} item xs={6} md={4}>
+                    <Textfield
+                      label="description"
+                      name="description"
+                      type="text"
+                    />
+                  </Grid>
+                  <Grid className={classes.itemGrid} item xs={6} md={4}>
+                    <div>
+                      <div class="fileUpload">
+                        <input
+                          onChange={handileFileInput}
+                          name="image"
+                          type="file"
+                          class="upload"
+                        />
+                        <span>UPLOAD IMAGE</span>
+                      </div>
+                    </div>
+                  </Grid>
+                  <Grid className={classes.itemGrid} item xs={6} md={4}>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          backgroundColor: "#00bcbe",
+                          color: "white",
+                          padding: "16px",
+                          borderRadius: "10px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <ServiceModal addservice={addservice} />
+                      </div>
+                    </div>
+                  </Grid>
+                  <Grid className={classes.itemGrid} item xs={6} md={4}>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          backgroundColor: "#00bcbe",
+                          color: "white",
+                          padding: "9px",
+                          borderRadius: "10px",
+                        }}
+                      >
+                        <MapModal
+                          handleLandLongSetting={handleLandLongSetting}
+                          lantitudeState={lantitudeState}
+                          longitudeState={longitudeState}
+                        />
+                      </div>
+                    </div>
+                  </Grid>
+                  <Grid className={classes.itemGrid} item xs={6} md={4}>
+                    <div
+                      onClick={handleNavigate}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        backgroundColor: "#00bcbe",
+                        color: "white",
+                        padding: "16px",
+                        borderRadius: "10px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <span>Create an account</span>
+                    </div>
+                  </Grid>
+                  <Grid className={classes.itemGrid} item xs={6} md={4}></Grid>
+                </Grid>
+                <div
+                  style={{
+                    color: "red",
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "10px",
+                  }}
+                >
+                  <p>{errorMessage}</p>
                 </div>
+
+                <button
+                  style={{
+                    width: "100%",
+                    padding: "16px",
+                    marginBottom: "20px",
+                  }}
+                  className="btn btn-dark"
+                  type="submit"
+                >
+                  Submit
+                </button>
+              </Form>
+            </div>
+          )}
+        </Formik>
+      </Container>
+
+      <Container className={classes.container}>
+        <form onSubmit={handileSubmit}>
+          <Box>
+            <Typography className={classes.mainHead}>Create shop</Typography>
+            <Box>
+              <Grid className={classes.mainGrid} container spacing={3}>
+                <Grid className={classes.itemGrid} item xs={6} md={4}>
+                  <TextField
+                    className={classes.inputfield}
+                    name=""
+                    variant="outlined"
+                    value={shopName}
+                    onChange={(e) => setShopName(e.target.value)}
+                    label="Shop name"
+                  />
+                </Grid>
+                <Grid className={classes.itemGrid} item xs={6} md={4}>
+                  <TextField
+                    className={classes.inputfield}
+                    name=""
+                    value={shopType}
+                    onChange={(e) => setShopType(e.target.value)}
+                    variant="outlined"
+                    label="Shop type"
+                  />
+                </Grid>
+                <Grid className={classes.itemGrid} item xs={6} md={4}>
+                  <TextField
+                    className={classes.inputfield}
+                    name=""
+                    variant="outlined"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    label="Shop email"
+                  />
+                </Grid>
+                <Grid className={classes.itemGrid} item xs={6} md={4}>
+                  <TextField
+                    className={classes.inputfield}
+                    name=""
+                    variant="outlined"
+                    value={number}
+                    onChange={(e) => setNumber(e.target.value)}
+                    label="Shop number"
+                  />
+                </Grid>
+                <Grid className={classes.itemGrid} item xs={6} md={4}>
+                  <TextField
+                    className={classes.inputfield}
+                    name=""
+                    variant="outlined"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    label="Shop location"
+                  />
+                </Grid>
+
+                <Grid className={classes.itemGrid} item xs={6} md={4}>
+                  <TextField
+                    className={classes.inputfield}
+                    name=""
+                    variant="outlined"
+                    value={state}
+                    onChange={(e) => setState(e.target.value)}
+                    label="state"
+                  />
+                </Grid>
+
+                <Grid className={classes.itemGrid} item xs={6} md={4}>
+                  <TextField
+                    className={classes.inputfield}
+                    name=""
+                    type="password"
+                    variant="outlined"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    label="password"
+                  />
+                </Grid>
+
+                <Grid className={classes.itemGrid} item xs={6} md={4}>
+                  <TextField
+                    className={classes.inputfield}
+                    name=""
+                    type="text"
+                    variant="outlined"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    label="description"
+                  />
+                </Grid>
+
+                <Grid className={classes.itemGrid} item xs={6} md={4}>
+                  <input
+                    type="file"
+                    onChange={handileFileInput}
+                    name="image"
+                    id=""
+                  />
+                  <div className={classes.imageDiv}>
+                    {previewSource && (
+                      <img
+                        className={classes.ShopImage}
+                        src={previewSource}
+                        alt="..."
+                      />
+                    )}
+                  </div>
+                </Grid>
               </Grid>
-            </Grid>
+            </Box>
+            <Box className={classes.submitbox}>
+              <Button
+                type="submit"
+                className="createUserBtn"
+                variant="contained"
+              >
+                submit
+              </Button>
+            </Box>
           </Box>
-          <Box className={classes.submitbox}>
-            <Button type="submit" className="createUserBtn" variant="contained">
-              submit
-            </Button>
-            {/* <img src="https://res.cloudinary.com/dvz2vfssk/image/upload/v1647318501/vehHope/enykzwnbgaov3ujhfez6.png" /> */}
-          </Box>
-        </Box>
-      </form>
-      <div>
-        <ServiceModal addservice={addservice} />
-      </div>
-      <div>
-        <MapModal
-          handleLandLongSetting={handleLandLongSetting}
-          lantitudeState={lantitudeState}
-          longitudeState={longitudeState}
-        />
-      </div>
-    </Container>
+        </form>
+        <div></div>
+        <div>
+          <ServiceModal addservice={addservice} />
+          <MapModal
+            handleLandLongSetting={handleLandLongSetting}
+            lantitudeState={lantitudeState}
+            longitudeState={longitudeState}
+          />
+        </div>
+      </Container>
+    </>
   );
 }
 

@@ -111,11 +111,8 @@ function ServiceModal({ addservice }) {
 
   return (
     <div>
-      <Button
-        className="historyViweBtn"
-        variant="contained"
-        onClick={handleOpen}
-      >
+      {/* <Button className="historyViweBtn"></Button> */}
+      <Button style={{ color: "white" }} onClick={handleOpen}>
         Add your services
       </Button>
       <Modal

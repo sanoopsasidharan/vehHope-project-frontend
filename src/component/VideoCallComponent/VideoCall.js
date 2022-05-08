@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Peer from "simple-peer";
 import io from "socket.io-client";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -17,6 +17,8 @@ import {
 } from "@material-ui/core";
 import { Assessment, Phone } from "@material-ui/icons";
 import "./VideoCall.css";
+import AuthContext from "../../store/AuthContextProvider";
+import ShopContext from "../../store/ShopContextProvider";
 
 const socket = io.connect("http://localhost:5001");
 
@@ -30,6 +32,10 @@ function VideoCall() {
   const [idToCall, setIdToCall] = useState("");
   const [callEnded, setCallEnded] = useState(false);
   const [name, setName] = useState("");
+  const { userDetails, userlogged } = useContext(AuthContext);
+  const { shopData } = useContext(ShopContext);
+  const [buttonState, setButtonState] = useState(false);
+  const [socketUsers, setsocketUsers] = useState("");
 
   const myVideo = useRef();
   const userVideo = useRef();
@@ -37,6 +43,7 @@ function VideoCall() {
   const connectionRef = useRef();
 
   useEffect(() => {
+    socket.current = io.connect("http://localhost:5001");
     navigator.mediaDevices
       .getUserMedia({
         video: true,
@@ -47,9 +54,51 @@ function VideoCall() {
         myVideo.current.srcObject = stream;
       });
 
-    socket.on("me", (id) => {
-      console.log();
+    socket.current.on("me", (id) => {
       setMe(id);
+      setTimeout(() => {
+        if (userDetails.aud) {
+          try {
+            socket.current.emit("addUsers", userDetails?.aud, id);
+
+            console.log(userDetails?.aud, "userDetails?.auduserDetails?.aud");
+
+            socket.current.on("getUsers", (users) => {
+              alert(JSON.stringify(users));
+              setsocketUsers(users);
+
+              console.log(users, " user in get users ");
+
+              if (users?.length > 1) {
+                const vendorId = users.find(
+                  (user) => user.userId !== userDetails.aud
+                );
+
+                console.log(vendorId, "Video call vendorId video call");
+
+                setIdToCall(vendorId?.socketId);
+
+                console.log(users, shopData.aud, userDetails.aud, vendorId);
+
+                setTimeout(callUser(idToCall), 2000);
+              }
+            });
+          } catch (error) {
+            alert("video call is  catch ");
+            console.log(error);
+          }
+        } else {
+          console.log({ id });
+          alert("video call is elsess ");
+          socket.current.emit("addUsers", shopData?.aud, id);
+
+          socket.current.on("getUsers", (users) => {
+            setsocketUsers(users);
+
+            console.log({ users });
+          });
+        }
+      }, 3000);
     });
 
     socket.on("callUser", (data) => {
@@ -109,6 +158,10 @@ function VideoCall() {
   const leaveCall = () => {
     setCallEnded(true);
     connectionRef.current.destroy();
+    socket.current.emit("callEnded");
+
+    // connectionRef.current.destroy();
+    // socket.current.disconnect();
   };
 
   return (
@@ -129,6 +182,7 @@ function VideoCall() {
           </div>
 
           <p> {me} this is me</p>
+          <p>{userDetails.aud} thiss is ausd</p>
           <div className="video">
             {callAccepted && !callEnded ? (
               <video
@@ -180,16 +234,17 @@ function VideoCall() {
                 <Phone fontSize="large" />
               </IconButton>
             )}
-            {idToCall}
           </div>
         </div>
         <div>
           {receivingCall && !callAccepted ? (
             <div className="caller">
-              <h1>{name} is Calling ...</h1>
+              <h3>{name} is Calling ...</h3>
+              <h3>sanoop is calling</h3>
               <Button variant="contained" color="primary" onClick={answerCall}>
                 Answer
               </Button>
+              <h3>sanoop is calling</h3>
             </div>
           ) : null}
         </div>

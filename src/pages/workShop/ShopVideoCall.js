@@ -1,16 +1,15 @@
 import React from "react";
 import NavigationBar from "../../component/navBar/NavigationBar";
+import NavBar from "../../component/ShopComponet/NavigationBar/NavBar";
 import ShopVideo from "../../component/VideoCallComponent/ShopVideo";
-import VideoCall from "../../component/VideoCallComponent/VideoCall";
 
-function VideoCallPage() {
+function ShopVideoCall() {
   return (
-    <>
-      <NavigationBar />
+    <div>
+      <NavBar />
       <ShopVideo />
-      {/* <VideoCall /> */}
-    </>
+    </div>
   );
 }
 
-export default VideoCallPage;
+export default ShopVideoCall;

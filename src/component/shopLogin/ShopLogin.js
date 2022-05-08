@@ -1,18 +1,13 @@
-import {
-  Box,
-  Checkbox,
-  Container,
-  FormControlLabel,
-  Grid,
-  Link,
-  makeStyles,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { Box, Container, makeStyles, Typography } from "@material-ui/core";
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../../axios";
 import ShopContext from "../../store/ShopContextProvider";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Textfield from "../../component/InputComponent/Textfield";
+
 // import "./Signin.css";
 
 const useStyle = makeStyles((theme) => ({
@@ -43,25 +38,36 @@ function ShopLogin({ Head }) {
 
   const classes = useStyle();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    axios
-      .post("/shop/login", { email, password })
-      .then(async (result) => {
-        console.log(result);
-        if (result.data.shop) {
-          setErrorMessage("");
-          setShopData(result.data.shop);
-          await getShopLogged();
-          navigate("/shop");
-        } else {
-          setErrorMessage("email and password is not match");
-        }
-      })
-      .catch((err) => {
-        setErrorMessage("email and password is not match");
-        console.log(err.message);
-      });
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   axios
+  //     .post("/shop/login", { email, password })
+  //     .then(async (result) => {
+  //       console.log(result);
+  //       if (result.data.shop) {
+  //         setErrorMessage("");
+  //         setShopData(result.data.shop);
+  //         await getShopLogged();
+  //         navigate("/shop");
+  //       } else {
+  //         setErrorMessage("email and password is not match");
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       setErrorMessage("email and password is not match");
+  //       console.log(err.message);
+  //     });
+  // };
+
+  const Validate = Yup.object({
+    email: Yup.string().email("Email is invalid").required("Email is required"),
+    password: Yup.string()
+      .min(4, "password must be at least 4 characters ")
+      .required("Password is required"),
+  });
+
+  const handleNavigate = () => {
+    navigate("/createShop");
   };
 
   return (
@@ -80,60 +86,98 @@ function ShopLogin({ Head }) {
             alignItems: "center",
           }}
         >
-          <Typography className={classes.mainHead} component="h1" variant="h5">
-            {Head}
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
+          <Formik
+            initialValues={{
+              email: "",
+              password: "",
+            }}
+            validationSchema={Validate}
+            onSubmit={(values) => {
+              try {
+                setErrorMessage("");
+                const { email, password } = values;
+                axios
+                  .post("/shop/login", { email, password })
+                  .then(async (result) => {
+                    console.log(result);
+                    if (result.data.shop) {
+                      setErrorMessage("");
+                      setShopData(result.data.shop);
+                      await getShopLogged();
+                      navigate("/shop");
+                    } else {
+                      setErrorMessage("email and password is not match");
+                    }
+                  })
+                  .catch((err) => {
+                    setErrorMessage("email and password is not match");
+                    console.log(err.message);
+                  });
+              } catch (error) {
+                console.log(error);
+              }
+            }}
           >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              onChange={(e) => setEmail(e.target.value)}
-              name="email"
-              autoComplete="current-email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              onChange={(e) => setPassword(e.target.value)}
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-
-            <button type="submit" className="submitbutton">
-              {" "}
-              Submit
-            </button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/" variant="body2">
-                  {"You have an account?"}
-                </Link>
-              </Grid>
-            </Grid>
-            {errorMessage}
-          </Box>
+            {(formik) => (
+              <div>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <Typography
+                    className={classes.mainHead}
+                    component="h1"
+                    variant="h5"
+                  >
+                    {Head}
+                  </Typography>
+                </div>
+                <Form>
+                  <Textfield label="Email" name="email" type="email" />
+                  <Textfield label="Password" name="password" type="password" />
+                  <div
+                    style={{
+                      color: "red",
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: 10,
+                    }}
+                  >
+                    <p
+                      style={{
+                        margin: 0,
+                      }}
+                    >
+                      {errorMessage}
+                    </p>
+                  </div>
+                  <div
+                    onClick={handleNavigate}
+                    style={{
+                      color: "black",
+                      display: "flex",
+                      justifyContent: "end",
+                      cursor: "pointer",
+                      marginRight: "10px",
+                    }}
+                  >
+                    <p
+                      style={{
+                        margin: "0px",
+                      }}
+                    >
+                      Create a shop account
+                    </p>
+                  </div>
+                  <button
+                    style={{ width: "100%" }}
+                    className="btn btn-dark"
+                    type="submit"
+                  >
+                    Submit
+                  </button>
+                  <div className="signIn_ErrMesg"></div>
+                </Form>
+              </div>
+            )}
+          </Formik>
         </Box>
       </Container>
     </>

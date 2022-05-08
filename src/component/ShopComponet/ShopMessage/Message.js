@@ -10,6 +10,10 @@ import { io } from "socket.io-client";
 import ShopContext from "../../../store/ShopContextProvider";
 import ChatUserProfile from "../chatUserProfile/ChatUserProfile";
 import ConverSationList from "../shopConverSationList/ConverSationList";
+import AnswerCallModal from "../../modal/AnswerCallModal";
+import { useNavigate } from "react-router-dom";
+import { MdArrowBackIosNew } from "react-icons/md";
+import { FiMoreHorizontal } from "react-icons/fi";
 
 function Message() {
   const [conversations, setconversations] = useState([]);
@@ -18,11 +22,15 @@ function Message() {
   const [newMessage, setNewMessage] = useState("");
   const [arraivalMessage, setarraivalMessage] = useState(null);
   const [currentFrd, setCurrentFrd] = useState(null);
+  const [openCallModal, setOpenCallModal] = useState(false);
+  const [modelHeader, setModelHeader] = useState();
+  const [frdsList, setfrdsList] = useState(true);
   const socket = useRef();
   //   const { shopData } = useContext(AuthContext);
   const { shopData } = useContext(ShopContext);
   console.log(shopData, "this is user logingign");
   const scrollRef = useRef();
+  const navigate = useNavigate();
 
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
@@ -33,7 +41,56 @@ function Message() {
         createAt: Date.now(),
       });
     });
+
+    socket.current.on("g", (data, userId) => {
+      alert(" getVideoCall");
+      console.log({ data });
+      setModelHeader(data.text);
+      setTimeout(() => {
+        setOpenCallModal(true);
+      }, 2000);
+      console.log("video callled.......");
+    });
   }, []);
+
+  const childF = () => {
+    const receiverId = currentChat.members.find(
+      (member) => member !== shopData?.aud
+    );
+    let s = "sanoop";
+    var CALLIING = s;
+
+    socket.current.emit("VideoCall", {
+      senderId: shopData?.aud,
+      receiverId,
+      text: `${CALLIING} wants to make a Video call `,
+    });
+  };
+
+  const AcceptCall = () => {
+    alert("accepted call");
+    const callerId = currentChat.members.find(
+      (member) => member !== shopData?.aud
+    );
+
+    const vendorId = currentChat.members.find(
+      (member) => member === shopData?.aud
+    );
+
+    alert(JSON.stringify(callerId));
+    alert(JSON.stringify(vendorId));
+
+    console.log({ callerId, vendorId });
+
+    socket.current.emit("CallAccepted", {
+      callerId: callerId,
+      vendorId,
+    });
+
+    setTimeout(() => {
+      navigate("/UserVideoCall");
+    }, 2000);
+  };
 
   useEffect(() => {
     arraivalMessage &&
@@ -121,31 +178,77 @@ function Message() {
   return (
     <>
       <div className="usermessager">
-        <div className="userChatMenu">
-          <div className="chatMenuWrapper">
-            <input
-              type="text"
-              placeholder="search for friends"
-              name=""
-              className="chatMenuInput"
-              id=""
-            />
-            {conversations?.map((con) => (
-              <div
-                onClick={() => {
-                  getCurrentFrd(con.members.find((id) => id !== shopData?.aud));
-                  setCurrentChat(con);
-                }}
-              >
-                <ConverSationList conversations={con} currentUser={shopData} />
+        {frdsList ? (
+          <div className="userChatMenu">
+            <div className="chatMenuWrapper">
+              <input
+                type="text"
+                placeholder="search for friends"
+                name=""
+                className="chatMenuInput"
+                id=""
+              />
+              <div className="conversationlist">
+                {conversations?.map((con) => (
+                  <div
+                    onClick={() => {
+                      getCurrentFrd(
+                        con.members.find((id) => id !== shopData?.aud)
+                      );
+                      setCurrentChat(con);
+                      setfrdsList(false);
+                    }}
+                  >
+                    <ConverSationList
+                      conversations={con}
+                      currentUser={shopData}
+                    />
+                  </div>
+                ))}
               </div>
-            ))}
+
+              {openCallModal && (
+                <AnswerCallModal
+                  modelHeader={modelHeader}
+                  AcceptCall={AcceptCall}
+                />
+              )}
+            </div>
           </div>
-        </div>
+        ) : null}
+
         <div className="userChatBox">
           <div className="chatBoxWrapper">
             {currentChat ? (
               <>
+                <div className="chatbox_mainTopbar">
+                  <div className="chatbox_topbarLeft">
+                    <div>
+                      <MdArrowBackIosNew
+                        onClick={() => {
+                          setfrdsList(true);
+                          setCurrentChat(null);
+                        }}
+                        title="back"
+                        style={{ fontSize: "20px", marginLeft: "10px" }}
+                      />
+                    </div>
+                    <img
+                      className="chatbox_currentFrdImg"
+                      src={currentFrd?.image}
+                      alt=""
+                    />
+                    <h3>{currentFrd?.name}</h3>
+                  </div>
+                  <div className="chatbox_topbarRight">
+                    <FiMoreHorizontal
+                      // onClick={handleNavigate}
+                      title="view profile"
+                      style={{ fontSize: "30px" }}
+                    />
+                  </div>
+                </div>
+
                 <div className="chatBoxTop">
                   {messages.map((chat) => (
                     <div ref={scrollRef}>
@@ -158,33 +261,41 @@ function Message() {
                   ))}
                 </div>
                 <div className="chatBoxBottom">
-                  <textarea
+                  <input
                     className="chatMessageInput"
                     placeholder="Write Something..."
                     onChange={(e) => setNewMessage(e.target.value)}
                     value={newMessage}
-                  ></textarea>
+                  />
+                  {/* <textarea
+                    className="chatMessageInput"
+                    placeholder="Write Something..."
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    value={newMessage}
+                  ></textarea> */}
                   <button onClick={handleSubmit} className="chatSubmitButton">
                     Send
                   </button>
                 </div>
               </>
             ) : (
-              <span className="noConversationText">
-                Open a conversation to start a chat
-              </span>
+              <div className="noConverSationMainDiv">
+                <span className="noConversationText">
+                  Open a conversation to start a chat
+                </span>
+              </div>
             )}
           </div>
         </div>
-        {currentFrd ? (
+        {/* {currentFrd ? (
           <div className="userChatOnline">
             <div className="chatOnlineWrapper">
-              <ChatUserProfile currentFrd={currentFrd} />
+              <ChatUserProfile childF={childF} currentFrd={currentFrd} />
             </div>
           </div>
         ) : (
           <p>open with a what</p>
-        )}
+        )} */}
       </div>
     </>
   );

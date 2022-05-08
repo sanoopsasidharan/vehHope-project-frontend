@@ -16,6 +16,8 @@ import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DrawerCom from "../../navBar/DrawerCom";
 import AuthContext from "../../../store/AuthContextProvider";
+import axios from "../../../axios";
+import ShopContext from "../../../store/ShopContextProvider";
 const useStyle = makeStyles((theme) => ({
   mainHead: {
     margin: "15px",
@@ -57,6 +59,8 @@ const useStyle = makeStyles((theme) => ({
 function NavBar() {
   const { userlogged, setuserDetails, getUserLogged, userDetails } =
     useContext(AuthContext);
+  const { shopLoggedIn, getShopLogged } = useContext(ShopContext);
+
   const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -75,6 +79,16 @@ function NavBar() {
   console.log(theme);
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
   console.log(isMatch);
+
+  const handleLoggedOut = async () => {
+    try {
+      const shopLoggedOut = await axios.get("/shop/shopLoggedOut");
+      getShopLogged();
+      navigate("/loginShop");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -100,8 +114,12 @@ function NavBar() {
                 <Link className={classes.allLinks} to="/shopBookingHistory">
                   <Tab label="History" />
                 </Link>
+
                 <Link className={classes.allLinks} to="/shopMessage">
-                  <Tab label="message" />
+                  <Tab label="Message" />
+                </Link>
+                <Link className={classes.allLinks} to="/shopVideoCall">
+                  <Tab label="Video Call" />
                 </Link>
               </Tabs>
               <Toolbar className={classes.loginButton}>
@@ -138,7 +156,7 @@ function NavBar() {
                       </Link>
                     </MenuItem>
 
-                    <MenuItem onClick={handleClose}>Log Out</MenuItem>
+                    <MenuItem onClick={handleLoggedOut}>Log Out</MenuItem>
                   </Menu>
                 </div>
               </Toolbar>

@@ -26,6 +26,8 @@ const useStyle = makeStyles((theme) => ({
 function ShopDetailsPage({ shop }) {
   const { shopId } = useContext(GlobalContext);
   const [shopData, setShopData] = useState();
+  const [reting, setreting] = useState(0);
+
   const classes = useStyle();
   const navigate = useNavigate();
   const gettingData = async () => {
@@ -41,8 +43,20 @@ function ShopDetailsPage({ shop }) {
       });
   };
 
+  const getRating = async () => {
+    try {
+      if (shopId === undefined) navigate("/");
+      const result = await axios.post("/getingShop_rateing", { shopId });
+      setreting(result.data.avarge);
+    } catch (error) {
+      alert(error);
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     gettingData();
+    getRating();
   }, []);
 
   return (
@@ -54,7 +68,7 @@ function ShopDetailsPage({ shop }) {
         <Grid container>
           <Grid className={classes.mainBody} item xs={12} container>
             <Grid className={classes.SubContainerDiv} item xs={12} md={6}>
-              <ShopImage shop={shop} shopData={shopData} />
+              <ShopImage shop={shop} reting={reting} shopData={shopData} />
             </Grid>
             <Grid className={classes.SubContainerDiv} item xs={12} md={6}>
               <ShopMainDetails shopData={shopData} />
