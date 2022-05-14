@@ -16,6 +16,8 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import Textfield from "../component/InputComponent/Textfield";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const useStyle = makeStyles((theme) => ({
   itemGrid: {
@@ -139,21 +141,68 @@ function CreateShop() {
     password: Yup.string()
       .min(4, "password must be at least 4 characters ")
       .required("Password is required"),
+    shopName: Yup.string()
+      .min(4, "shop  must be at least 4 characters ")
+      .required("Password is required"),
+    shopType: Yup.string()
+      .min(4, "shopType  must be at least 4 characters ")
+      .required("shopType is required"),
+    number: Yup.number()
+      .min(10, "number  must be at least 10 characters ")
+      .required("number is required"),
+    location: Yup.string()
+      .min(4, "location  must be at least 4 characters ")
+      .required("location is required"),
+    state: Yup.string()
+      .min(2, "state  must be at least 2 characters ")
+      .required("state is required"),
+    description: Yup.string()
+      .min(4, "description  must be at least 4 characters ")
+      .required("description is required"),
   });
   const handleNavigate = () => {
-    navigate("/register");
+    navigate("/loginShop");
   };
   return (
     <>
+      <ToastContainer />
       <Container className={classes.container}>
         <Formik
           initialValues={{
             email: "",
             password: "",
+            shopName: "",
+            shopType: "",
+            number: "",
+            location: "",
+            state: "",
+            description: "",
+            image: "",
+            lantitude: "",
+            longitude: "",
+            ShopService: "",
           }}
           validationSchema={Validate}
           onSubmit={(values) => {
             try {
+              values.image = previewSource;
+              values.lantitude = lantitudeState.toString();
+              values.longitude = longitudeState.toString();
+              values.ShopService = ShopService;
+              console.log(values);
+              axios
+                .post("/create_shop", values)
+                .then((res) => {
+                  console.log(res);
+                  if (res.data.shop) {
+                    toast.success("shop created");
+                    setTimeout(navigate("/"), 300);
+                  }
+                })
+                .catch((err) => {
+                  toast.error("something error");
+                  console.log(err);
+                });
             } catch (error) {
               console.log(error);
             }
@@ -281,7 +330,7 @@ function CreateShop() {
                         cursor: "pointer",
                       }}
                     >
-                      <span>Create an account</span>
+                      <span>I have an account</span>
                     </div>
                   </Grid>
                   <Grid className={classes.itemGrid} item xs={6} md={4}></Grid>
@@ -314,7 +363,7 @@ function CreateShop() {
         </Formik>
       </Container>
 
-      <Container className={classes.container}>
+      {/* <Container className={classes.container}>
         <form onSubmit={handileSubmit}>
           <Box>
             <Typography className={classes.mainHead}>Create shop</Typography>
@@ -423,8 +472,44 @@ function CreateShop() {
                     )}
                   </div>
                 </Grid>
+                <Grid className={classes.itemGrid} item xs={6} md={4}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        backgroundColor: "#00bcbe",
+                        color: "white",
+                        padding: "16px",
+                        borderRadius: "10px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <ServiceModal addservice={addservice} />
+                    </div>
+                  </div>
+                </Grid>
+                <Grid className={classes.itemGrid} item xs={6} md={4}>
+                  <div>
+                    <div class="fileUpload">
+                      <input
+                        onChange={handileFileInput}
+                        name="image"
+                        type="file"
+                        class="upload"
+                      />
+                      <span>UPLOAD IMAGE</span>
+                    </div>
+                  </div>
+                </Grid>
               </Grid>
             </Box>
+
             <Box className={classes.submitbox}>
               <Button
                 type="submit"
@@ -445,7 +530,7 @@ function CreateShop() {
             longitudeState={longitudeState}
           />
         </div>
-      </Container>
+      </Container> */}
     </>
   );
 }

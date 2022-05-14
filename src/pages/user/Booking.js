@@ -52,10 +52,10 @@ function Booking() {
       <div className={classes.mainContinarDiv}>
         <Grid container>
           <Grid className={classes.mainBody} item xs={12} container>
-            <Grid className={classes.SubContainerDiv} item xs={12} md={6}>
+            <Grid className={classes.SubContainerDiv} item xs={12} md={5}>
               <ShopDetails ShopData={ShopData} />
             </Grid>
-            <Grid className={classes.SubContainerDiv} item xs={12} md={6}>
+            <Grid className={classes.SubContainerDiv} item xs={12} md={7}>
               <BookingForm ShopData={ShopData} />
             </Grid>
           </Grid>

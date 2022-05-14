@@ -32,6 +32,7 @@ const useStyle = makeStyles((theme) => ({
   },
   openModalPtag: {
     fontSize: "16px",
+    margin: 0,
   },
   formDiv: {
     display: "flex",

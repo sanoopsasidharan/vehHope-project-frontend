@@ -19,6 +19,8 @@ import Textfield from "../../component/InputComponent/Textfield";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 const useStyle = makeStyles((theme) => ({
   mainContainer: {
@@ -182,9 +184,12 @@ function Signin({ Head }) {
                 axios
                   .post("/login", { email, password })
                   .then(async (result) => {
-                    console.log(result);
+                    console.log(result, "result of cookies");
                     console.log(result.data.user);
                     const userObj = result.data.user;
+                    // cookies.set("userTocken", result.data.token);
+                    cookies.set("userTocken", result.data.token, { path: "/" });
+                    console.log(cookies.get("userTocken"));
 
                     if (!result.data.user) setErrmessage("somthing error");
 

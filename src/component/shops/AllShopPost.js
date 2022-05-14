@@ -30,10 +30,12 @@ function AllShopPost({ item, index }) {
           <CardContent>
             <div className="shopPostDetails">
               <div>
-                <h3>{item?.shopName}</h3>
+                <span>Name :</span>
+                <span>{item?.shopName}</span>
               </div>
               <div>
-                <h3>{item?.place}</h3>
+                <span>Place :</span>
+                <span>{item?.place}</span>
               </div>
             </div>
           </CardContent>

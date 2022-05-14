@@ -16,6 +16,7 @@ function AllShops() {
   const classes = useStyle();
   const { findShop, settingFindShopData } = useContext(GlobalContext);
   const [mostTopShops, setMostTopShops] = useState([]);
+  const [shops, setshops] = useState(false);
   useEffect(() => {
     handleFindingShop();
   }, []);
@@ -37,13 +38,29 @@ function AllShops() {
     <>
       <NavigationBar />
       <Container>
-        <Grid container className={classes.gridMain} spacing={4}>
-          {mostTopShops?.map((item, index) => (
-            <Grid className={classes.itemGrid} item xs={12} md={3}>
-              <AllShopPost item={item} index={index} />
-            </Grid>
-          ))}
-        </Grid>
+        {shops ? (
+          <Grid container className={classes.gridMain} spacing={4}>
+            <>
+              {mostTopShops?.map((item, index) => (
+                <Grid className={classes.itemGrid} item xs={12} md={3}>
+                  <AllShopPost item={item} index={index} />
+                </Grid>
+              ))}
+            </>
+          </Grid>
+        ) : (
+          <div
+            style={{
+              height: "70vh",
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "105px",
+              alignItems: "center",
+            }}
+          >
+            <h1>No shop in the location </h1>
+          </div>
+        )}
       </Container>
 
       {/* <Footer /> */}
